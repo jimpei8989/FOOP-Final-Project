@@ -1,13 +1,13 @@
 package utils;
 
 public enum Direction {
-    DOWN("DOWN", new Coordinate<Integer>(1, 0)), RIGHT("RIGHT", new Coordinate<Integer>(0, 1)),
-    UP("UP", new Coordinate<Integer>(-1, 0)), LEFT("LEFT", new Coordinate<Integer>(0, -1));
+    DOWN("DOWN", new Coordinate(1, 0)), RIGHT("RIGHT", new Coordinate(0, 1)), UP("UP", new Coordinate(-1, 0)),
+    LEFT("LEFT", new Coordinate(0, -1));
 
     private final String name;
-    private Coordinate<Integer> coord;
+    private Coordinate coord;
 
-    Direction(String name, Coordinate<Integer> coord) {
+    Direction(String name, Coordinate coord) {
         this.name = name;
         this.coord = coord;
     }
@@ -16,7 +16,7 @@ public enum Direction {
         return this.name;
     }
 
-    public Coordinate<Integer> getCoord() {
+    public Coordinate getCoord() {
         return this.coord;
     }
 }
