@@ -1,19 +1,16 @@
 package model;
 
+import model.state.State;
+import utils.Coordinate;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.Coordinate;
-
-public class Pacman {
+public class Pacman implements Locatable, Tickable {
     private int HP;
     private int score;
     private Coordinate coordinate;
     private List<State> states = new ArrayList<>();
-
-    Pacman(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
 
     public void setHP(int hp) {
         this.HP = hp;
@@ -29,6 +26,25 @@ public class Pacman {
 
     public int getScore() {
         return this.score;
+    }
+
+    @Override
+    public void onTurnBegin() {
+
+    }
+
+    @Override
+    public void onTurnEnd() {
+
+    }
+
+    @Override
+    public void onRoundBegin() {
+    }
+
+    @Override
+    public void onRoundEnd() {
+
     }
 
     public boolean isActive() {
@@ -50,8 +66,8 @@ public class Pacman {
         this.states.add(state);
     }
 
-    private void removeState() {
-        this.
+    private void removeStates() {
+        this.states.removeIf(s -> !s.isActive());
     }
 
     void moveTo(Coordinate coordinate) {
