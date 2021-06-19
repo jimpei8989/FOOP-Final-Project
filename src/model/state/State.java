@@ -1,5 +1,6 @@
 package model.state;
 
+import model.Pacman;
 import model.Tickable;
 import utils.Active;
 

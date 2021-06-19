@@ -7,10 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pacman implements Locatable, Tickable {
-    private int HP;
-    private int score;
+    private int HP, score;
     private Coordinate coordinate;
     private List<State> states = new ArrayList<>();
+    private Weapon weapon;
+
+    public Pacman(int hp, int score, Coordinate coordinate) {
+        this.HP = hp;
+        this.score = score;
+        this.coordinate = coordinate;
+    }
 
     public void setHP(int hp) {
         this.HP = hp;
@@ -72,5 +78,13 @@ public class Pacman implements Locatable, Tickable {
 
     void moveTo(Coordinate coordinate) {
         this.coordinate = coordinate;
+    }
+
+    void onPropsGet(Props props) {
+
+    }
+
+    void onWeaponGet(Weapon weapon) {
+
     }
 }
