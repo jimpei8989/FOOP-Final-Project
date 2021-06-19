@@ -1,12 +1,13 @@
 package model;
 
 import model.state.State;
+import utils.Active;
 import utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pacman implements Locatable, Tickable {
+public class Pacman implements Locatable, Tickable, Active {
     private int HP, score;
     private Coordinate coordinate;
     private List<State> states = new ArrayList<>();
@@ -53,6 +54,7 @@ public class Pacman implements Locatable, Tickable {
 
     }
 
+    @Override
     public boolean isActive() {
         // TODO
         return true;
@@ -85,6 +87,6 @@ public class Pacman implements Locatable, Tickable {
     }
 
     void onWeaponGet(Weapon weapon) {
-
+        this.weapon = weapon;
     }
 }
