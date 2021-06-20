@@ -1,5 +1,7 @@
-package model;
+package model.weapon;
 
+import model.interfaces.*;
+import model.Pacman;
 import utils.Range;
 
 public abstract class Weapon implements Locatable, Pickable, Droppable, Tickable {

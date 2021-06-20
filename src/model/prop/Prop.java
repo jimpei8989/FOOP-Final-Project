@@ -1,4 +1,7 @@
-package model;
+package model.prop;
+
+import model.interfaces.*;
+import model.Pacman;
 
 public class Prop implements Locatable, Pickable, Tickable {
     Prop() {

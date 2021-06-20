@@ -1,6 +1,9 @@
 package model;
 
+import model.interfaces.*;
 import model.state.State;
+import model.prop.Prop;
+import model.weapon.Weapon;
 import utils.Active;
 import utils.Coordinate;
 
@@ -82,7 +85,7 @@ public class Pacman implements Locatable, Tickable, Active {
         this.coordinate = coordinate;
     }
 
-    void onPropsGet(Props props) {
+    void onPropGet(Prop prop) {
 
     }
 

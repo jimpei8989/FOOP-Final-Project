@@ -1,7 +1,7 @@
 package model.state;
 
 import model.Pacman;
-import model.Tickable;
+import model.interfaces.Tickable;
 import utils.Active;
 
 public abstract class State implements Tickable, Active {
