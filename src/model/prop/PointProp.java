@@ -2,13 +2,15 @@ package model.prop;
 
 import model.Pacman;
 
-public class PointProp extends Prop {
-    private static int point = 1;
+public abstract class PointProp extends Prop {
+    private boolean isPicked = false;
+
+    protected abstract int getPoint();
 
     // Pickable
     @Override
     public void onPickUp(Pacman p) {
-        p.setScore(p.getScore() + point);
+        p.setScore(p.getScore() + this.getPoint());
     }
 
     // Tickable
@@ -31,6 +33,6 @@ public class PointProp extends Prop {
     // Active
     @Override
     public boolean isActive() {
-        return false;
+        return this.isPicked;
     }
 }

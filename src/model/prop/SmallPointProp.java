@@ -1,8 +1,8 @@
 package model.prop;
 
-public class BigPointProp extends PointProp {
+public class SmallPointProp extends PointProp {
     @Override
     protected int getPoint() {
-        return 5;
+        return 1;
     }
 }
