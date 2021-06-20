@@ -1,11 +1,11 @@
-import controller.Game;
+import view.View;
 import model.World;
 
 class Main {
     public static void main(String[] args) {
         System.out.printf("Hello FiOnaOpPai!\n");
-
-        World world = new World();
-        Game game = new Game(world);
+        View view = new View();
+        Game game = new Game(view);
+        game.start();
     }
 }

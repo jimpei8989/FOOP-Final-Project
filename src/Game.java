@@ -1,17 +1,18 @@
-package controller;
-
 import java.util.List;
 
 import model.Tickable;
 import model.World;
+
+import view.View;
 
 public class Game {
     private boolean running;
     private View view;
     private World world;
 
-    public Game(World world) {
-        this.world = world;
+    public Game(View view) {
+        this.world = new World(this);
+        this.view = view;
     }
 
     public void start() {
@@ -33,5 +34,17 @@ public class Game {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addMapRender(Renderable map_renders) {
+        view.addMapRenders(map_renders);
+    }
+
+    public void addPacmanRender(List<Renderable> pacman_renders) {
+        view.addRenderableRender(pacman_renders);
+    }
+
+    public void addObjectRender(List<Renderable> object_renders) {
+        view.addObjectRender(object_renders);
     }
 }
