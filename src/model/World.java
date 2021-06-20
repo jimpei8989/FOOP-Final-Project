@@ -2,6 +2,10 @@ package model;
 
 import java.util.List;
 
+import Game.Game;
+import model.maps.Map;
+import utils.Renderable;
+
 public class World {
     private Game game;
     private Map map;
@@ -29,15 +33,15 @@ public class World {
             object.onRoundEnd();
     }
 
-    public void addMapRender(Renderable map_renders) {
-        this.game.addMapRender(map_renders);
+    public void addMapRender(Renderable mapRenders) {
+        this.game.addMapRender(mapRenders);
     }
 
-    public void addPacmanRender(List<Renderable> pacman_renders) {
-        this.game.addRenderableRender(pacman_renders);
+    public void addPacmanRender(Renderable pacmanRenders) {
+        this.game.addPacmanRender(pacmanRenders);
     }
 
-    public void addObjectRender(List<Renderable> object_renders) {
-        this.game.addObjectRender(object_renders);
+    public void addObjectRender(Renderable objectRenders) {
+        this.game.addObjectRender(objectRenders);
     }
 }

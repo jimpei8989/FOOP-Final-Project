@@ -30,21 +30,25 @@ public class View extends JFrame {
         this.setVisible(true);
     }
 
+    public View() {
+
+    }
+
     public View(List<Renderable> pacmanRenderers, List<Renderable> mapRenderers, List<Renderable> objectRenderers) {
         this.pacmanRenderers = pacmanRenderers;
         this.mapRenderers = mapRenderers;
         this.objectRenderers = objectRenderers;
     }
 
-    public void add_pacman(Renderable pacmanRenderer) {
+    public void addPacmanRender(Renderable pacmanRenderer) {
         this.pacmanRenderers.add(pacmanRenderer);
     }
 
-    public void add_map(Renderable mapRenderer) {
+    public void addMapRender(Renderable mapRenderer) {
         this.mapRenderers.add(mapRenderer);
     }
 
-    public void add_object(Renderable objectRenderer) {
+    public void addObjectRender(Renderable objectRenderer) {
         this.objectRenderers.add(objectRenderer);
     }
 
