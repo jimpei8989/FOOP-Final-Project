@@ -48,7 +48,12 @@ public class View extends JFrame {
         this.objectRenderers.add(objectRenderer);
     }
 
-    public void render(Graphics g) {
+    public void render() {
+        // ask the JPanel to repaint, it will invoke paintComponent(g) after a while.
+        this.canvas.repaint();
+    }
+
+    private void render(Graphics g) {
         List<List<Renderable>> renderersArray = new ArrayList<>(
                 Arrays.asList(this.pacmanRenderers, this.mapRenderers, this.objectRenderers));
         for (List<Renderable> renderers : renderersArray) {
@@ -62,12 +67,8 @@ public class View extends JFrame {
             }
         }
     }
-    
-    public class Canvas extends JPanel {
 
-        public void render() {
-            this.repaint(); // ask the JPanel to repaint, it will invoke paintComponent(g) after a while.
-        }
+    private class Canvas extends JPanel {
 
         @Override
         protected void paintComponent(Graphics g /* paintbrush */) {
