@@ -11,15 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pacman implements Locatable, Tickable, Active {
-    private int HP, score;
+    private final String name;
+    private int ID, HP, score, tickPerGrid;
     private Coordinate coordinate;
     private List<State> states = new ArrayList<>();
     private Weapon weapon;
 
-    public Pacman(int hp, int score, Coordinate coordinate) {
+    public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
+        this.name = name;
+        this.ID = id;
         this.HP = hp;
         this.score = score;
+        this.tickPerGrid = tickPerGrid;
         this.coordinate = coordinate;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getID() {
+        return this.ID;
     }
 
     public void setHP(int hp) {
@@ -38,38 +50,42 @@ public class Pacman implements Locatable, Tickable, Active {
         return this.score;
     }
 
-    @Override
+    public void setTickPerGrid(int tickPerGrid) {
+        this.tickPerGrid = tickPerGrid;
+    }
+
+    public int getTickPerGrid() {
+        return this.tickPerGrid;
+    }
+
+    public Coordinate getCoordinate() {
+        return this.coordinate;
+    }
+
     public void onTurnBegin() {
 
     }
 
-    @Override
     public void onTurnEnd() {
 
     }
 
-    @Override
     public void onRoundBegin() {
     }
 
-    @Override
     public void onRoundEnd() {
 
     }
 
-    @Override
     public boolean isActive() {
-        // TODO
         return true;
     }
 
     public boolean canDecide() {
-        // TODO
         return true;
     }
 
     public boolean canAttack() {
-        // TODO
         return true;
     }
 
