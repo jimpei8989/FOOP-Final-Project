@@ -3,7 +3,8 @@ package model;
 import java.util.List;
 
 import Game.Game;
-import model.maps.Map;
+import model.interfaces.Tickable;
+import model.map.Map;
 import view.Renderable;
 
 public class World {
