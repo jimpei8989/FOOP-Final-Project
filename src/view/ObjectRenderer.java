@@ -2,12 +2,12 @@ package view;
 
 import java.awt.*;
 
-import model.Pickable;
+import model.Locatable;
 
 public class ObjectRenderer implements Renderable {
-    Pickable object;
+    Locatable object;
 
-    public ObjectRenderer(Pickable object) {
+    public ObjectRenderer(Locatable object) {
         this.object = object;
     }
 
