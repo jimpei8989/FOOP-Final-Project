@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
-import model.maps.Map;
+import model.map.Map;
 
 public class ReadMapTest {
     private String getFiona() {

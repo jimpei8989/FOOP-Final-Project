@@ -1,4 +1,4 @@
-package model.maps;
+package model.map;
 
 import utils.Coordinate;
 import utils.Direction;
