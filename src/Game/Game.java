@@ -3,7 +3,7 @@ import java.util.List;
 
 import model.Tickable;
 import model.World;
-import utils.Renderable;
+import view.Renderable;
 import view.View;
 
 public class Game {

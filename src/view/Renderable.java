@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 import utils.Active;
 
