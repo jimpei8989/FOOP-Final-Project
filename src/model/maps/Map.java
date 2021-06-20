@@ -3,6 +3,7 @@ package model.maps;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import utils.Coordinate;
@@ -12,23 +13,45 @@ public class Map {
     private final int width;
     private final MapGrid[][] mapContent;
 
-    // TODO
-    public static Map readMapFile(File f) {
+    public static Map readMapFromFile(File f) throws FileNotFoundException {
         try {
             Scanner reader = new Scanner(f);
+            Map map = readMap(reader);
+            reader.close();
+            return map;
         } catch (FileNotFoundException e) {
-            System.err.println("! Map file not found...");
-            System.exit(1);
+            throw e;
         }
-        // Read height, width
-
-        // Read road (.) / wall (#) (a big char matrix) / others (?)
-
-        // Read M highways
-        return new Map(0, 0, null, null);
     }
 
-    public Map(int height, int width, String[][] mapContent, List<Coordinate[]> highways) {
+    public static Map readMap(Scanner reader) throws IllegalArgumentException {
+        int n = reader.nextInt(), m = reader.nextInt();
+        reader.nextLine();
+
+        // Read road (.) / wall (#) (a big char matrix) / others (?)
+        String[] mapContent = new String[n];
+        for (int i = 0; i < n; i++) {
+            mapContent[i] = reader.nextLine();
+            if (mapContent[i].length() != m) {
+                throw new IllegalArgumentException("Wrong line width");
+            }
+        }
+
+        // Read K highways
+        int k = reader.nextInt();
+        reader.nextLine();
+        List<Coordinate[]> highways = new ArrayList<Coordinate[]>();
+        for (int i = 0; i < k; i++) {
+            Coordinate[] tmp = new Coordinate[2];
+            tmp[0] = new Coordinate(reader.nextInt(), reader.nextInt());
+            tmp[1] = new Coordinate(reader.nextInt(), reader.nextInt());
+            reader.nextLine();
+            highways.add(tmp);
+        }
+        return new Map(n, m, mapContent, highways);
+    }
+
+    public Map(int height, int width, String[] mapContent, List<Coordinate[]> highways) {
         this.height = height;
         this.width = width;
 
@@ -36,9 +59,9 @@ public class Map {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (mapContent[i][j] == ".") {
+                if (mapContent[i].charAt(j) == '.') {
                     this.mapContent[i][j] = new Road(new Coordinate(i, j));
-                } else if (mapContent[i][j] == "#") {
+                } else if (mapContent[i].charAt(j) == '#') {
                     this.mapContent[i][j] = new Wall(new Coordinate(i, j));
                 }
             }
