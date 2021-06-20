@@ -1,7 +1,7 @@
 package Game;
 import java.util.List;
 
-import model.Tickable;
+import model.interfaces.Tickable;
 import model.World;
 import view.Renderable;
 import view.View;
