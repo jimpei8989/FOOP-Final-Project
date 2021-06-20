@@ -1,4 +1,5 @@
 import view.View;
+import Game.Game;
 import model.World;
 
 class Main {

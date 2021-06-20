@@ -1,8 +1,9 @@
+package Game;
 import java.util.List;
 
 import model.Tickable;
 import model.World;
-
+import utils.Renderable;
 import view.View;
 
 public class Game {
@@ -36,15 +37,15 @@ public class Game {
         }
     }
 
-    public void addMapRender(Renderable map_renders) {
-        view.addMapRenders(map_renders);
+    public void addMapRender(Renderable mapRenders) {
+        view.addMapRender(mapRenders);
     }
 
-    public void addPacmanRender(List<Renderable> pacman_renders) {
-        view.addRenderableRender(pacman_renders);
+    public void addPacmanRender(Renderable pacmanRenders) {
+        view.addPacmanRender(pacmanRenders);
     }
 
-    public void addObjectRender(List<Renderable> object_renders) {
-        view.addObjectRender(object_renders);
+    public void addObjectRender(Renderable objectRenders) {
+        view.addObjectRender(objectRenders);
     }
 }
