@@ -4,7 +4,7 @@ import java.util.List;
 
 import Game.Game;
 import model.maps.Map;
-import utils.Renderable;
+import view.Renderable;
 
 public class World {
     private Game game;

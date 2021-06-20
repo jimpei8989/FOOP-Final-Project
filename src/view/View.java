@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import utils.Active;
-import utils.Renderable;
 
 public class View extends JFrame {
     public static final int WIDTH = 800, HEIGHT = 300;
