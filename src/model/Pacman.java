@@ -58,29 +58,6 @@ public class Pacman implements Locatable, Tickable, Active {
         return this.tickPerGrid;
     }
 
-    public Coordinate getCoordinate() {
-        return this.coordinate;
-    }
-
-    public void onTurnBegin() {
-
-    }
-
-    public void onTurnEnd() {
-
-    }
-
-    public void onRoundBegin() {
-    }
-
-    public void onRoundEnd() {
-
-    }
-
-    public boolean isActive() {
-        return true;
-    }
-
     public boolean canDecide() {
         return true;
     }
@@ -89,6 +66,7 @@ public class Pacman implements Locatable, Tickable, Active {
         return true;
     }
 
+    // State related
     public void addState(State state) {
         this.states.add(state);
     }
@@ -97,15 +75,42 @@ public class Pacman implements Locatable, Tickable, Active {
         this.states.removeIf(s -> !s.isActive());
     }
 
-    void moveTo(Coordinate coordinate) {
+    public void onPropGet(Prop prop) {
+    }
+
+    public void onWeaponGet(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    // Locatable
+    public Coordinate getCoordinate() {
+        return this.coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
 
-    void onPropGet(Prop prop) {
-
+    public Coordinate getRealCoordinate() {
+        // TODO: the case when the pacman is moving
+        return this.getCoordinate();
     }
 
-    void onWeaponGet(Weapon weapon) {
-        this.weapon = weapon;
+    // Tickable
+    public void onTurnBegin() {
+    }
+
+    public void onTurnEnd() {
+    }
+
+    public void onRoundBegin() {
+    }
+
+    public void onRoundEnd() {
+    }
+
+    // Active
+    public boolean isActive() {
+        return true;
     }
 }

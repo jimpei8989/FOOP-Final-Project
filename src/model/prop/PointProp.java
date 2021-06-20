@@ -1,38 +1,18 @@
 package model.prop;
 
 import model.Pacman;
+import utils.Coordinate;
 
 public abstract class PointProp extends Prop {
-    private boolean isPicked = false;
-
     protected abstract int getPoint();
 
-    // Pickable
+    PointProp(Coordinate coord) {
+        super(coord);
+    }
+
     @Override
     public void onPickUp(Pacman p) {
+        super.onPickUp(p);
         p.setScore(p.getScore() + this.getPoint());
-    }
-
-    // Tickable
-    @Override
-    public void onRoundBegin() {
-    }
-
-    @Override
-    public void onRoundEnd() {
-    }
-
-    @Override
-    public void onTurnBegin() {
-    }
-
-    @Override
-    public void onTurnEnd() {
-    }
-
-    // Active
-    @Override
-    public boolean isActive() {
-        return this.isPicked;
     }
 }
