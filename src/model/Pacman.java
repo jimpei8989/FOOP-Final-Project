@@ -8,16 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pacman implements Locatable, Tickable, Active {
-    private int HP, score, tickPerGrid;
+    private final String name;
+    private int ID, HP, score, tickPerGrid;
     private Coordinate coordinate;
     private List<State> states = new ArrayList<>();
     private Weapon weapon;
 
-    public Pacman(int hp, int score, int tickPerGrid, Coordinate coordinate) {
+    public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
+        this.name = name;
+        this.ID = id;
         this.HP = hp;
         this.score = score;
         this.tickPerGrid = tickPerGrid;
         this.coordinate = coordinate;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getID() {
+        return this.ID;
     }
 
     public void setHP(int hp) {
