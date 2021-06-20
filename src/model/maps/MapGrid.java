@@ -12,7 +12,7 @@ public abstract class MapGrid {
 
     public abstract boolean canPass(Coordinate source, Direction direction);
 
-    // Where will the pacman go when he steps on the grid and
+    // Where will the pacman go when he steps on the grid
     public Coordinate transferTo(Direction direction) {
         return this.coord.add(direction.getCoord());
     }

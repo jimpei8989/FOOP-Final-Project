@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import utils.Coordinate;
+import utils.Direction;
 
 public class Map {
     private final int height;
@@ -89,5 +90,26 @@ public class Map {
 
     public Coordinate adjustCoordinate(Coordinate coord) {
         return new Coordinate(coord.getX().intValue() % this.height, coord.getY().intValue() % this.width);
+    }
+
+    private MapGrid getGrid(Coordinate coord) {
+        coord = adjustCoordinate(coord);
+        return this.mapContent[coord.getX().intValue()][coord.getY().intValue()];
+    }
+
+    public Coordinate nextCoordinate(Coordinate coord, Direction direction) {
+        // Returns the next coordinate the pacman should go next if he's stepping on
+        // *coord* and moving toward *direction*
+
+        // TODO: Should we also consider the Pacman?
+        return adjustCoordinate(this.getGrid(coord).transferTo(direction));
+    }
+
+    public boolean canPass(Coordinate coord, Direction direction) {
+        // Returns whether the move is valid if the pacman is stepping on *coord* and
+        // moving toward *direction*
+
+        // TODO: Should we also consider the Pacman?
+        return this.getGrid(this.nextCoordinate(coord, direction)).canPass(coord, direction);
     }
 }
