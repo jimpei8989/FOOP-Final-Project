@@ -30,6 +30,28 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
 
     public abstract void use();
 
+    // Active
+    public boolean isActive() {
+        return !(isPicked && isDropped);
+    }
+
+    // Tickable
+    @Override
+    public void onRoundBegin() {
+    }
+
+    @Override
+    public void onRoundEnd() {
+    }
+
+    @Override
+    public void onTurnBegin() {
+    }
+
+    @Override
+    public void onTurnEnd() {
+    }
+
     // Locatable
     public Coordinate getCoordinate() {
         assert !this.isPicked;
@@ -54,10 +76,5 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
     @Override
     public void onDrop(Pacman p) {
         this.isDropped = true;
-    }
-
-    // Active
-    public boolean isActive() {
-        return !(isPicked && isDropped);
     }
 }
