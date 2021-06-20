@@ -1,29 +1,7 @@
 package model.prop;
 
 import model.interfaces.*;
-import model.Pacman;
+import utils.Active;
 
-public class Prop implements Locatable, Pickable, Tickable {
-    Prop() {
-
-    }
-
-    // Locatable
-
-    // Pickable
-    public void onPickUp(Pacman p) {
-    }
-
-    // Tickable
-    public void onTurnBegin() {
-    }
-
-    public void onTurnEnd() {
-    }
-
-    public void onRoundBegin() {
-    }
-
-    public void onRoundEnd() {
-    }
+public abstract class Prop implements Locatable, Pickable, Tickable, Active {
 }
