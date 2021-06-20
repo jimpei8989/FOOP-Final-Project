@@ -2,6 +2,8 @@ package view;
 
 import java.awt.*;
 
-public interface Renderable {
+import utils.Active;
+
+public interface Renderable extends Active{
     void render(Graphics g);
 }
