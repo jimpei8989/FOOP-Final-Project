@@ -39,20 +39,17 @@ public class View extends JFrame {
         this.pacmanRenderers = pacmanRenderers;
         this.mapRenderers = mapRenderers;
         this.objectRenderers = objectRenderers;
-        Coordinate coordinate = new Coordinate(10, 20);
-        System.out.println("Hello");
-        addPacmanRender(new PacmanRenderer(new Pacman("Dylan", 0, 300, 300, 2, coordinate)));
     }
 
-    public void addPacmanRender(Renderable pacmanRenderer) {
+    public void addPacmanRenderer(Renderable pacmanRenderer) {
         this.pacmanRenderers.add(pacmanRenderer);
     }
 
-    public void addMapRender(Renderable mapRenderer) {
+    public void addMapRenderer(Renderable mapRenderer) {
         this.mapRenderers.add(mapRenderer);
     }
 
-    public void addObjectRender(Renderable objectRenderer) {
+    public void addObjectRenderer(Renderable objectRenderer) {
         this.objectRenderers.add(objectRenderer);
     }
 

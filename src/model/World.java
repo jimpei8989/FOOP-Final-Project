@@ -35,15 +35,15 @@ public class World {
             object.onRoundEnd();
     }
 
-    public void addMapRender(Renderable mapRenders) {
-        this.game.addMapRender(mapRenders);
+    public void addMapRenderer(Renderable mapRenders) {
+        this.game.addMapRenderer(mapRenders);
     }
 
-    public void addPacmanRender(Renderable pacmanRenders) {
-        this.game.addPacmanRender(pacmanRenders);
+    public void addPacmanRenderer(Renderable pacmanRenders) {
+        this.game.addPacmanRenderer(pacmanRenders);
     }
 
-    public void addObjectRender(Renderable objectRenders) {
-        this.game.addObjectRender(objectRenders);
+    public void addObjectRenderer(Renderable objectRenders) {
+        this.game.addObjectRenderer(objectRenders);
     }
 }

@@ -29,9 +29,9 @@ public class ViewTest {
     @Test
     void testRender() throws InterruptedException {
         View view = new View();
-        view.addObjectRender(new MyRenderer());
+        view.addObjectRenderer(new MyRenderer());
         int counter = 0;
-        while(counter < 3000){
+        while (counter < 3000) {
             view.render();
             counter += 100;
             Thread.sleep(100);
