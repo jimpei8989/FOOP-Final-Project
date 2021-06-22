@@ -14,7 +14,9 @@ public class PacmanRenderer implements Renderable {
 
     public void render(Graphics g) {
         Coordinate realCoordinate = pacman.getRealCoordinate();
-        g.fillOval((int)(realCoordinate.getX().doubleValue() * 10), (int)(realCoordinate.getY().doubleValue() * 10), 10, 10);
+        g.setColor(Color.RED);
+        g.fillOval((int) (realCoordinate.getX().doubleValue() * 10), (int) (realCoordinate.getY().doubleValue() * 10),
+                10, 10);
     }
 
     @Override
