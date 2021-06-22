@@ -1,4 +1,6 @@
 package Game;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import model.interfaces.Tickable;
@@ -12,7 +14,7 @@ public class Game {
     private World world;
 
     public Game(View view) {
-        this.world = new World(this);
+        this.world = new World(this, null, new ArrayList<>(), new ArrayList<>());
         this.view = view;
     }
 

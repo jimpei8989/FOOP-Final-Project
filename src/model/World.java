@@ -17,10 +17,11 @@ public class World {
         this.game = game;
     }
 
-    public World(Map map, List<Pacman> pacmans) {
+    public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects) {
         this.game = game;
         this.map = map;
         this.pacmans = pacmans;
+        this.objects = objects;
     }
 
     public void update() {

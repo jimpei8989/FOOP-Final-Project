@@ -13,7 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import model.Pacman;
 import utils.Active;
+import utils.Coordinate;
 
 public class View extends JFrame {
     public static final int WIDTH = 800, HEIGHT = 300;
@@ -37,6 +39,9 @@ public class View extends JFrame {
         this.pacmanRenderers = pacmanRenderers;
         this.mapRenderers = mapRenderers;
         this.objectRenderers = objectRenderers;
+        Coordinate coordinate = new Coordinate(10, 20);
+        System.out.println("Hello");
+        addPacmanRender(new PacmanRenderer(new Pacman("Dylan", 0, 300, 300, 2, coordinate)));
     }
 
     public void addPacmanRender(Renderable pacmanRenderer) {
