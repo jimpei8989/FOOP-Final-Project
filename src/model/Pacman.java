@@ -6,6 +6,7 @@ import model.prop.Prop;
 import model.weapon.Weapon;
 import utils.Active;
 import utils.Coordinate;
+import utils.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Pacman implements Locatable, Tickable, Active {
     private Coordinate coordinate;
     private List<State> states = new ArrayList<>();
     private Weapon weapon;
+    private Direction facing;
 
     public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
         this.name = name;
@@ -24,6 +26,7 @@ public class Pacman implements Locatable, Tickable, Active {
         this.score = score;
         this.tickPerGrid = tickPerGrid;
         this.coordinate = coordinate;
+        this.facing = Direction.RIGHT;
     }
 
     public String getName() {
@@ -56,6 +59,14 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public int getTickPerGrid() {
         return this.tickPerGrid;
+    }
+
+    public Direction getFacing() {
+        return this.facing;
+    }
+
+    public void setFacing(Direction facing) {
+        this.facing = facing;
     }
 
     public boolean canDecide() {
