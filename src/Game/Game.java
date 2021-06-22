@@ -4,18 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.interfaces.Tickable;
+import model.Pacman;
 import model.World;
+import model.map.Map;
+import utils.Coordinate;
+import view.PacmanRenderer;
 import view.Renderable;
 import view.View;
 
 public class Game {
     private boolean running;
+    private int numPlayers;
     private View view;
     private World world;
+    private List<Pacman> pacmans = new ArrayList<>();
 
-    public Game(View view) {
-        this.world = new World(this, null, new ArrayList<>(), new ArrayList<>());
+    public Game(int numPlayers, View view, Map map) {
+        this.numPlayers = numPlayers;
         this.view = view;
+        for (int i = 0; i < this.numPlayers; i++) {
+            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, new Coordinate(i * 5, i * 5));
+            this.pacmans.add(pacman);
+            addPacmanRenderer(new PacmanRenderer(pacman));
+        }
+        this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
 
     public void start() {
@@ -39,15 +51,15 @@ public class Game {
         }
     }
 
-    public void addMapRender(Renderable mapRenders) {
-        view.addMapRender(mapRenders);
+    public void addMapRenderer(Renderable mapRenders) {
+        view.addMapRenderer(mapRenders);
     }
 
-    public void addPacmanRender(Renderable pacmanRenders) {
-        view.addPacmanRender(pacmanRenders);
+    public void addPacmanRenderer(Renderable pacmanRenders) {
+        view.addPacmanRenderer(pacmanRenders);
     }
 
-    public void addObjectRender(Renderable objectRenders) {
-        view.addObjectRender(objectRenders);
+    public void addObjectRenderer(Renderable objectRenders) {
+        view.addObjectRenderer(objectRenders);
     }
 }
