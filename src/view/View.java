@@ -13,7 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import model.Pacman;
 import utils.Active;
+import utils.Coordinate;
 
 public class View extends JFrame {
     public static final int WIDTH = 800, HEIGHT = 300;
@@ -39,15 +41,15 @@ public class View extends JFrame {
         this.objectRenderers = objectRenderers;
     }
 
-    public void addPacmanRender(Renderable pacmanRenderer) {
+    public void addPacmanRenderer(Renderable pacmanRenderer) {
         this.pacmanRenderers.add(pacmanRenderer);
     }
 
-    public void addMapRender(Renderable mapRenderer) {
+    public void addMapRenderer(Renderable mapRenderer) {
         this.mapRenderers.add(mapRenderer);
     }
 
-    public void addObjectRender(Renderable objectRenderer) {
+    public void addObjectRenderer(Renderable objectRenderer) {
         this.objectRenderers.add(objectRenderer);
     }
 
