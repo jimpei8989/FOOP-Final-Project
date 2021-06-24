@@ -87,6 +87,10 @@ public class Map {
         return this.width;
     }
 
+    public MapGrid[][] getMapContent() {
+        return this.mapContent;
+    }
+
     public Coordinate adjustCoordinate(Coordinate coord) {
         return new Coordinate(coord.getX().intValue() % this.height, coord.getY().intValue() % this.width);
     }
