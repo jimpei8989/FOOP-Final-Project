@@ -16,7 +16,7 @@ public class PacmanRenderer implements Renderable {
 
     public PacmanRenderer(Pacman pacman) {
         this.pacman = pacman;
-        String folderPath = String.format("assets/pacman_%d", pacman.getID());
+        String folderPath = String.format("assets/pacmans/pacman_%d", pacman.getID());
         this.imgs = pacmanImgsFromFolder(folderPath);
     }
 
@@ -34,7 +34,7 @@ public class PacmanRenderer implements Renderable {
         AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(degree), image.getHeight(null) / 2,
                 image.getWidth(null) / 2);
         AffineTransformOp op = new AffineTransformOp(trans, AffineTransformOp.TYPE_BILINEAR);
-        ((Graphics2D) g).drawImage(op.filter(image, null), x, y, 10, 10, null);
+        ((Graphics2D) g).drawImage(op.filter(image, null), y, x, 10, 10, null);
     }
 
     @Override
