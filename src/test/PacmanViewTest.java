@@ -12,7 +12,7 @@ public class PacmanViewTest {
     void testRender() throws InterruptedException {
         View view = new View();
         Coordinate coordinate = new Coordinate(10, 20);
-        view.addPacmanRender(new PacmanRenderer(new Pacman("Dylan", 0, 300, 300, 2, coordinate)));
+        view.addPacmanRenderer(new PacmanRenderer(new Pacman("Dylan", 0, 300, 300, 2, coordinate)));
         int counter = 0;
         while (counter < 3000) {
             view.render();
