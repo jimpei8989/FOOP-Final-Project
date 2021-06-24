@@ -2,6 +2,7 @@ package utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +15,7 @@ import static java.util.stream.Collectors.toList;
 public class ImageUtils {
     public static final String SUPPORTED_FILE_NAME_PATTERN = "([1-9][0-9]*|0)\\.(bmp|jpg|png)";
 
-    public static List<Image> pacmanImgsFromFolder(String folderPath) {
+    public static List<BufferedImage> pacmanImgsFromFolder(String folderPath) {
         try {
             List<File> files = Files.list(Path.of(folderPath)).map(ImageUtils::readFile)
                     .filter(ImageUtils::validateFileName).collect(toList());
@@ -29,7 +30,7 @@ public class ImageUtils {
         return filePath.toFile();
     }
 
-    private static Image readImage(File file) {
+    private static BufferedImage readImage(File file) {
         try {
             return ImageIO.read(file);
         } catch (IOException e) {
