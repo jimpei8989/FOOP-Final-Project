@@ -8,6 +8,7 @@ import model.Pacman;
 import model.World;
 import model.map.Map;
 import utils.Coordinate;
+import view.MapRenderer;
 import view.PacmanRenderer;
 import view.Renderable;
 import view.View;
@@ -27,6 +28,7 @@ public class Game {
             this.pacmans.add(pacman);
             addPacmanRenderer(new PacmanRenderer(pacman));
         }
+        addMapRenderer(new MapRenderer(map));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
 

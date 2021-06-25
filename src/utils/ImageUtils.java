@@ -1,7 +1,9 @@
 package utils;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,11 +27,20 @@ public class ImageUtils {
         }
     }
 
+    public static BufferedImage wallImgFromFile() {
+        try {
+            String filePath = "assets/wall/0.png";
+            return readImage(readFile(Path.of(filePath)));
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     private static File readFile(Path filePath) {
         return filePath.toFile();
     }
 
-    private static Image readImage(File file) {
+    private static BufferedImage readImage(File file) {
         try {
             return ImageIO.read(file);
         } catch (IOException e) {
