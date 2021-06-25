@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class ImageUtils {
     public static final String SUPPORTED_FILE_NAME_PATTERN = "([1-9][0-9]*|0)\\.(bmp|jpg|png)";
 
-    public static List<Image> pacmanImgsFromFolder(String folderPath) {
+    public static List<BufferedImage> pacmanImgsFromFolder(String folderPath) {
         try {
             List<File> files = Files.list(Path.of(folderPath)).map(ImageUtils::readFile)
                     .filter(ImageUtils::validateFileName).collect(toList());
