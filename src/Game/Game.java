@@ -2,11 +2,16 @@ package Game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+import controller.KeyboardController;
+import controller.RandomMoveController;
 import model.interfaces.Tickable;
 import model.Pacman;
 import model.World;
 import model.map.Map;
+import utils.Action;
 import utils.Coordinate;
 import view.MapRenderer;
 import view.PacmanRenderer;
@@ -20,15 +25,32 @@ public class Game {
     private World world;
     private List<Pacman> pacmans = new ArrayList<>();
 
-    public Game(int numPlayers, int renderRatio, View view, Map map) {
+    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls) {
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
         this.view = view;
+        List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
             Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, map.getPacmanInitCoords().get(i));
+            if (keyControls.get(i) != null) {
+                KeyboardController controller = new KeyboardController(keyControls.get(i));
+                keyboardControllers.add(controller);
+                pacman.addController(controller);
+            } else {
+                RandomMoveController controller = new RandomMoveController();
+                pacman.addController(controller);
+            }
             this.pacmans.add(pacman);
             addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
         }
+        this.view.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                for (KeyboardController keyboardController : keyboardControllers)
+                    keyboardController.addKeyboardEvent(keyEvent);
+            }
+
+        });
         addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
