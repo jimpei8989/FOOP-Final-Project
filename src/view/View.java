@@ -9,24 +9,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import model.Pacman;
 import utils.Active;
-import utils.Coordinate;
 
 public class View extends JFrame {
-    public static final int WIDTH = 800, HEIGHT = 300;
+    private int width = 1440, height = 300;
     private List<Renderable> pacmanRenderers = new LinkedList<>(), mapRenderers = new LinkedList<>(),
             objectRenderers = new LinkedList<>();
-    private final Canvas canvas = new Canvas();
+    private Canvas canvas = new Canvas();
 
     {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setContentPane(this.canvas);
-        this.setSize(View.WIDTH, View.HEIGHT);
+        this.setSize(this.width, this.height);
         this.setContentPane(this.canvas);
         this.setVisible(true);
     }
@@ -35,10 +34,24 @@ public class View extends JFrame {
 
     }
 
-    public View(List<Renderable> pacmanRenderers, List<Renderable> mapRenderers, List<Renderable> objectRenderers) {
+    public View(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.setSize(this.width + 14, this.height + 37); // magic, don't change it
+        this.setContentPane(this.canvas);
+        this.setVisible(true);
+    }
+
+    public View(int width, int height, List<Renderable> pacmanRenderers, List<Renderable> mapRenderers,
+            List<Renderable> objectRenderers) {
+        this.width = width;
+        this.height = height;
         this.pacmanRenderers = pacmanRenderers;
         this.mapRenderers = mapRenderers;
         this.objectRenderers = objectRenderers;
+        this.setSize(this.width+ 14, this.height + 37); // magic, don't change it
+        this.setContentPane(this.canvas);
+        this.setVisible(true);
     }
 
     public void addPacmanRenderer(Renderable pacmanRenderer) {
@@ -74,13 +87,12 @@ public class View extends JFrame {
     }
 
     private class Canvas extends JPanel {
-
         @Override
         protected void paintComponent(Graphics g /* paintbrush */) {
             super.paintComponent(g);
             // Now, let's paint
-            g.setColor(Color.WHITE); // paint background with all white
-            g.fillRect(0, 0, View.WIDTH, View.HEIGHT);
+            g.setColor(Color.BLACK); // paint background with all white
+            g.fillRect(0, 0, View.this.width, View.this.height);
 
             View.this.render(g);
         }

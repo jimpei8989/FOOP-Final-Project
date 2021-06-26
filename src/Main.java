@@ -20,8 +20,14 @@ class Main {
             throw new IllegalArgumentException(e);
         }
 
-        View view = new View(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        Game game = new Game(4, view, map);
+        int renderRatio = map.getMaxWidth() / map.getWidth();
+        System.out.printf(
+                "mapWidth: %d, mapHeight: %d, mapMaxWidth: %d, renderRatio: %d width: %d, height: %d, renderRatio: %d\n",
+                map.getWidth(), map.getHeight(), map.getMaxWidth(), renderRatio, map.getWidth() * renderRatio,
+                map.getHeight() * renderRatio, renderRatio);
+
+        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio);
+        Game game = new Game(4, renderRatio, view, map);
         game.start();
     }
 }

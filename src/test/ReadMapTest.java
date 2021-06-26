@@ -1,5 +1,8 @@
 package test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 import org.junit.Test;
@@ -19,5 +22,11 @@ public class ReadMapTest {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Test
+    public void testReadMapFile() throws FileNotFoundException {
+        File mapFile = Path.of("maps/fiona.txt").toFile();
+        Map map = Map.readMapFromFile(mapFile);
     }
 }
