@@ -13,6 +13,7 @@ public class Map {
     private final int height;
     private final int width, maxWidth = 1440;
     private final MapGrid[][] mapContent;
+    private final List<Coordinate> pacmanInitCoords;
 
     public static Map readMapFromFile(File f) throws FileNotFoundException {
         try {
@@ -49,14 +50,26 @@ public class Map {
             reader.nextLine();
             highways.add(tmp);
         }
-        return new Map(n, m, mapContent, highways);
+
+        // Read initial location of P pacmans
+        int p = reader.nextInt();
+        reader.nextLine();
+        List<Coordinate> pacmanInitCoords = new ArrayList<>();
+        for (int i = 0; i < p; i++) {
+            pacmanInitCoords.add(new Coordinate(reader.nextInt(), reader.nextInt()));
+            reader.nextLine();
+        }
+
+        return new Map(n, m, mapContent, highways, pacmanInitCoords);
     }
 
-    public Map(int height, int width, String[] mapContent, List<Coordinate[]> highways) {
+    public Map(int height, int width, String[] mapContent, List<Coordinate[]> highways,
+            List<Coordinate> pacmanInitCoords) {
         this.height = height;
         this.width = width;
 
         this.mapContent = new MapGrid[height][width];
+        this.pacmanInitCoords = pacmanInitCoords;
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -94,6 +107,10 @@ public class Map {
 
     public MapGrid[][] getMapContent() {
         return this.mapContent;
+    }
+
+    public List<Coordinate> getPacmanInitCoords() {
+        return this.pacmanInitCoords;
     }
 
     public Coordinate adjustCoordinate(Coordinate coord) {
