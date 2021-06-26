@@ -113,7 +113,8 @@ public class Pacman implements Locatable, Tickable, Active {
     // Cotroller
     public Action decide() {
         return this.controller.decide();
-
+    }
+    
     // State related
     public void addState(State state) {
         this.states.add(state);
