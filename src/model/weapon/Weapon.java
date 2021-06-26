@@ -36,6 +36,10 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
         this.animateCd = new CoolDown(this.getDefaultAnimateCoolDown());
     }
 
+    public String getName() {
+        return "";
+    }
+
     // Weapon
     public WeaponState getWeaponState() {
         return this.state;

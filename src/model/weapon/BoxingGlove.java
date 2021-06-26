@@ -17,6 +17,11 @@ public class BoxingGlove extends Weapon {
     }
 
     @Override
+    public String getName() {
+        return "boxing-glove";
+    }
+
+    @Override
     public void onAttackSuccess(Pacman target) {
         target.setHP(target.getHP() - this.getDamage());
     }
