@@ -121,12 +121,10 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
     public Coordinate getRealCoordinate() {
         if (this.state == WeaponState.onGround) {
             return this.getCoordinate();
-        } else if (this.state == WeaponState.preAttack || this.state == WeaponState.realAttack
-                || this.state == WeaponState.postAttack) {
-            return this.animateCoordinate;
+        } else if (this.state != WeaponState.dropped) {
+            return this.owner.getRealCoordinate().add(this.animateCoordinate);
         } else {
-            // Undefined behavior in this case
-            return this.animateCoordinate;
+            throw new RuntimeException("You should not ask the coordinate of a inactive weapon");
         }
     }
 
