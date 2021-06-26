@@ -36,6 +36,15 @@ public class ImageUtils {
         }
     }
 
+    public static BufferedImage weaponImgFromFile(String weaponName) {
+        try {
+            String filePath = String.format("assets/weapons/%.png", weaponName);
+            return readImage(readFile(Path.of(filePath)));
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     private static File readFile(Path filePath) {
         return filePath.toFile();
     }

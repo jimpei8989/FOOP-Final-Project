@@ -1,6 +1,10 @@
 package utils;
 
 public class CoordinateUtils {
+    public static Coordinate scale(Coordinate a, double s) {
+        return new Coordinate(a.getX().doubleValue() * s, a.getY().doubleValue() * s);
+    }
+
     public static double length(Coordinate a) {
         return Math.sqrt(dotProduct(a, a));
     }

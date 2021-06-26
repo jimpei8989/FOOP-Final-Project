@@ -27,4 +27,8 @@ public class CoolDown {
     public void update(int specialUpdate) {
         this.current -= specialUpdate;
     }
+
+    public double getPercent() {
+        return (this.interval - this.current) / (double) this.interval;
+    }
 }
