@@ -13,6 +13,7 @@ import model.World;
 import model.map.Map;
 import utils.Action;
 import utils.Coordinate;
+import view.FooterPanel;
 import view.MapRenderer;
 import view.PacmanRenderer;
 import view.Renderable;
@@ -31,7 +32,7 @@ public class Game {
         this.view = view;
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, map.getPacmanInitCoords().get(i));
+            Pacman pacman = new Pacman("Fiona" + i, i, 300, 300, 1, map.getPacmanInitCoords().get(i));
             if (keyControls.get(i) != null) {
                 KeyboardController controller = new KeyboardController(keyControls.get(i));
                 keyboardControllers.add(controller);
@@ -41,7 +42,10 @@ public class Game {
                 pacman.addController(controller);
             }
             this.pacmans.add(pacman);
-            addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
+            this.addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
+            this.addMapRenderer(
+                    new FooterPanel(pacman, map.getHeight() * renderRatio, map.getWidth() * renderRatio * i / this.numPlayers,
+                            map.getWidth() * renderRatio / this.numPlayers, view.getFooterHeight()));
         }
         this.view.addKeyListener(new KeyAdapter() {
             @Override
@@ -50,7 +54,7 @@ public class Game {
                     keyboardController.addKeyboardEvent(keyEvent);
             }
         });
-        addMapRenderer(new MapRenderer(map, this.renderRatio));
+        // addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
 
