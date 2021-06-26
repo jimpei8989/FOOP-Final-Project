@@ -76,8 +76,8 @@ public class Sword extends Weapon {
     @Override
     public void calculateAnimate() {
         Direction facing = this.owner.getFacing();
-        double originDegree = facing == Direction.UP ? 0
-                : facing == Direction.RIGHT ? 90 : facing == Direction.DOWN ? 180 : 270;
+        double originDegree = facing == Direction.UP ? 270
+                : facing == Direction.RIGHT ? 0 : facing == Direction.DOWN ? 90 : 180;
 
         double progress = 0;
 
@@ -97,7 +97,7 @@ public class Sword extends Weapon {
         // turning = this.animateCd.getPercent();
         // }
 
-        this.degree = originDegree > 360 * turning ? originDegree - 360 * turning : originDegree + 360 * (1 - turning);
+        this.degree = 360 * turning > 45 ? 360 * turning - 45 : 360 * (1 + turning) - 45;
         this.animateCoordinate = CoordinateUtils.fromPolar(this.range, this.degree);
     }
 }
