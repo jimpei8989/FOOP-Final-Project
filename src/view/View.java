@@ -16,7 +16,7 @@ import javax.swing.WindowConstants;
 import utils.Active;
 
 public class View extends JFrame {
-    private int width = 1440, height = 300;
+    private int width = 1440, height = 300, footerHeight = 30;
     private List<Renderable> pacmanRenderers = new LinkedList<>(), mapRenderers = new LinkedList<>(),
             objectRenderers = new LinkedList<>();
     private Canvas canvas = new Canvas();
@@ -36,6 +36,7 @@ public class View extends JFrame {
     public View(int width, int height, int footerHeight) {
         this.width = width;
         this.height = height;
+        this.footerHeight = footerHeight;
         this.setSize(this.width + 14, this.height + 37 + footerHeight); // magic, don't change it
         this.setContentPane(this.canvas);
         this.setVisible(true);
@@ -45,12 +46,17 @@ public class View extends JFrame {
             List<Renderable> objectRenderers) {
         this.width = width;
         this.height = height;
+        this.footerHeight = footerHeight;
         this.pacmanRenderers = pacmanRenderers;
         this.mapRenderers = mapRenderers;
         this.objectRenderers = objectRenderers;
         this.setSize(this.width + 14, this.height + 37 + footerHeight); // magic, don't change it
         this.setContentPane(this.canvas);
         this.setVisible(true);
+    }
+
+    public int getFooterHeight() {
+        return this.footerHeight;
     }
 
     public void addPacmanRenderer(Renderable pacmanRenderer) {
@@ -90,7 +96,7 @@ public class View extends JFrame {
         protected void paintComponent(Graphics g /* paintbrush */) {
             super.paintComponent(g);
             // Now, let's paint
-            g.setColor(Color.BLACK); // paint background with all white
+            g.setColor(Color.WHITE); // paint background with all white
             g.fillRect(0, 0, View.this.width, View.this.height);
 
             View.this.render(g);
