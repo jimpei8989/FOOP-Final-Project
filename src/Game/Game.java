@@ -54,7 +54,7 @@ public class Game {
                     keyboardController.addKeyboardEvent(keyEvent);
             }
         });
-        // addMapRenderer(new MapRenderer(map, this.renderRatio));
+        addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
 
