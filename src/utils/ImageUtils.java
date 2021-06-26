@@ -38,7 +38,7 @@ public class ImageUtils {
 
     public static BufferedImage weaponImgFromFile(String weaponName) {
         try {
-            String filePath = String.format("assets/weapons/%.png", weaponName);
+            String filePath = String.format("assets/weapons/%s.png", weaponName);
             return readImage(readFile(Path.of(filePath)));
         } catch (RuntimeException e) {
             throw new IllegalArgumentException(e);
