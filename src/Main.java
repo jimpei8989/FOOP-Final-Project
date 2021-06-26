@@ -31,7 +31,7 @@ class Main {
         keyMapping1.put(KeyEvent.VK_DOWN, Action.DOWN);
         keyMapping1.put(KeyEvent.VK_LEFT, Action.LEFT);
         keyMapping1.put(KeyEvent.VK_RIGHT, Action.RIGHT);
-        keyMapping1.put(KeyEvent.VK_META, Action.ATTACK);
+        keyMapping1.put(KeyEvent.VK_SPACE, Action.ATTACK);
         keyControls.add(keyMapping1);
         for (int i = 1; i < playerNums; i++)
             keyControls.add(null);
