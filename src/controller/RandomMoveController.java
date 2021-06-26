@@ -7,7 +7,7 @@ import utils.Action;
 public class RandomMoveController extends Controller {
     private final Random random;
 
-    RandomMoveController() {
+    public RandomMoveController() {
         random = new Random();
     }
 

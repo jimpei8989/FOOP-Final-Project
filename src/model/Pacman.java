@@ -7,6 +7,7 @@ import model.weapon.Weapon;
 import utils.Active;
 import utils.Coordinate;
 import utils.Direction;
+import controller.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Pacman implements Locatable, Tickable, Active {
     private List<State> states = new ArrayList<>();
     private Weapon weapon;
     private Direction facing;
+    private Controller controller;
 
     public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
         this.name = name;
@@ -123,5 +125,9 @@ public class Pacman implements Locatable, Tickable, Active {
     // Active
     public boolean isActive() {
         return true;
+    }
+
+    public void addController(Controller controller) {
+        this.controller = controller;
     }
 }
