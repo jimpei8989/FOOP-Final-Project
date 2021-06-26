@@ -18,16 +18,19 @@ public class FooterPanel implements Renderable {
         this.y = y;
         this.width = width;
         this.height = height;
-        System.out.printf("x: %d, y: %d, width: %d, height: %d\n", x, y, width, height);
+
         String folderPath = String.format("assets/pacmans/pacman_%d", pacman.getID());
         this.img = pacmanImgsFromFolder(folderPath).get(2);
     }
 
     public void render(Graphics g) {
         g.setColor(Color.BLACK);
+        g.fillRect(this.y, this.x, this.width, this.height);
+        g.setColor(Color.WHITE);
         g.drawRect(this.y, this.x, this.width, this.height);
         g.drawImage(this.img, this.y + 2, this.x + 2, 30, 30, null);
 
+        g.setColor(Color.WHITE);
         g.setFont(this.font);
         g.drawString(this.pacman.getName(), this.y + 35, this.x + 24);
     }

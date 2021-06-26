@@ -96,8 +96,8 @@ public class View extends JFrame {
         protected void paintComponent(Graphics g /* paintbrush */) {
             super.paintComponent(g);
             // Now, let's paint
-            g.setColor(Color.WHITE); // paint background with all white
-            g.fillRect(0, 0, View.this.width, View.this.height);
+            g.setColor(Color.BLACK); // paint background with all white
+            g.fillRect(0, 0, View.this.getWidth(), View.this.getHeight());
 
             View.this.render(g);
         }
