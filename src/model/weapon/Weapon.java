@@ -71,6 +71,11 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
         return this.state == WeaponState.ready;
     }
 
+    public boolean isAttacking() {
+        return this.state == WeaponState.preAttack || this.state == WeaponState.realAttack
+                || this.state == WeaponState.postAttack;
+    }
+
     // Active
     public boolean isActive() {
         return this.state != WeaponState.dropped;
