@@ -11,7 +11,7 @@ import utils.Direction;
 
 public class Map {
     private final int height;
-    private final int width;
+    private final int width, maxWidth = 1440;
     private final MapGrid[][] mapContent;
 
     public static Map readMapFromFile(File f) throws FileNotFoundException {
@@ -86,6 +86,10 @@ public class Map {
 
     public int getWidth() {
         return this.width;
+    }
+
+    public int getMaxWidth() {
+        return this.maxWidth;
     }
 
     public MapGrid[][] getMapContent() {
