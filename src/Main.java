@@ -36,8 +36,9 @@ class Main {
         for (int i = 1; i < playerNums; i++)
             keyControls.add(null);
 
-        View view = new View(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        Game game = new Game(playerNums, view, map, keyControls);
+        int renderRatio = map.getMaxWidth() / map.getWidth();
+        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 3 / 2);
+        Game game = new Game(playerNums, renderRatio, view, map, keyControls);
         game.start();
     }
 }

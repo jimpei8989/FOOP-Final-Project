@@ -9,12 +9,13 @@ import model.Pacman;
 import utils.Coordinate;
 import static utils.ImageUtils.pacmanImgsFromFolder;
 
-public class PacmanRenderer implements Renderable {
+public class PacmanRenderer extends Renderer {
     private final Pacman pacman;
     private final List<BufferedImage> imgs;
     private int imgIdx = 0;
 
-    public PacmanRenderer(Pacman pacman) {
+    public PacmanRenderer(Pacman pacman, int renderRatio) {
+        super(renderRatio);
         this.pacman = pacman;
         String folderPath = String.format("assets/pacmans/pacman_%d", pacman.getID());
         this.imgs = pacmanImgsFromFolder(folderPath);
@@ -22,8 +23,8 @@ public class PacmanRenderer implements Renderable {
 
     public void render(Graphics g) {
         Coordinate realCoordinate = pacman.getRealCoordinate();
-        int x = (int) (realCoordinate.getX().doubleValue() * 10);
-        int y = (int) (realCoordinate.getY().doubleValue() * 10);
+        int x = (int) (realCoordinate.getX().doubleValue() * this.renderRatio);
+        int y = (int) (realCoordinate.getY().doubleValue() * this.renderRatio);
         BufferedImage image = imgs.get(imgIdx);
 
         rotateAndDraw(g, image, pacman.getFacing().getDegree(), x, y);
@@ -34,7 +35,7 @@ public class PacmanRenderer implements Renderable {
         AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(degree), image.getHeight(null) / 2,
                 image.getWidth(null) / 2);
         AffineTransformOp op = new AffineTransformOp(trans, AffineTransformOp.TYPE_BILINEAR);
-        ((Graphics2D) g).drawImage(op.filter(image, null), y, x, 10, 10, null);
+        ((Graphics2D) g).drawImage(op.filter(image, null), y, x, this.renderRatio, this.renderRatio, null);
     }
 
     @Override

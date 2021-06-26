@@ -20,17 +20,18 @@ import view.View;
 
 public class Game {
     private boolean running;
-    private int numPlayers;
+    private int numPlayers, renderRatio;
     private View view;
     private World world;
     private List<Pacman> pacmans = new ArrayList<>();
 
-    public Game(int numPlayers, View view, Map map, List<java.util.Map<Integer, Action>> keyControls) {
+    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls) {
         this.numPlayers = numPlayers;
+        this.renderRatio = renderRatio;
         this.view = view;
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, new Coordinate(i * 5, i * 5));
+            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, map.getPacmanInitCoords().get(i));
             if (keyControls.get(i) != null) {
                 KeyboardController controller = new KeyboardController(keyControls.get(i));
                 keyboardControllers.add(controller);
@@ -40,7 +41,7 @@ public class Game {
                 pacman.addController(controller);
             }
             this.pacmans.add(pacman);
-            addPacmanRenderer(new PacmanRenderer(pacman));
+            addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
         }
         this.view.addKeyListener(new KeyAdapter() {
             @Override
@@ -50,7 +51,7 @@ public class Game {
             }
 
         });
-        addMapRenderer(new MapRenderer(map));
+        addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
 
