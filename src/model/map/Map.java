@@ -1,4 +1,4 @@
-package model.maps;
+package model.map;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -86,6 +86,10 @@ public class Map {
 
     public int getWidth() {
         return this.width;
+    }
+
+    public MapGrid[][] getMapContent() {
+        return this.mapContent;
     }
 
     public Coordinate adjustCoordinate(Coordinate coord) {
