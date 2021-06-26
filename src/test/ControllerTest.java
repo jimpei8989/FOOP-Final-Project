@@ -27,11 +27,6 @@ public class ControllerTest {
             public void keyPressed(KeyEvent keyEvent) {
                 controller.addKeyboardEvent(keyEvent);
             }
-            
-            @Override
-            public void keyReleased(KeyEvent keyEvent) {
-                controller.addKeyUpEvent(keyEvent);
-            }
         });
         int counter = 0;
         while (counter < 10000) {

@@ -90,7 +90,7 @@ public class Pacman implements Locatable, Tickable, Active {
     }
 
     public int getDefaultMoveCoolDown() {
-        return 10;
+        return 12;
     }
 
     public void move(Direction direction) {

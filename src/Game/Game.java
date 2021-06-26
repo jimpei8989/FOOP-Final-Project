@@ -49,12 +49,6 @@ public class Game {
                 for (KeyboardController keyboardController : keyboardControllers)
                     keyboardController.addKeyboardEvent(keyEvent);
             }
-
-            @Override
-            public void keyReleased(KeyEvent keyEvent) {
-                for (KeyboardController keyboardController : keyboardControllers)
-                    keyboardController.addKeyUpEvent(keyEvent);
-            }
         });
         addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
@@ -75,7 +69,7 @@ public class Game {
 
     private void delay(int ticks) {
         try {
-            Thread.sleep(ticks * 33); // 1/30 second
+            Thread.sleep(ticks * 16); // 1/60 second
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
