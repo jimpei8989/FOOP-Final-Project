@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
