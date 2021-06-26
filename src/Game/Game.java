@@ -24,7 +24,7 @@ public class Game {
         this.numPlayers = numPlayers;
         this.view = view;
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, new Coordinate(i * 5, i * 5));
+            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, map.getPacmanInitCoords().get(i));
             this.pacmans.add(pacman);
             addPacmanRenderer(new PacmanRenderer(pacman));
         }
