@@ -97,7 +97,7 @@ public class Sword extends Weapon {
         // turning = this.animateCd.getPercent();
         // }
 
-        this.degree = 360 * turning > 45 ? 360 * turning - 45 : 360 * (1 + turning) - 45;
+        this.degree = 360 * turning + originDegree - 45;
         this.animateCoordinate = CoordinateUtils.fromPolar(this.range * progress, this.degree);
     }
 }
