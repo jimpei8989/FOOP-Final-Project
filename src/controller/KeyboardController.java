@@ -19,10 +19,6 @@ public class KeyboardController extends Controller {
         }
     }
 
-    public void addKeyUpEvent(KeyEvent event) {
-        this.latestEvent = -1;
-    }
-
     @Override
     public Action decide() {
         if (!this.keyMapping.containsKey(latestEvent)) {

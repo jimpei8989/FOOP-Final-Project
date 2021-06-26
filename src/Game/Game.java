@@ -31,7 +31,7 @@ public class Game {
         this.view = view;
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, map.getPacmanInitCoords().get(i));
+            Pacman pacman = new Pacman("Fiona", i, 300, 300, 10, map.getPacmanInitCoords().get(i));
             if (keyControls.get(i) != null) {
                 KeyboardController controller = new KeyboardController(keyControls.get(i));
                 keyboardControllers.add(controller);
@@ -48,12 +48,6 @@ public class Game {
             public void keyPressed(KeyEvent keyEvent) {
                 for (KeyboardController keyboardController : keyboardControllers)
                     keyboardController.addKeyboardEvent(keyEvent);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent keyEvent) {
-                for (KeyboardController keyboardController : keyboardControllers)
-                    keyboardController.addKeyUpEvent(keyEvent);
             }
         });
         addMapRenderer(new MapRenderer(map, this.renderRatio));
@@ -75,7 +69,7 @@ public class Game {
 
     private void delay(int ticks) {
         try {
-            Thread.sleep(ticks * 33); // 1/30 second
+            Thread.sleep(ticks * 16); // 1/60 second
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
