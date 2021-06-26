@@ -8,9 +8,15 @@ import utils.Coordinate;
 public abstract class Prop implements Active, Tickable, Locatable, Pickable {
     private final Coordinate coord;
     private boolean isPicked = false;
+    protected String name;
 
     public Prop(Coordinate coord) {
         this.coord = coord;
+        this.name = "";
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     // Tickable

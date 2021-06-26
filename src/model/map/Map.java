@@ -14,6 +14,7 @@ public class Map {
     private final int width, maxWidth = 1440;
     private final MapGrid[][] mapContent;
     private final List<Coordinate> pacmanInitCoords;
+    private final List<Coordinate> roadCoords;
 
     public static Map readMapFromFile(File f) throws FileNotFoundException {
         try {
@@ -70,11 +71,13 @@ public class Map {
 
         this.mapContent = new MapGrid[height][width];
         this.pacmanInitCoords = pacmanInitCoords;
+        this.roadCoords = new ArrayList<>();
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (mapContent[i].charAt(j) == '.') {
                     this.mapContent[i][j] = new Road(new Coordinate(i, j));
+                    this.roadCoords.add(new Coordinate(i, j));
                 } else if (mapContent[i].charAt(j) == '#') {
                     this.mapContent[i][j] = new Wall(new Coordinate(i, j));
                 }
@@ -111,6 +114,10 @@ public class Map {
 
     public List<Coordinate> getPacmanInitCoords() {
         return this.pacmanInitCoords;
+    }
+
+    public List<Coordinate> getRoadCoords() {
+        return this.roadCoords;
     }
 
     public Coordinate adjustCoordinate(Coordinate coord) {

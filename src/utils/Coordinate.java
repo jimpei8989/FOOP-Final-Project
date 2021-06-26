@@ -25,11 +25,14 @@ public class Coordinate {
     }
 
     public Coordinate add(Number x, Number y) {
-        if (this.x instanceof Integer && x instanceof Integer && this.y instanceof Integer
-                && y instanceof Integer)
+        if (this.x instanceof Integer && x instanceof Integer && this.y instanceof Integer && y instanceof Integer)
             return new Coordinate(this.x.intValue() + x.intValue(), this.y.intValue() + y.intValue());
-        return new Coordinate(this.x.doubleValue() + x.doubleValue(),
-                this.y.doubleValue() + y.doubleValue());
+        return new Coordinate(this.x.doubleValue() + x.doubleValue(), this.y.doubleValue() + y.doubleValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return x.hashCode() + y.hashCode();
     }
 
     @Override
