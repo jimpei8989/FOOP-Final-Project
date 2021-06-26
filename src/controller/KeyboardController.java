@@ -13,11 +13,14 @@ public class KeyboardController extends Controller {
     }
 
     public void addKeyboardEvent(KeyEvent event) {
-        // TODO: define keyMapping somewhere else (?)
         int eventCode = event.getKeyCode();
         if (this.keyMapping.containsKey(eventCode)) {
             this.latestEvent = eventCode;
         }
+    }
+
+    public void addKeyUpEvent(KeyEvent event) {
+        this.latestEvent = -1;
     }
 
     @Override

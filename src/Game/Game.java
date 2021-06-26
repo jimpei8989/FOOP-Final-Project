@@ -50,6 +50,11 @@ public class Game {
                     keyboardController.addKeyboardEvent(keyEvent);
             }
 
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                for (KeyboardController keyboardController : keyboardControllers)
+                    keyboardController.addKeyUpEvent(keyEvent);
+            }
         });
         addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());

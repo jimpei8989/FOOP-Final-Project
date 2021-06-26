@@ -20,14 +20,18 @@ public class ControllerTest {
         keyMapping.put(KeyEvent.VK_DOWN, Action.DOWN);
         keyMapping.put(KeyEvent.VK_LEFT, Action.LEFT);
         keyMapping.put(KeyEvent.VK_RIGHT, Action.RIGHT);
-        keyMapping.put(KeyEvent.VK_META, Action.ATTACK);
+        keyMapping.put(KeyEvent.VK_SPACE, Action.ATTACK);
         KeyboardController controller = new KeyboardController(keyMapping);
         view.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent keyEvent) {
                 controller.addKeyboardEvent(keyEvent);
             }
-
+            
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                controller.addKeyUpEvent(keyEvent);
+            }
         });
         int counter = 0;
         while (counter < 10000) {
