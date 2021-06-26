@@ -11,4 +11,9 @@ public class SmallPointProp extends PointProp {
     protected int getPoint() {
         return 1;
     }
+
+    @Override
+    public String getName() {
+        return "SmallPoint";
+    }
 }

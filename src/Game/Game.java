@@ -60,6 +60,10 @@ public class Game {
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
 
+    public int getRenderRatio() {
+        return this.renderRatio;
+    }
+
     public void start() {
         new Thread(this::gameLoop).start();
     }

@@ -13,6 +13,10 @@ public abstract class Prop implements Active, Tickable, Locatable, Pickable {
         this.coord = coord;
     }
 
+    public String getName() {
+        return "";
+    }
+
     // Tickable
     @Override
     public void onRoundBegin() {

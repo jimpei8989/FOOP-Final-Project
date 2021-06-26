@@ -11,4 +11,9 @@ public class BigPointProp extends PointProp {
     protected int getPoint() {
         return 5;
     }
+
+    @Override
+    public String getName() {
+        return "BigPoint";
+    }
 }
