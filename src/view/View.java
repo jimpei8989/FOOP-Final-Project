@@ -34,22 +34,22 @@ public class View extends JFrame {
 
     }
 
-    public View(int width, int height) {
+    public View(int width, int height, int footerHeight) {
         this.width = width;
         this.height = height;
-        this.setSize(this.width + 14, this.height + 37); // magic, don't change it
+        this.setSize(this.width + 14, this.height + 37 + footerHeight); // magic, don't change it
         this.setContentPane(this.canvas);
         this.setVisible(true);
     }
 
-    public View(int width, int height, List<Renderable> pacmanRenderers, List<Renderable> mapRenderers,
+    public View(int width, int height, int footerHeight, List<Renderable> pacmanRenderers, List<Renderable> mapRenderers,
             List<Renderable> objectRenderers) {
         this.width = width;
         this.height = height;
         this.pacmanRenderers = pacmanRenderers;
         this.mapRenderers = mapRenderers;
         this.objectRenderers = objectRenderers;
-        this.setSize(this.width+ 14, this.height + 37); // magic, don't change it
+        this.setSize(this.width + 14, this.height + 37 + footerHeight); // magic, don't change it
         this.setContentPane(this.canvas);
         this.setVisible(true);
     }

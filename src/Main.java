@@ -21,12 +21,7 @@ class Main {
         }
 
         int renderRatio = map.getMaxWidth() / map.getWidth();
-        System.out.printf(
-                "mapWidth: %d, mapHeight: %d, mapMaxWidth: %d, renderRatio: %d width: %d, height: %d, renderRatio: %d\n",
-                map.getWidth(), map.getHeight(), map.getMaxWidth(), renderRatio, map.getWidth() * renderRatio,
-                map.getHeight() * renderRatio, renderRatio);
-
-        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio);
+        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 3 / 2);
         Game game = new Game(4, renderRatio, view, map);
         game.start();
     }
