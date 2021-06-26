@@ -31,7 +31,7 @@ public class Game {
         this.view = view;
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona", i, 300, 300, 10, map.getPacmanInitCoords().get(i));
+            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, map.getPacmanInitCoords().get(i));
             if (keyControls.get(i) != null) {
                 KeyboardController controller = new KeyboardController(keyControls.get(i));
                 keyboardControllers.add(controller);
