@@ -15,20 +15,21 @@ import view.View;
 
 public class Game {
     private boolean running;
-    private int numPlayers;
+    private int numPlayers, renderRatio;
     private View view;
     private World world;
     private List<Pacman> pacmans = new ArrayList<>();
 
-    public Game(int numPlayers, View view, Map map) {
+    public Game(int numPlayers, int renderRatio, View view, Map map) {
         this.numPlayers = numPlayers;
+        this.renderRatio = renderRatio;
         this.view = view;
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, new Coordinate(i * 5, i * 5));
+            Pacman pacman = new Pacman("Fiona", i, 300, 300, 1, map.getPacmanInitCoords().get(i));
             this.pacmans.add(pacman);
-            addPacmanRenderer(new PacmanRenderer(pacman));
+            addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
         }
-        addMapRenderer(new MapRenderer(map));
+        addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>());
     }
 

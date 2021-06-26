@@ -11,22 +11,19 @@ import utils.Coordinate;
 import static utils.ImageUtils.weaponImgFromFile;
 
 public class WeaponRenderer extends ObjectRenderer {
-    private final Weapon weapon;
-
     private final BufferedImage weaponImg;
 
-    public WeaponRenderer(Weapon weapon) {
-        super();
-        this.weapon = weapon;
+    public WeaponRenderer(Weapon weapon, int renderRatio) {
+        super(weapon, renderRatio);
         this.weaponImg = weaponImgFromFile(weapon.getName());
     }
 
     public void render(Graphics g) {
-        Coordinate realCoordinate = weapon.getRealCoordinate();
+        Coordinate realCoordinate = object.getRealCoordinate();
         int x = (int) (realCoordinate.getX().doubleValue() * 10);
         int y = (int) (realCoordinate.getY().doubleValue() * 10);
 
-        rotateAndDraw(g, this.weaponImg, (int) weapon.getDegree(), x, y);
+        rotateAndDraw(g, this.weaponImg, (int) ((Weapon) object).getDegree(), x, y);
     }
 
     private void rotateAndDraw(Graphics g, BufferedImage image, int degree, int x, int y) {
@@ -38,6 +35,6 @@ public class WeaponRenderer extends ObjectRenderer {
 
     @Override
     public boolean isActive() {
-        return weapon.needToRender();
+        return ((Weapon) object).needToRender();
     }
 }
