@@ -67,6 +67,10 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
 
     public abstract void onAttackSuccess(Pacman target);
 
+    public boolean canAttack() {
+        return this.state == WeaponState.ready;
+    }
+
     // Active
     public boolean isActive() {
         return this.state != WeaponState.dropped;
