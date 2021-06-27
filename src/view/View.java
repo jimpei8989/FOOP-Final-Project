@@ -42,8 +42,8 @@ public class View extends JFrame {
         this.setVisible(true);
     }
 
-    public View(int width, int height, int footerHeight, List<Renderable> pacmanRenderers, List<Renderable> mapRenderers,
-            List<Renderable> objectRenderers) {
+    public View(int width, int height, int footerHeight, List<Renderable> pacmanRenderers,
+            List<Renderable> mapRenderers, List<Renderable> objectRenderers) {
         this.width = width;
         this.height = height;
         this.footerHeight = footerHeight;
@@ -68,7 +68,9 @@ public class View extends JFrame {
     }
 
     public void addObjectRenderer(Renderable objectRenderer) {
-        this.objectRenderers.add(objectRenderer);
+        synchronized (this.objectRenderers) {
+            this.objectRenderers.add(objectRenderer);
+        }
     }
 
     public void render() {
@@ -77,16 +79,18 @@ public class View extends JFrame {
     }
 
     private void render(Graphics g) {
-        List<List<Renderable>> renderersArray = new ArrayList<>(
-                Arrays.asList(this.pacmanRenderers, this.mapRenderers, this.objectRenderers));
-        for (List<Renderable> renderers : renderersArray) {
-            ListIterator<Renderable> iter = renderers.listIterator();
-            while (iter.hasNext()) {
-                Renderable renderer = iter.next();
-                if (!((Active) renderer).isActive())
-                    iter.remove();
-                else
-                    renderer.render(g);
+        synchronized (objectRenderers) {
+            List<List<Renderable>> renderersArray = new ArrayList<>(
+                    Arrays.asList(this.pacmanRenderers, this.mapRenderers, this.objectRenderers));
+            for (List<Renderable> renderers : renderersArray) {
+                ListIterator<Renderable> iter = renderers.listIterator();
+                while (iter.hasNext()) {
+                    Renderable renderer = iter.next();
+                    if (!((Active) renderer).isActive()) {
+                        iter.remove();
+                    } else
+                        renderer.render(g);
+                }
             }
         }
     }

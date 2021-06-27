@@ -1,28 +1,38 @@
 package model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import Game.Game;
+import model.interfaces.Locatable;
+import model.interfaces.Pickable;
 import model.interfaces.Tickable;
 import model.map.Map;
+import model.prop.SmallPointProp;
+import model.weapon.BoxingGlove;
+import model.weapon.Sword;
+import model.weapon.Weapon;
 import utils.Action;
+import utils.Coordinate;
+import view.PropRenderer;
 import view.Renderable;
+import view.WeaponRenderer;
 
 public class World {
     private Game game;
     private Map map;
     private List<Pacman> pacmans;
     private List<Tickable> objects;
-
-    public World(Game game) {
-        this.game = game;
-    }
+    private java.util.Map<Coordinate, Locatable> coordsWithItems = new HashMap<>();
+    private final Random random;
 
     public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects) {
         this.game = game;
         this.map = map;
         this.pacmans = pacmans;
         this.objects = objects;
+        this.random = new Random();
     }
 
     private void tick() {
@@ -39,6 +49,12 @@ public class World {
                     // is a kind of direction
                     if (this.map.canPass(pacman.getCoordinate(), action.getDirection())) {
                         pacman.move(action.getDirection());
+                        Coordinate coordinate = pacman.getCoordinate();
+                        if (this.coordsWithItems.containsKey(coordinate)) {
+                            Pickable object = (Pickable) this.coordsWithItems.get(coordinate);
+                            object.onPickUp(pacman);
+                            this.coordsWithItems.remove(coordinate);
+                        }
                     }
                 } else if (action == Action.ATTACK) {
                     // attack
@@ -54,6 +70,41 @@ public class World {
         // 2) TODO: Finalize pacman's move
 
         // 3) TODO: add some more props
+        for (Coordinate coordinate : this.map.getRoadCoords()) {
+            if (!this.coordsWithItems.containsKey(coordinate)) {
+                if (random.nextInt(1000) < 1) {
+                    SmallPointProp prop = new SmallPointProp(coordinate);
+                    this.objects.add(prop);
+                    addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
+                    this.coordsWithItems.put(coordinate, prop);
+                }
+            }
+        }
+
+        // 4) add some weapon, appear once every 300 ticks on average
+        if (random.nextInt(300) < 1) {
+            int cnt = this.map.getRoadCoords().size() - this.coordsWithItems.size();
+            if (cnt > 0) {
+                int choice = random.nextInt(cnt);
+                for (Coordinate coordinate : this.map.getRoadCoords()) {
+                    if (!this.coordsWithItems.containsKey(coordinate)) {
+                        if (choice == 0) {
+                            Weapon weapon = new BoxingGlove(coordinate);
+                            this.objects.add(weapon);
+                            addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
+                            this.coordsWithItems.put(coordinate, weapon);
+                            break;
+                        }
+                        choice -= 1;
+                    }
+                }
+            }
+        }
+
+        for (Tickable object : objects) {
+            object.onTurnBegin();
+            object.onTurnEnd();
+        }
     }
 
     public void update() {

@@ -5,20 +5,19 @@ import utils.Coordinate;
 import utils.CoordinateUtils;
 import utils.Direction;
 
-public class BoxingGlove extends Weapon {
-    private double range, radian;
+public class Sword extends Weapon {
+    private double range;
     private int damage;
 
-    public BoxingGlove(Coordinate coord) {
+    public Sword(Coordinate coord) {
         super(coord);
         this.range = getDefaultRange();
-        this.radian = getDefaultRadian();
         this.damage = getDefaultDamage();
     }
 
     @Override
     public String getName() {
-        return "boxing-glove";
+        return "sword";
     }
 
     @Override
@@ -42,7 +41,7 @@ public class BoxingGlove extends Weapon {
     }
 
     public double getDefaultRange() {
-        return 1.5;
+        return 1;
     }
 
     public double getRange() {
@@ -51,18 +50,6 @@ public class BoxingGlove extends Weapon {
 
     public void setRange(double range) {
         this.range = range;
-    }
-
-    public double getDefaultRadian() {
-        return Math.PI / 6;
-    }
-
-    public double getRadian() {
-        return this.radian;
-    }
-
-    public void setRadian(double radian) {
-        this.radian = radian;
     }
 
     public int getDefaultDamage() {
@@ -79,33 +66,37 @@ public class BoxingGlove extends Weapon {
 
     @Override
     public boolean inRange(Coordinate coord) {
-        // A 60-degree sector with radius 1.5 units by default.
+        // The circle with radius 1 units by default.
         Coordinate center = this.owner.getCoordinate();
-        Coordinate facing = this.owner.getFacing().getCoord();
+        // Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
-        return CoordinateUtils.length(delta) <= this.getRange()
-                && CoordinateUtils.dotProduct(facing, CoordinateUtils.norm(delta)) >= Math.cos(this.getRadian());
+        return CoordinateUtils.length(delta) <= this.getRange();
     }
 
     @Override
     public void calculateAnimate() {
         Direction facing = this.owner.getFacing();
-        double originDegree = facing == Direction.UP ? 0
-                : facing == Direction.RIGHT ? 90 : facing == Direction.DOWN ? 180 : 270;
+        double originDegree = facing == Direction.UP ? 270
+                : facing == Direction.RIGHT ? 0 : facing == Direction.DOWN ? 90 : 180;
 
         double progress = 0;
 
         if (this.getWeaponState() == WeaponState.preAttack) {
-            progress = this.preAttackCd.getPercent();
+            progress = Math.min(this.preAttackCd.getPercent() * 3, 1);
         } else if (this.getWeaponState() == WeaponState.realAttack) {
             progress = 1;
         } else if (this.getWeaponState() == WeaponState.postAttack) {
-            progress = 1 - this.postAttackCd.getPercent();
+            progress = Math.min((1 - this.postAttackCd.getPercent()) * 3, 1);
         }
 
-        this.degree = originDegree;
-        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getDefaultRange() * progress);
         this.zoom = progress;
-        System.out.println(this.zoom);
+
+        double turning = this.animateCd.getPercent();
+
+        this.degree = 450 * turning + originDegree + 45; // It looks better on turning 450 degrees.
+        this.animateCoordinate = CoordinateUtils.fromPolar(this.range * progress, this.degree - 90);
+
+        // System.out.printf("%f %f %f %s\n", progress, turning, this.degree,
+        // CoordinateUtils.fromPolar(1, this.degree - 45));
     }
 }
