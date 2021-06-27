@@ -24,6 +24,6 @@ public class PropRenderer extends ObjectRenderer {
 
     @Override
     public boolean isActive() {
-        return true;
+        return ((Prop) this.object).isActive();
     }
 }
