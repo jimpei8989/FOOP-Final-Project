@@ -8,6 +8,14 @@ public class CoolDown {
         this.interval = interval;
     }
 
+    public int getCurrent() {
+        return this.current;
+    }
+
+    public int getInterval() {
+        return this.interval;
+    }
+
     public boolean available() {
         return this.current <= 0;
     }

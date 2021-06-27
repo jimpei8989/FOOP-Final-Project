@@ -35,7 +35,7 @@ public class World {
         this.random = new Random();
     }
 
-    void tick() {
+    private void tick() {
         // 1) Each pacman decide and move
         for (Pacman pacman : this.pacmans) {
             pacman.onTurnBegin();
