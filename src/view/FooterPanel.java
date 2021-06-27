@@ -33,6 +33,7 @@ public class FooterPanel implements Renderable {
         g.setColor(Color.WHITE);
         g.setFont(this.font);
         g.drawString(this.pacman.getName(), this.y + 35, this.x + 24);
+        g.drawString(String.format("%d", this.pacman.getScore()), this.y + 35, this.x + 50);
     }
 
     @Override
