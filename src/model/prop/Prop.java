@@ -58,6 +58,6 @@ public abstract class Prop implements Active, Tickable, Locatable, Pickable {
     // Active
     @Override
     public boolean isActive() {
-        return this.isPicked;
+        return !this.isPicked;
     }
 }

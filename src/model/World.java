@@ -6,6 +6,7 @@ import java.util.Random;
 
 import Game.Game;
 import model.interfaces.Locatable;
+import model.interfaces.Pickable;
 import model.interfaces.Tickable;
 import model.map.Map;
 import model.prop.SmallPointProp;
@@ -44,6 +45,12 @@ public class World {
                     // is a kind of direction
                     if (this.map.canPass(pacman.getCoordinate(), action.getDirection())) {
                         pacman.move(action.getDirection());
+                        Coordinate coordinate = pacman.getCoordinate();
+                        if (this.coordsWithItems.containsKey(coordinate)) {
+                            Pickable object = (Pickable) this.coordsWithItems.get(coordinate);
+                            object.onPickUp(pacman);
+                            this.coordsWithItems.remove(coordinate);
+                        }
                     }
                 } else if (action == Action.ATTACK) {
                     // attack

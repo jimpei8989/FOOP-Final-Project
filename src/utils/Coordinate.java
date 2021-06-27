@@ -36,6 +36,18 @@ public class Coordinate {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Coordinate)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        Coordinate coord = (Coordinate) obj;
+        return x.equals(coord.x) && y.equals(coord.y);
+    }
+
+    @Override
     public String toString() {
         return String.format("(%s, %s)", this.x.toString(), this.y.toString());
     }
