@@ -29,15 +29,21 @@ public class WeaponRenderer extends Renderer {
     }
 
     private void rotateAndDraw(Graphics g, BufferedImage image, int degree, int x, int y) {
-        AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(degree), image.getHeight(null) / 2,
-                image.getWidth(null) / 2);
-        AffineTransformOp op = new AffineTransformOp(trans, AffineTransformOp.TYPE_BILINEAR);
         double zoom = this.weapon.getZoom();
         int newWidth = (int) (this.renderRatio * zoom);
         int newHeight = (int) (this.renderRatio * zoom);
         int deltaWidth = (this.renderRatio - newWidth) / 2;
         int deltaHeight = (this.renderRatio - newHeight) / 2;
-        ((Graphics2D) g).drawImage(op.filter(image, null), y + deltaWidth, x + deltaHeight, newWidth, newHeight, null);
+        if (degree == 0) {
+            g.drawImage(this.weaponImg, y + deltaWidth, x + deltaHeight, newWidth, newHeight, null);
+        } else {
+            AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(degree), image.getHeight(null) / 2,
+                    image.getWidth(null) / 2);
+            AffineTransformOp op = new AffineTransformOp(trans, AffineTransformOp.TYPE_BILINEAR);
+
+            ((Graphics2D) g).drawImage(op.filter(image, null), y + deltaWidth, x + deltaHeight, newWidth, newHeight,
+                    null);
+        }
     }
 
     @Override
