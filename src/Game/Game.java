@@ -13,6 +13,8 @@ import model.World;
 import model.map.Map;
 import model.state.SpeedChange;
 import model.weapon.BoxingGlove;
+import model.weapon.Spear;
+import model.weapon.Sword;
 import model.weapon.Weapon;
 
 import utils.Action;
@@ -63,7 +65,11 @@ public class Game {
             }
         });
         addMapRenderer(new MapRenderer(map, this.renderRatio));
-        this.world = new World(this, map, this.pacmans, new ArrayList<>());
+        List<Weapon> weapons = new ArrayList<>();
+        weapons.add(new BoxingGlove(new Coordinate(0, 0)));
+        weapons.add(new Sword(new Coordinate(0, 0)));
+        weapons.add(new Spear(new Coordinate(0, 0)));
+        this.world = new World(this, map, this.pacmans, new ArrayList<>(), weapons);
     }
 
     public int getRenderRatio() {

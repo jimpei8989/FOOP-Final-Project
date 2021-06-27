@@ -36,6 +36,17 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
         this.animateCd = new CoolDown(this.getDefaultAnimateCoolDown());
     }
 
+    Weapon(Weapon weapon, Coordinate coord) {
+        this.coord = coord;
+        this.state = WeaponState.onGround;
+        this.cd = new CoolDown(this.getDefaultCoolDown());
+        this.preAttackCd = new CoolDown(this.getDefaultPreAttackCoolDown());
+        this.postAttackCd = new CoolDown(this.getDefaultPostAttackCoolDown());
+        this.animateCd = new CoolDown(this.getDefaultAnimateCoolDown());
+    }
+
+    public abstract Weapon copy(Coordinate coord);
+
     public String getName() {
         return "";
     }
