@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import model.Pacman;
 import static utils.ImageUtils.pacmanImgsFromFolder;
+import static utils.ImageUtils.weaponImgFromFile;
 
 public class FooterPanel implements Renderable {
     private int x, y, width, height;
@@ -33,6 +34,12 @@ public class FooterPanel implements Renderable {
         g.setColor(Color.WHITE);
         g.setFont(this.font);
         g.drawString(this.pacman.getName(), this.y + 35, this.x + 24);
+
+        if (this.pacman.getWeapon() != null) {
+            BufferedImage weaponImg = weaponImgFromFile(this.pacman.getWeapon().getName());
+            g.drawImage(weaponImg, this.y + 105, this.x + 10, 15, 15, null);
+        }
+
         g.drawString(String.format("move: %02d/%d", this.pacman.getMoveCd().getCurrent(), 
                 this.pacman.getMoveCd().getInterval()), this.y + 35, this.x + 44);
         g.drawString(String.format("%d", this.pacman.getScore()), this.y + 35, this.x + 64);
