@@ -5,19 +5,22 @@ import utils.Coordinate;
 import utils.CoordinateUtils;
 import utils.Direction;
 
-public class Sword extends Weapon {
-    private double range;
+public class Spear extends Weapon {
+    private double frontRange;
+    private double sideRange;
     private int damage;
 
-    public Sword(Coordinate coord) {
+    public Spear(Coordinate coord) {
         super(coord);
-        this.range = getDefaultRange();
+        this.frontRange = getDefaultFrontRange();
+        this.sideRange = getDefaultSideRange();
         this.damage = getDefaultDamage();
     }
 
-    public Sword(Weapon weapon, Coordinate coord) {
+    public Spear(Weapon weapon, Coordinate coord) {
         super(weapon, coord);
-        this.range = getDefaultRange();
+        this.frontRange = getDefaultFrontRange();
+        this.sideRange = getDefaultSideRange();
         this.damage = getDefaultDamage();
     }
 
@@ -28,7 +31,7 @@ public class Sword extends Weapon {
 
     @Override
     public String getName() {
-        return "sword";
+        return "spear";
     }
 
     @Override
@@ -51,16 +54,28 @@ public class Sword extends Weapon {
         return 5;
     }
 
-    public double getDefaultRange() {
-        return 1;
+    public double getDefaultFrontRange() {
+        return 2;
     }
 
-    public double getRange() {
-        return this.range;
+    public double getFrontRange() {
+        return this.frontRange;
     }
 
-    public void setRange(double range) {
-        this.range = range;
+    public void setFrontRange(double frontRange) {
+        this.frontRange = frontRange;
+    }
+
+    public double getDefaultSideRange() {
+        return 0.5;
+    }
+
+    public double getSideRange() {
+        return this.sideRange;
+    }
+
+    public void setSideRange(double sideRange) {
+        this.sideRange = sideRange;
     }
 
     public int getDefaultDamage() {
@@ -77,11 +92,13 @@ public class Sword extends Weapon {
 
     @Override
     public boolean inRange(Coordinate coord) {
-        // The circle with radius 1 units by default.
+        // The rectangle with 2 units long and 1 unit wide by default.
         Coordinate center = this.owner.getCoordinate();
-        // Coordinate facing = this.owner.getFacing().getCoord();
+        Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
-        return CoordinateUtils.length(delta) <= this.getRange();
+        double frontDist = CoordinateUtils.dotProduct(facing, delta);
+        return frontDist <= this.getFrontRange() && frontDist >= 0 && Math
+                .sqrt(Math.pow(CoordinateUtils.length(delta), 2) - Math.pow(frontDist, 2)) <= this.getSideRange();
     }
 
     @Override
@@ -102,12 +119,17 @@ public class Sword extends Weapon {
 
         this.zoom = progress;
 
-        double turning = this.animateCd.getPercent();
+        double stretching = 0;
 
-        this.degree = 450 * turning + originDegree + 45; // It looks better on turning 450 degrees.
-        this.animateCoordinate = CoordinateUtils.fromPolar(this.range * progress, this.degree - 90);
+        if (this.getWeaponState() == WeaponState.preAttack) {
+            stretching = this.preAttackCd.getPercent();
+        } else if (this.getWeaponState() == WeaponState.realAttack) {
+            stretching = 1;
+        } else if (this.getWeaponState() == WeaponState.postAttack) {
+            stretching = 1 - this.postAttackCd.getPercent();
+        }
 
-        // System.out.printf("%f %f %f %s\n", progress, turning, this.degree,
-        // CoordinateUtils.fromPolar(1, this.degree - 45));
+        this.degree = originDegree;
+        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getFrontRange() * stretching);
     }
 }

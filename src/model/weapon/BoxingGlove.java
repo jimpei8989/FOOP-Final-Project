@@ -1,5 +1,7 @@
 package model.weapon;
 
+import javax.swing.BoxLayout;
+
 import model.Pacman;
 import utils.Coordinate;
 import utils.CoordinateUtils;
@@ -14,6 +16,18 @@ public class BoxingGlove extends Weapon {
         this.range = getDefaultRange();
         this.radian = getDefaultRadian();
         this.damage = getDefaultDamage();
+    }
+
+    public BoxingGlove(Weapon weapon, Coordinate coord) {
+        super(weapon, coord);
+        this.range = getDefaultRange();
+        this.radian = getDefaultRadian();
+        this.damage = getDefaultDamage();
+    }
+
+    @Override
+    public Weapon copy(Coordinate coord) {
+        return new BoxingGlove(this, coord);
     }
 
     @Override
@@ -90,8 +104,8 @@ public class BoxingGlove extends Weapon {
     @Override
     public void calculateAnimate() {
         Direction facing = this.owner.getFacing();
-        double originDegree = facing == Direction.UP ? 0
-                : facing == Direction.RIGHT ? 90 : facing == Direction.DOWN ? 180 : 270;
+        double originDegree = facing == Direction.RIGHT ? 0
+                : facing == Direction.DOWN ? 90 : facing == Direction.LEFT ? 180 : 270;
 
         double progress = 0;
 
@@ -104,8 +118,7 @@ public class BoxingGlove extends Weapon {
         }
 
         this.degree = originDegree;
-        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getDefaultRange() * progress);
+        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getRange() * progress);
         this.zoom = progress;
-        System.out.println(this.zoom);
     }
 }

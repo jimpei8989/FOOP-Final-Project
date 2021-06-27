@@ -24,14 +24,16 @@ public class World {
     private Map map;
     private List<Pacman> pacmans;
     private List<Tickable> objects;
+    private List<Weapon> weapons;
     private java.util.Map<Coordinate, Locatable> coordsWithItems = new HashMap<>();
     private final Random random;
 
-    public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects) {
+    public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects, List<Weapon> weapons) {
         this.game = game;
         this.map = map;
         this.pacmans = pacmans;
         this.objects = objects;
+        this.weapons = weapons;
         this.random = new Random();
     }
 
@@ -89,7 +91,7 @@ public class World {
                 for (Coordinate coordinate : this.map.getRoadCoords()) {
                     if (!this.coordsWithItems.containsKey(coordinate)) {
                         if (choice == 0) {
-                            Weapon weapon = new BoxingGlove(coordinate);
+                            Weapon weapon = weapons.get(random.nextInt(weapons.size())).copy(coordinate);
                             this.objects.add(weapon);
                             addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
                             this.coordsWithItems.put(coordinate, weapon);
