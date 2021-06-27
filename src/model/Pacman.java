@@ -71,6 +71,9 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public void takeDamage(int damage) {
         this.HP -= damage;
+        if (this.isDead() && !this.states.containsKey("Dead")) {
+            this.addState(new Dead(this));
+        }
     }
 
     public void setScore(int score) {
@@ -110,7 +113,7 @@ public class Pacman implements Locatable, Tickable, Active {
     }
 
     public boolean canDecide() {
-        return !this.isMoving() && !this.isAttacking() && !this.isAttacking();
+        return !this.isMoving() && !this.isAttacking() && !this.isDead();
     }
 
     public boolean canAttack() {
@@ -161,14 +164,6 @@ public class Pacman implements Locatable, Tickable, Active {
             states.get(name).onStateWillChange();
             states.remove(name);
         }
-
-        // this.states.removeIf(s -> {
-        // if (s.name.equals(name)) {
-        // s.onStateWillChange();
-        // return true;
-        // }
-        // return false;
-        // });
     }
 
     public void removeState(State state) {
@@ -176,14 +171,6 @@ public class Pacman implements Locatable, Tickable, Active {
             states.get(state.name).onStateWillChange();
             states.remove(state.name);
         }
-
-        // this.states.removeIf(s -> {
-        // if (s == state) {
-        // s.onStateWillChange();
-        // return true;
-        // }
-        // return false;
-        // });
     }
 
     public void removeNonActiveStates() {
@@ -194,14 +181,6 @@ public class Pacman implements Locatable, Tickable, Active {
                 states.remove(state.name);
             }
         }
-
-        // this.states.removeIf(s -> {
-        // if (!s.isActive()) {
-        // s.onStateWillChange();
-        // return true;
-        // }
-        // return false;
-        // });
     }
 
     public void onPropGet(Prop prop) {
@@ -232,10 +211,7 @@ public class Pacman implements Locatable, Tickable, Active {
     public void onTurnBegin() {
         for (State state : states.values()) {
             state.onTurnBegin();
-            // System.out.print(state.name);
-
         }
-        // System.out.print('\n');
     }
 
     public void onTurnEnd() {
@@ -249,12 +225,6 @@ public class Pacman implements Locatable, Tickable, Active {
                 this.coordinate = this.coordinate.add(this.facing.getCoord());
             }
         }
-
-        if (this.isDead() && !this.states.containsKey("Dead")) {
-            this.addState(new Dead(this));
-        }
-
-        // System.out.printf("%d > %s\n", this.ID, this.getRealCoordinate().toString());
     }
 
     public void onRoundBegin() {
