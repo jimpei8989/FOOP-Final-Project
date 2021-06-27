@@ -50,4 +50,7 @@ public abstract class State implements Tickable, Active {
         return this.turn > 0;
     }
 
+    public boolean needToRender() {
+        return true;
+    }
 }

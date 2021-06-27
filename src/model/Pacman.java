@@ -2,6 +2,7 @@ package model;
 
 import controller.Controller;
 import model.interfaces.*;
+import model.state.Dead;
 import model.state.Normal;
 import model.state.State;
 import model.utils.CoolDown;
@@ -14,13 +15,16 @@ import utils.CoordinateUtils;
 import utils.Direction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class Pacman implements Locatable, Tickable, Active {
     private final String name;
-    private int ID, HP, score, tickPerGrid;
+    private int ID, HP, fullHP, score, tickPerGrid;
     private Coordinate coordinate;
-    private List<State> states = new ArrayList<>();
+    private Map<String, State> states = new HashMap<>();
     private Weapon weapon;
     private Direction facing;
 
@@ -31,6 +35,7 @@ public class Pacman implements Locatable, Tickable, Active {
         this.name = name;
         this.ID = id;
         this.HP = hp;
+        this.fullHP = hp;
         this.score = score;
         this.tickPerGrid = tickPerGrid;
         this.coordinate = coordinate;
@@ -52,8 +57,20 @@ public class Pacman implements Locatable, Tickable, Active {
         this.HP = hp;
     }
 
+    public void setFullHP() {
+        this.HP = fullHP;
+    }
+
     public int getHP() {
         return this.HP;
+    }
+
+    public boolean isDead() {
+        return this.HP <= 0;
+    }
+
+    public void takeDamage(int damage) {
+        this.HP -= damage;
     }
 
     public void setScore(int score) {
@@ -93,7 +110,7 @@ public class Pacman implements Locatable, Tickable, Active {
     }
 
     public boolean canDecide() {
-        return !this.isMoving() && !this.isAttacking();
+        return !this.isMoving() && !this.isAttacking() && !this.isAttacking();
     }
 
     public boolean canAttack() {
@@ -127,9 +144,8 @@ public class Pacman implements Locatable, Tickable, Active {
     }
 
     public State getStateByName(String name) {
-        for (State state : this.states)
-            if (state.name.equals(name))
-                return state;
+        if (states.containsKey(name))
+            return states.get(name);
         return null;
     }
 
@@ -137,37 +153,55 @@ public class Pacman implements Locatable, Tickable, Active {
     public void addState(State state) {
         // remove the state with the same name
         this.removeState(state.name);
-        this.states.add(state);
+        this.states.put(state.name, state);
     }
 
     public void removeState(String name) {
-        this.states.removeIf(s -> {
-            if (s.name.equals(name)) {
-                s.onStateWillChange();
-                return true;
-            }
-            return false;
-        });
+        if (states.containsKey(name)) {
+            states.get(name).onStateWillChange();
+            states.remove(name);
+        }
+
+        // this.states.removeIf(s -> {
+        // if (s.name.equals(name)) {
+        // s.onStateWillChange();
+        // return true;
+        // }
+        // return false;
+        // });
     }
 
     public void removeState(State state) {
-        this.states.removeIf(s -> {
-            if (s == state) {
-                s.onStateWillChange();
-                return true;
-            }
-            return false;
-        });
+        if (states.containsKey(state.name)) {
+            states.get(state.name).onStateWillChange();
+            states.remove(state.name);
+        }
+
+        // this.states.removeIf(s -> {
+        // if (s == state) {
+        // s.onStateWillChange();
+        // return true;
+        // }
+        // return false;
+        // });
     }
 
     public void removeNonActiveStates() {
-        this.states.removeIf(s -> {
-            if (!s.isActive()) {
-                s.onStateWillChange();
-                return true;
+        Map<String, State> newStates = new HashMap<>(states);
+        for (State state : newStates.values()) {
+            if (!state.isActive()) {
+                state.onStateWillChange();
+                states.remove(state.name);
             }
-            return false;
-        });
+        }
+
+        // this.states.removeIf(s -> {
+        // if (!s.isActive()) {
+        // s.onStateWillChange();
+        // return true;
+        // }
+        // return false;
+        // });
     }
 
     public void onPropGet(Prop prop) {
@@ -196,12 +230,16 @@ public class Pacman implements Locatable, Tickable, Active {
 
     // Tickable
     public void onTurnBegin() {
-        for (State state : this.states)
+        for (State state : states.values()) {
             state.onTurnBegin();
+            // System.out.print(state.name);
+
+        }
+        // System.out.print('\n');
     }
 
     public void onTurnEnd() {
-        for (State state : this.states)
+        for (State state : states.values())
             state.onTurnEnd();
         this.removeNonActiveStates();
 
@@ -212,6 +250,10 @@ public class Pacman implements Locatable, Tickable, Active {
             }
         }
 
+        if (this.isDead() && !this.states.containsKey("Dead")) {
+            this.addState(new Dead(this));
+        }
+
         // System.out.printf("%d > %s\n", this.ID, this.getRealCoordinate().toString());
     }
 
@@ -219,6 +261,7 @@ public class Pacman implements Locatable, Tickable, Active {
     }
 
     public void onRoundEnd() {
+
     }
 
     // Active
@@ -228,5 +271,13 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public void addController(Controller controller) {
         this.controller = controller;
+    }
+
+    public boolean needToRender() {
+        for (State state : states.values())
+            if (!state.needToRender())
+                return false;
+
+        return true;
     }
 }

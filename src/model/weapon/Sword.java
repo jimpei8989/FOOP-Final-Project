@@ -33,7 +33,7 @@ public class Sword extends Weapon {
 
     @Override
     public void onAttackSuccess(Pacman target) {
-        target.setHP(target.getHP() - this.getDamage());
+        target.takeDamage(this.getDamage());
     }
 
     @Override
