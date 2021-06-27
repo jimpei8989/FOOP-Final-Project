@@ -16,7 +16,7 @@ import javax.swing.WindowConstants;
 import utils.Active;
 
 public class View extends JFrame {
-    private int width = 1440, height = 300;
+    private int width = 1440, height = 300, footerHeight = 30;
     private List<Renderable> pacmanRenderers = new LinkedList<>(), mapRenderers = new LinkedList<>(),
             objectRenderers = new LinkedList<>();
     private Canvas canvas = new Canvas();
@@ -36,21 +36,27 @@ public class View extends JFrame {
     public View(int width, int height, int footerHeight) {
         this.width = width;
         this.height = height;
+        this.footerHeight = footerHeight;
         this.setSize(this.width + 14, this.height + 37 + footerHeight); // magic, don't change it
         this.setContentPane(this.canvas);
         this.setVisible(true);
     }
 
-    public View(int width, int height, int footerHeight, List<Renderable> pacmanRenderers, List<Renderable> mapRenderers,
-            List<Renderable> objectRenderers) {
+    public View(int width, int height, int footerHeight, List<Renderable> pacmanRenderers,
+            List<Renderable> mapRenderers, List<Renderable> objectRenderers) {
         this.width = width;
         this.height = height;
+        this.footerHeight = footerHeight;
         this.pacmanRenderers = pacmanRenderers;
         this.mapRenderers = mapRenderers;
         this.objectRenderers = objectRenderers;
         this.setSize(this.width + 14, this.height + 37 + footerHeight); // magic, don't change it
         this.setContentPane(this.canvas);
         this.setVisible(true);
+    }
+
+    public int getFooterHeight() {
+        return this.footerHeight;
     }
 
     public void addPacmanRenderer(Renderable pacmanRenderer) {
@@ -62,7 +68,9 @@ public class View extends JFrame {
     }
 
     public void addObjectRenderer(Renderable objectRenderer) {
-        this.objectRenderers.add(objectRenderer);
+        synchronized (this.objectRenderers) {
+            this.objectRenderers.add(objectRenderer);
+        }
     }
 
     public void render() {
@@ -71,16 +79,18 @@ public class View extends JFrame {
     }
 
     private void render(Graphics g) {
-        List<List<Renderable>> renderersArray = new ArrayList<>(
-                Arrays.asList(this.pacmanRenderers, this.mapRenderers, this.objectRenderers));
-        for (List<Renderable> renderers : renderersArray) {
-            ListIterator<Renderable> iter = renderers.listIterator();
-            while (iter.hasNext()) {
-                Renderable renderer = iter.next();
-                if (!((Active) renderer).isActive())
-                    iter.remove();
-                else
-                    renderer.render(g);
+        synchronized (objectRenderers) {
+            List<List<Renderable>> renderersArray = new ArrayList<>(
+                    Arrays.asList(this.pacmanRenderers, this.mapRenderers, this.objectRenderers));
+            for (List<Renderable> renderers : renderersArray) {
+                ListIterator<Renderable> iter = renderers.listIterator();
+                while (iter.hasNext()) {
+                    Renderable renderer = iter.next();
+                    if (!((Active) renderer).isActive()) {
+                        iter.remove();
+                    } else
+                        renderer.render(g);
+                }
             }
         }
     }
@@ -91,7 +101,7 @@ public class View extends JFrame {
             super.paintComponent(g);
             // Now, let's paint
             g.setColor(Color.BLACK); // paint background with all white
-            g.fillRect(0, 0, View.this.width, View.this.height);
+            g.fillRect(0, 0, View.this.getWidth(), View.this.getHeight());
 
             View.this.render(g);
         }

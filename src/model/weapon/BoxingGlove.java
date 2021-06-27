@@ -106,5 +106,6 @@ public class BoxingGlove extends Weapon {
         this.degree = originDegree;
         this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getDefaultRange() * progress);
         this.zoom = progress;
+        System.out.println(this.zoom);
     }
 }

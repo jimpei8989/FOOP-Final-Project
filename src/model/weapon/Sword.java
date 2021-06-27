@@ -93,11 +93,10 @@ public class Sword extends Weapon {
 
         double turning = this.animateCd.getPercent();
 
-        // if (this.getWeaponState() == WeaponState.realAttack) {
-        // turning = this.animateCd.getPercent();
-        // }
+        this.degree = 450 * turning + originDegree + 45; // It looks better on turning 450 degrees.
+        this.animateCoordinate = CoordinateUtils.fromPolar(this.range * progress, this.degree - 90);
 
-        this.degree = 360 * turning + originDegree - 45;
-        this.animateCoordinate = CoordinateUtils.fromPolar(this.range * progress, this.degree);
+        // System.out.printf("%f %f %f %s\n", progress, turning, this.degree,
+        // CoordinateUtils.fromPolar(1, this.degree - 45));
     }
 }

@@ -37,7 +37,7 @@ class Main {
             keyControls.add(null);
 
         int renderRatio = map.getMaxWidth() / map.getWidth();
-        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 3 / 2);
+        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 4);
         Game game = new Game(playerNums, renderRatio, view, map, keyControls);
         game.start();
     }

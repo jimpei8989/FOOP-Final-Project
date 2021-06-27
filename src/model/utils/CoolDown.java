@@ -31,4 +31,8 @@ public class CoolDown {
     public double getPercent() {
         return (this.interval - this.current) / (double) this.interval;
     }
+
+    public String toString() {
+        return String.format("%d / %d", current, interval);
+    }
 }

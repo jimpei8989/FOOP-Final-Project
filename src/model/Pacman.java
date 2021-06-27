@@ -90,7 +90,7 @@ public class Pacman implements Locatable, Tickable, Active {
     }
 
     public int getDefaultMoveCoolDown() {
-        return 10;
+        return 12;
     }
 
     public void move(Direction direction) {
@@ -160,7 +160,7 @@ public class Pacman implements Locatable, Tickable, Active {
             }
         }
 
-        System.out.printf("%d > %s\n", this.ID, this.getRealCoordinate().toString());
+        // System.out.printf("%d > %s\n", this.ID, this.getRealCoordinate().toString());
     }
 
     public void onRoundBegin() {

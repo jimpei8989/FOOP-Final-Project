@@ -20,8 +20,8 @@ public class WeaponRenderer extends ObjectRenderer {
 
     public void render(Graphics g) {
         Coordinate realCoordinate = object.getRealCoordinate();
-        int x = (int) (realCoordinate.getX().doubleValue() * 10);
-        int y = (int) (realCoordinate.getY().doubleValue() * 10);
+        int x = (int) (realCoordinate.getX().doubleValue() * this.renderRatio);
+        int y = (int) (realCoordinate.getY().doubleValue() * this.renderRatio);
 
         rotateAndDraw(g, this.weaponImg, (int) ((Weapon) object).getDegree(), x, y);
     }
@@ -30,7 +30,12 @@ public class WeaponRenderer extends ObjectRenderer {
         AffineTransform trans = AffineTransform.getRotateInstance(Math.toRadians(degree), image.getHeight(null) / 2,
                 image.getWidth(null) / 2);
         AffineTransformOp op = new AffineTransformOp(trans, AffineTransformOp.TYPE_BILINEAR);
-        ((Graphics2D) g).drawImage(op.filter(image, null), y, x, 10, 10, null);
+        double zoom = ((Weapon) object).getZoom();
+        int newWidth = (int) (this.renderRatio * zoom);
+        int newHeight = (int) (this.renderRatio * zoom);
+        int deltaWidth = (this.renderRatio - newWidth) / 2;
+        int deltaHeight = (this.renderRatio - newHeight) / 2;
+        ((Graphics2D) g).drawImage(op.filter(image, null), y + deltaWidth, x + deltaHeight, newWidth, newHeight, null);
     }
 
     @Override

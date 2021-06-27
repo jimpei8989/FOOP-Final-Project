@@ -45,6 +45,15 @@ public class ImageUtils {
         }
     }
 
+    public static BufferedImage propImgFromFile(String propName) {
+        try {
+            String filePath = String.format("assets/props/%s.png", propName);
+            return readImage(readFile(Path.of(filePath)));
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     private static File readFile(Path filePath) {
         return filePath.toFile();
     }
