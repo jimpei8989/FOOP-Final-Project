@@ -12,6 +12,7 @@ import model.Pacman;
 import model.World;
 import model.map.Map;
 import model.weapon.BoxingGlove;
+import model.weapon.Spear;
 import model.weapon.Sword;
 import model.weapon.Weapon;
 import utils.Action;
@@ -61,6 +62,7 @@ public class Game {
         List<Weapon> weapons = new ArrayList<>();
         weapons.add(new BoxingGlove(new Coordinate(0, 0)));
         weapons.add(new Sword(new Coordinate(0, 0)));
+        weapons.add(new Spear(new Coordinate(0, 0)));
         this.world = new World(this, map, this.pacmans, new ArrayList<>(), weapons);
     }
 
