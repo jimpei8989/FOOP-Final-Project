@@ -2,6 +2,7 @@ package model;
 
 import controller.Controller;
 import model.interfaces.*;
+import model.state.Normal;
 import model.state.State;
 import model.utils.CoolDown;
 import model.prop.Prop;
@@ -24,7 +25,7 @@ public class Pacman implements Locatable, Tickable, Active {
     private Direction facing;
 
     private Controller controller;
-    private final CoolDown moveCd;
+    private CoolDown moveCd;
 
     public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
         this.name = name;
@@ -35,6 +36,8 @@ public class Pacman implements Locatable, Tickable, Active {
         this.coordinate = coordinate;
         this.facing = Direction.RIGHT;
         this.moveCd = new CoolDown(this.getDefaultMoveCoolDown());
+        Normal normalState = new Normal(this);
+        this.addState(normalState);
     }
 
     public String getName() {
@@ -81,6 +84,14 @@ public class Pacman implements Locatable, Tickable, Active {
         return this.weapon;
     }
 
+    public CoolDown getMoveCd() {
+        return this.moveCd;
+    }
+
+    public void setMoveCd(CoolDown coolDown) {
+        this.moveCd = coolDown;
+    }
+
     public boolean canDecide() {
         return !this.isMoving() && !this.isAttacking();
     }
@@ -114,14 +125,49 @@ public class Pacman implements Locatable, Tickable, Active {
     public Action decide() {
         return this.controller.decide();
     }
-    
+
+    public State getStateByName(String name) {
+        for (State state : this.states)
+            if (state.name.equals(name))
+                return state;
+        return null;
+    }
+
     // State related
     public void addState(State state) {
+        // remove the state with the same name
+        this.removeState(state.name);
         this.states.add(state);
     }
 
-    public void removeStates() {
-        this.states.removeIf(s -> !s.isActive());
+    public void removeState(String name) {
+        this.states.removeIf(s -> {
+            if (s.name.equals(name)) {
+                s.onStateWillChange();
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public void removeState(State state) {
+        this.states.removeIf(s -> {
+            if (s == state) {
+                s.onStateWillChange();
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public void removeNonActiveStates() {
+        this.states.removeIf(s -> {
+            if (!s.isActive()) {
+                s.onStateWillChange();
+                return true;
+            }
+            return false;
+        });
     }
 
     public void onPropGet(Prop prop) {
@@ -150,9 +196,15 @@ public class Pacman implements Locatable, Tickable, Active {
 
     // Tickable
     public void onTurnBegin() {
+        for (State state : this.states)
+            state.onTurnBegin();
     }
 
     public void onTurnEnd() {
+        for (State state : this.states)
+            state.onTurnEnd();
+        this.removeNonActiveStates();
+
         if (!this.moveCd.available()) {
             this.moveCd.update();
             if (this.moveCd.available()) {

@@ -11,6 +11,7 @@ import model.interfaces.Tickable;
 import model.Pacman;
 import model.World;
 import model.map.Map;
+import model.state.SpeedChange;
 import utils.Action;
 import utils.Coordinate;
 import view.FooterPanel;
@@ -33,6 +34,10 @@ public class Game {
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
             Pacman pacman = new Pacman("Fiona" + i, i, 300, 300, 1, map.getPacmanInitCoords().get(i));
+            if (i == 0) {
+                // pacman.addState(new SpeedChange(pacman, 4));
+                pacman.addState(new SpeedChange(pacman, -4));
+            }
             if (keyControls.get(i) != null) {
                 KeyboardController controller = new KeyboardController(keyControls.get(i));
                 keyboardControllers.add(controller);

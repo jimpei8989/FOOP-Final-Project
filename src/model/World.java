@@ -25,7 +25,7 @@ public class World {
         this.objects = objects;
     }
 
-    void tick() {
+    private void tick() {
         // 1) Each pacman decide and move
         for (Pacman pacman : this.pacmans) {
             pacman.onTurnBegin();

@@ -6,7 +6,7 @@ import utils.Active;
 
 public abstract class State implements Tickable, Active {
     public String name;
-    private Pacman target;
+    protected Pacman target;
     private int turn = 1;
 
     public State(String name, Pacman target) {
@@ -25,6 +25,7 @@ public abstract class State implements Tickable, Active {
         return this.name;
     }
 
+    @Override
     public void onTurnBegin() {
     }
 
@@ -37,6 +38,7 @@ public abstract class State implements Tickable, Active {
     public void onRoundBegin() {
     }
 
+    @Override
     public void onRoundEnd() {
     }
 

@@ -33,6 +33,9 @@ public class FooterPanel implements Renderable {
         g.setColor(Color.WHITE);
         g.setFont(this.font);
         g.drawString(this.pacman.getName(), this.y + 35, this.x + 24);
+
+        g.drawString(String.format("move: %02d/%d", this.pacman.getMoveCd().getCurrent(), 
+                this.pacman.getMoveCd().getInterval()), this.y + 35, this.x + 44);
     }
 
     @Override
