@@ -10,24 +10,26 @@ import utils.Coordinate;
 
 import static utils.ImageUtils.weaponImgFromFile;
 
-public class WeaponRenderer extends ObjectRenderer {
+public class WeaponRenderer extends Renderer {
     private final BufferedImage weaponImg;
+    private final Weapon weapon;
 
     public WeaponRenderer(Weapon weapon, int renderRatio) {
-        super(weapon, renderRatio);
+        super(renderRatio);
+        this.weapon = weapon;
         this.weaponImg = weaponImgFromFile(weapon.getName());
     }
 
     public void render(Graphics g) {
-        Coordinate realCoordinate = object.getRealCoordinate();
+        Coordinate realCoordinate = this.weapon.getRealCoordinate();
         int x = (int) (realCoordinate.getX().doubleValue() * this.renderRatio);
         int y = (int) (realCoordinate.getY().doubleValue() * this.renderRatio);
 
-        rotateAndDraw(g, this.weaponImg, (int) ((Weapon) object).getDegree(), x, y);
+        rotateAndDraw(g, this.weaponImg, (int) this.weapon.getDegree(), x, y);
     }
 
     private void rotateAndDraw(Graphics g, BufferedImage image, int degree, int x, int y) {
-        double zoom = ((Weapon) object).getZoom();
+        double zoom = this.weapon.getZoom();
         int newWidth = (int) (this.renderRatio * zoom);
         int newHeight = (int) (this.renderRatio * zoom);
         int deltaWidth = (this.renderRatio - newWidth) / 2;
@@ -46,6 +48,6 @@ public class WeaponRenderer extends ObjectRenderer {
 
     @Override
     public boolean isActive() {
-        return ((Weapon) object).needToRender();
+        return this.weapon.needToRender();
     }
 }
