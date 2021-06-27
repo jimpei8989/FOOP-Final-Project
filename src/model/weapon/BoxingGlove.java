@@ -83,8 +83,8 @@ public class BoxingGlove extends Weapon {
         Coordinate center = this.owner.getCoordinate();
         Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
-        return CoordinateUtils.length(delta) <= this.getRange()
-                && CoordinateUtils.dotProduct(facing, CoordinateUtils.norm(delta)) >= Math.cos(this.getRadian());
+        return CoordinateUtils.length(delta) <= this.getRange() && CoordinateUtils
+                .dotProduct(facing, CoordinateUtils.norm(delta)) >= Math.cos(this.getRadian());
     }
 
     @Override
@@ -104,8 +104,8 @@ public class BoxingGlove extends Weapon {
         }
 
         this.degree = originDegree;
-        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getDefaultRange() * progress);
+        this.animateCoordinate =
+                CoordinateUtils.scale(facing.getCoord(), this.getDefaultRange() * progress);
         this.zoom = progress;
-        System.out.println(this.zoom);
     }
 }

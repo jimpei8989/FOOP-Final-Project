@@ -5,7 +5,6 @@ import model.interfaces.*;
 import model.utils.CoolDown;
 import utils.Active;
 import utils.Coordinate;
-import utils.Direction;
 
 /*
     A weapon has several states, as defined in WeaponState.
@@ -162,6 +161,7 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
     public void onPickUp(Pacman p) {
         this.state = WeaponState.ready;
         this.owner = p;
+        this.owner.onWeaponGet(this);
     }
 
     // Droppable
