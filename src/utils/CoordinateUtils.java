@@ -25,4 +25,9 @@ public class CoordinateUtils {
     public static double dotProduct(Coordinate a, Coordinate b) {
         return a.getX().doubleValue() * b.getX().doubleValue() + a.getY().doubleValue() * b.getY().doubleValue();
     }
+
+    public static Coordinate fromPolar(double radius, double degree) {
+        double radian = Math.toRadians(degree);
+        return new Coordinate(radius * Math.sin(radian), radius * Math.cos(radian)); // don't ask me why, it just works.
+    }
 }

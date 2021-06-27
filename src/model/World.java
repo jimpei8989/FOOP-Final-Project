@@ -9,10 +9,14 @@ import model.interfaces.Locatable;
 import model.interfaces.Tickable;
 import model.map.Map;
 import model.prop.SmallPointProp;
+import model.weapon.BoxingGlove;
+import model.weapon.Sword;
+import model.weapon.Weapon;
 import utils.Action;
 import utils.Coordinate;
 import view.PropRenderer;
 import view.Renderable;
+import view.WeaponRenderer;
 
 public class World {
     private Game game;
@@ -68,6 +72,31 @@ public class World {
                     this.coordsWithItems.put(coordinate, prop);
                 }
             }
+        }
+
+        // 4) add some weapon, appear once every 300 ticks on average
+        if (random.nextInt(300) < 1) {
+            int cnt = this.map.getRoadCoords().size() - this.coordsWithItems.size();
+            if (cnt > 0) {
+                int choice = random.nextInt(cnt);
+                for (Coordinate coordinate : this.map.getRoadCoords()) {
+                    if (!this.coordsWithItems.containsKey(coordinate)) {
+                        if (choice == 0) {
+                            Weapon weapon = new BoxingGlove(coordinate);
+                            this.objects.add(weapon);
+                            addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
+                            this.coordsWithItems.put(coordinate, weapon);
+                            break;
+                        }
+                        choice -= 1;
+                    }
+                }
+            }
+        }
+
+        for (Tickable object : objects) {
+            object.onTurnBegin();
+            object.onTurnEnd();
         }
     }
 

@@ -11,6 +11,8 @@ import model.interfaces.Tickable;
 import model.Pacman;
 import model.World;
 import model.map.Map;
+import model.weapon.BoxingGlove;
+import model.weapon.Weapon;
 import utils.Action;
 import utils.Coordinate;
 import view.FooterPanel;
@@ -43,9 +45,9 @@ public class Game {
             }
             this.pacmans.add(pacman);
             this.addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
-            this.addMapRenderer(
-                    new FooterPanel(pacman, map.getHeight() * renderRatio, map.getWidth() * renderRatio * i / this.numPlayers,
-                            map.getWidth() * renderRatio / this.numPlayers, view.getFooterHeight()));
+            this.addMapRenderer(new FooterPanel(pacman, map.getHeight() * renderRatio,
+                    map.getWidth() * renderRatio * i / this.numPlayers, map.getWidth() * renderRatio / this.numPlayers,
+                    view.getFooterHeight()));
         }
         this.view.addKeyListener(new KeyAdapter() {
             @Override
