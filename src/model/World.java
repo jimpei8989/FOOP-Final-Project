@@ -40,15 +40,22 @@ public class World {
     }
 
     private void generateProps() {
-        for (Coordinate coordinate : this.map.getRoadCoords()) {
-            if (!this.coordsWithItems.containsKey(coordinate)) {
-                if (random.nextInt(1000) < 1) {
-                    // TODO: make weighted random sampling
-                    Prop prop = this.availableProps.get(this.random.nextInt(this.availableProps.size()))
-                            .copy(coordinate);
-                    this.objects.add(prop);
-                    addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
-                    this.coordsWithItems.put(coordinate, prop);
+        if (random.nextInt(5) < 1) {
+            int cnt = this.map.getRoadCoords().size() - this.coordsWithItems.size();
+            if (cnt > 0) {
+                int choice = random.nextInt(this.map.getRoadCoords().size());
+                for (Coordinate coordinate : this.map.getRoadCoords()) {
+                    if (!this.coordsWithItems.containsKey(coordinate)) {
+                        if (choice == 0) {
+                            Prop prop = this.availableProps.get(this.random.nextInt(this.availableProps.size()))
+                                    .copy(coordinate);
+                            this.objects.add(prop);
+                            addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
+                            this.coordsWithItems.put(coordinate, prop);
+                            break;
+                        }
+                        choice--;
+                    }
                 }
             }
         }

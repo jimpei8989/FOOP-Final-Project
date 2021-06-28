@@ -2,8 +2,13 @@ package Game;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.Timer;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import controller.KeyboardController;
 import controller.RandomMoveController;
@@ -16,6 +21,7 @@ import model.weapon.Weapon;
 
 import utils.Action;
 import view.FooterPanel;
+import view.TimePanel;
 import view.MapRenderer;
 import view.PacmanRenderer;
 import view.Renderable;
@@ -27,8 +33,11 @@ public class Game {
     private View view;
     private World world;
     private List<Pacman> pacmans = new ArrayList<>();
+    private int countdown = 300;
+    private Timer timer;
 
     public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls, List<Prop> props, List<Weapon> weapons) {
+        this.running = true;
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
         this.view = view;
@@ -50,9 +59,10 @@ public class Game {
             }
             this.pacmans.add(pacman);
             this.addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
+            // leave one space for the timer
             this.addMapRenderer(new FooterPanel(pacman, map.getHeight() * renderRatio,
-                    map.getWidth() * renderRatio * i / this.numPlayers, map.getWidth() * renderRatio / this.numPlayers,
-                    view.getFooterHeight()));
+                    (map.getWidth() * renderRatio * (i + 1)) / (this.numPlayers + 1),
+                    map.getWidth() * renderRatio / (this.numPlayers + 1), view.getFooterHeight()));
         }
         this.view.addKeyListener(new KeyAdapter() {
             @Override
@@ -61,9 +71,25 @@ public class Game {
                     keyboardController.addKeyboardEvent(keyEvent);
             }
         });
-        addMapRenderer(new MapRenderer(map, this.renderRatio));
-
+        this.addMapRenderer(new MapRenderer(map, this.renderRatio));
         this.world = new World(this, map, this.pacmans, new ArrayList<>(), props, weapons);
+
+        this.timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                countdown--;
+                if (countdown < 0) {
+                    running = false;
+                }
+            }
+        });
+
+        this.addMapRenderer(new TimePanel(this, map.getHeight() * renderRatio, 0,
+                map.getWidth() * renderRatio / (this.numPlayers + 1), view.getFooterHeight()));
+    }
+
+    public int getCountdown() {
+        return this.countdown;
     }
 
     public int getRenderRatio() {
@@ -75,8 +101,8 @@ public class Game {
     }
 
     private void gameLoop() {
-        running = true;
-        while (running) {
+        timer.start();
+        while (this.running) {
             world.update();
             view.render();
             delay(1);
