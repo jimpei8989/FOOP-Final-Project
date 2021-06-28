@@ -23,6 +23,7 @@ import model.weapon.Spear;
 import model.weapon.Sword;
 import model.weapon.Weapon;
 import utils.Action;
+import utils.RandomCollection;
 
 class Main {
     public static void main(String[] args) {
@@ -48,10 +49,10 @@ class Main {
         for (int i = 1; i < playerNums; i++)
             keyControls.add(null);
 
-        List<Prop> props = new ArrayList<>(Arrays.asList(new SmallPointProp(), new BigPointProp(), new SlowDownProp(),
-                new SpeedUpProp(), new WineProp()));
-        List<Weapon> weapons = new ArrayList<>(
-                Arrays.asList(new BoxingGlove(), new Sword(), new Spear(), new Explosion()));
+        RandomCollection<Prop> props = new RandomCollection<Prop>().add(40, new SmallPointProp())
+                .add(20, new BigPointProp()).add(15, new SpeedUpProp()).add(15, new SlowDownProp()).add(10, new WineProp());
+        RandomCollection<Weapon> weapons = new RandomCollection<Weapon>().add(20, new BoxingGlove())
+                .add(40, new Sword()).add(40, new Spear()).add(5, new Explosion());
 
         int renderRatio = map.getMaxWidth() / map.getWidth();
         View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 4);

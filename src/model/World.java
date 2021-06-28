@@ -14,6 +14,7 @@ import model.weapon.Weapon;
 import model.weapon.WeaponState;
 import utils.Action;
 import utils.Coordinate;
+import utils.RandomCollection;
 import view.PropRenderer;
 import view.Renderable;
 import view.WeaponRenderer;
@@ -23,13 +24,13 @@ public class World {
     private Map map;
     private List<Pacman> pacmans;
     private List<Tickable> objects;
-    private List<Prop> availableProps;
-    private List<Weapon> availableWeapons;
+    private RandomCollection<Prop> availableProps;
+    private RandomCollection<Weapon> availableWeapons;
     private java.util.Map<Coordinate, Locatable> coordsWithItems = new HashMap<>();
     private final Random random;
 
-    public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects, List<Prop> availableProps,
-            List<Weapon> availableWeapons) {
+    public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects,
+            RandomCollection<Prop> availableProps, RandomCollection<Weapon> availableWeapons) {
         this.game = game;
         this.map = map;
         this.pacmans = pacmans;
@@ -47,8 +48,7 @@ public class World {
                 for (Coordinate coordinate : this.map.getRoadCoords()) {
                     if (!this.coordsWithItems.containsKey(coordinate)) {
                         if (choice == 0) {
-                            Prop prop = this.availableProps.get(this.random.nextInt(this.availableProps.size()))
-                                    .copy(coordinate);
+                            Prop prop = this.availableProps.next().copy(coordinate);
                             this.objects.add(prop);
                             addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
                             this.coordsWithItems.put(coordinate, prop);
@@ -69,8 +69,7 @@ public class World {
                 for (Coordinate coordinate : this.map.getRoadCoords()) {
                     if (!this.coordsWithItems.containsKey(coordinate)) {
                         if (choice == 0) {
-                            Weapon weapon = availableWeapons.get(random.nextInt(availableWeapons.size()))
-                                    .copy(coordinate);
+                            Weapon weapon = availableWeapons.next().copy(coordinate);
                             this.objects.add(weapon);
                             addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
                             this.coordsWithItems.put(coordinate, weapon);
