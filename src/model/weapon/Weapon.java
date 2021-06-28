@@ -185,6 +185,7 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
     public void onPickUp(Pacman p) {
         this.state = WeaponState.ready;
         this.owner = p;
+        this.owner.onWeaponGet(this);
     }
 
     // Droppable
