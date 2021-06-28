@@ -8,6 +8,8 @@ import model.interfaces.SwitchImageCallback;
 import utils.Action;
 
 public class Drunk extends State {
+    private final Random random = new Random();
+
     private DecideCallback upsiteDown = new DecideCallback() {
         public Action onDecide(Action action) {
             switch (action) {
@@ -19,6 +21,11 @@ public class Drunk extends State {
                     return Action.LEFT;
                 case LEFT:
                     return Action.RIGHT;
+                case ATTACK:
+                    if (random.nextBoolean())
+                        return Action.ATTACK;
+                    else
+                        return Action.NO_OP;
                 default:
                     return Action.NO_OP;
             }
@@ -27,7 +34,7 @@ public class Drunk extends State {
 
     private SwitchImageCallback randomChange = new SwitchImageCallback() {
         public int onSwitchImage(int idx) {
-            return new Random().nextInt() & Integer.MAX_VALUE;
+            return random.nextInt() & Integer.MAX_VALUE;
         }
     };
 
