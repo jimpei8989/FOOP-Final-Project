@@ -12,8 +12,8 @@ import utils.Direction;
 */
 
 public abstract class Weapon implements Active, Tickable, Locatable, Pickable, Droppable {
-    private Coordinate coord;
-    private WeaponState state;
+    private Coordinate coord = new Coordinate(0, 0);
+    private WeaponState state = WeaponState.onGround;
 
     protected final CoolDown cd;
     protected final CoolDown preAttackCd;
@@ -27,29 +27,33 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
     protected double zoom = 1;
     protected double degree = 0;
 
-    Weapon(Coordinate coord) {
-        this.coord = coord;
-        this.state = WeaponState.onGround;
+    Weapon() {
         this.cd = new CoolDown(this.getDefaultCoolDown());
         this.preAttackCd = new CoolDown(this.getDefaultPreAttackCoolDown());
         this.postAttackCd = new CoolDown(this.getDefaultPostAttackCoolDown());
         this.animateCd = new CoolDown(this.getDefaultAnimateCoolDown());
     }
 
-    Weapon(Weapon weapon, Coordinate coord) {
+    Weapon(Coordinate coord) {
         this.coord = coord;
-        this.state = WeaponState.onGround;
         this.cd = new CoolDown(this.getDefaultCoolDown());
         this.preAttackCd = new CoolDown(this.getDefaultPreAttackCoolDown());
         this.postAttackCd = new CoolDown(this.getDefaultPostAttackCoolDown());
         this.animateCd = new CoolDown(this.getDefaultAnimateCoolDown());
+    }
+
+    // copy constructor
+    Weapon(Weapon weapon, Coordinate coord) {
+        this.coord = coord;
+        this.cd = new CoolDown(weapon.getDefaultCoolDown());
+        this.preAttackCd = new CoolDown(weapon.getDefaultPreAttackCoolDown());
+        this.postAttackCd = new CoolDown(weapon.getDefaultPostAttackCoolDown());
+        this.animateCd = new CoolDown(weapon.getDefaultAnimateCoolDown());
     }
 
     public abstract Weapon copy(Coordinate coord);
 
-    public String getName() {
-        return "";
-    }
+    public abstract String getName();
 
     // Weapon
     public WeaponState getWeaponState() {
@@ -110,25 +114,33 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
 
     @Override
     public void onTurnEnd() {
-        if (this.state == WeaponState.cooldown) {
-            this.cd.update();
-            if (this.cd.available()) {
-                this.state = WeaponState.ready;
-            }
-        } else if (this.state == WeaponState.preAttack) {
-            this.preAttackCd.update();
-            if (this.preAttackCd.available()) {
-                this.state = WeaponState.realAttack;
-            }
-        } else if (this.state == WeaponState.realAttack) {
-            this.state = WeaponState.postAttack;
-            this.postAttackCd.reset();
-        } else if (this.state == WeaponState.postAttack) {
-            this.postAttackCd.update();
-            if (this.postAttackCd.available()) {
-                this.state = WeaponState.cooldown;
-                this.cd.reset();
-            }
+        switch (this.state) {
+            case cooldown:
+                this.cd.update();
+                if (this.cd.available()) {
+                    this.state = WeaponState.ready;
+                }
+                break;
+            case preAttack:
+                this.preAttackCd.update();
+                if (this.preAttackCd.available()) {
+                    this.state = WeaponState.realAttack;
+                }
+                break;
+            case realAttack:
+                this.state = WeaponState.postAttack;
+                this.postAttackCd.reset();
+                break;
+            case postAttack:
+                this.postAttackCd.update();
+                if (this.postAttackCd.available()) {
+                    this.state = WeaponState.cooldown;
+                    this.cd.reset();
+                }
+                break;
+            case ready:
+            default:
+                break;
         }
         this.animateCd.update();
     }

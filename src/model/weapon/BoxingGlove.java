@@ -1,29 +1,25 @@
 package model.weapon;
 
-import javax.swing.BoxLayout;
-
-import model.Pacman;
 import utils.Coordinate;
 import utils.CoordinateUtils;
 import utils.Direction;
 
-public class BoxingGlove extends Weapon {
-    private double range, radian;
-    private int damage;
+public class BoxingGlove extends HarmingWeapon {
+    private double range = 1.5, radian = Math.PI / 6;
+    private static int DEFAULT_DAMAGE = 30;
+
+    public BoxingGlove() {
+        super();
+    }
 
     public BoxingGlove(Coordinate coord) {
-        super(coord);
-        this.range = getDefaultRange();
-        this.radian = getDefaultRadian();
-        this.damage = getDefaultDamage();
+        super(coord, DEFAULT_DAMAGE);
     }
 
     public BoxingGlove(Weapon weapon, Coordinate coord) {
-        super(weapon, coord);
-        this.range = getDefaultRange();
-        this.radian = getDefaultRadian();
-        this.damage = getDefaultDamage();
+        super(weapon, coord, DEFAULT_DAMAGE);
     }
+
 
     @Override
     public Weapon copy(Coordinate coord) {
@@ -33,11 +29,6 @@ public class BoxingGlove extends Weapon {
     @Override
     public String getName() {
         return "boxing-glove";
-    }
-
-    @Override
-    public void onAttackSuccess(Pacman target) {
-        target.takeDamage(this.getDamage());
     }
 
     @Override
@@ -55,10 +46,6 @@ public class BoxingGlove extends Weapon {
         return 5;
     }
 
-    public double getDefaultRange() {
-        return 1.5;
-    }
-
     public double getRange() {
         return this.range;
     }
@@ -67,28 +54,12 @@ public class BoxingGlove extends Weapon {
         this.range = range;
     }
 
-    public double getDefaultRadian() {
-        return Math.PI / 6;
-    }
-
     public double getRadian() {
         return this.radian;
     }
 
     public void setRadian(double radian) {
         this.radian = radian;
-    }
-
-    public int getDefaultDamage() {
-        return 30;
-    }
-
-    public int getDamage() {
-        return this.damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
     }
 
     @Override

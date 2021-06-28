@@ -31,6 +31,10 @@ public class Pacman implements Locatable, Tickable, Active {
     private Controller controller;
     private CoolDown moveCd;
 
+    private ArrayList<AttackCallback> attackCallbacks = new ArrayList<>();
+    private ArrayList<TakeDamageCallback> takeDamageCallbacks = new ArrayList<>();
+    private ArrayList<DeadCallback> deadCallbacks = new ArrayList<>();
+
     public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
         this.name = name;
         this.ID = id;
@@ -55,6 +59,11 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public void setHP(int hp) {
         this.HP = hp;
+        if (this.isDead() && !this.states.containsKey("Dead")) {
+            for (DeadCallback callback : deadCallbacks)
+                callback.onDie(this);
+            this.addState(new Dead(this));
+        }
     }
 
     public void setFullHP() {
@@ -69,11 +78,10 @@ public class Pacman implements Locatable, Tickable, Active {
         return this.HP <= 0;
     }
 
-    public void takeDamage(int damage) {
-        this.HP -= damage;
-        if (this.isDead() && !this.states.containsKey("Dead")) {
-            this.addState(new Dead(this));
-        }
+    public void takeDamage(Pacman attacker, int damage) {
+        for (TakeDamageCallback callback : this.takeDamageCallbacks)
+            damage = callback.onTakeDamage(damage);
+        this.setHP(this.HP - damage);
     }
 
     public void setScore(int score) {
@@ -110,6 +118,42 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public void setMoveCd(CoolDown coolDown) {
         this.moveCd = coolDown;
+    }
+
+    public final ArrayList<AttackCallback> getAttackCallbacks() {
+        return this.attackCallbacks;
+    }
+
+    public void addAttackCallback(AttackCallback callback) {
+        this.attackCallbacks.add(callback);
+    }
+
+    public void removeAttackCallback(AttackCallback callback) {
+        this.attackCallbacks.remove(callback);
+    }
+
+    public final ArrayList<TakeDamageCallback> getTakeDamageCallbacks() {
+        return this.takeDamageCallbacks;
+    }
+
+    public void addTakeDamageCallback(TakeDamageCallback callback) {
+        this.takeDamageCallbacks.add(callback);
+    }
+
+    public void removeTakeDamageCallback(TakeDamageCallback callback) {
+        this.takeDamageCallbacks.remove(callback);
+    }
+
+    public final ArrayList<DeadCallback> getDeadCallbacks() {
+        return this.deadCallbacks;
+    }
+
+    public void addDeadCallback(DeadCallback callback) {
+        this.deadCallbacks.add(callback);
+    }
+
+    public void removeDeadCallback(DeadCallback callback) {
+        this.deadCallbacks.remove(callback);
     }
 
     public boolean canDecide() {

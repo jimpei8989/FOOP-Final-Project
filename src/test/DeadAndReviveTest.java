@@ -21,7 +21,7 @@ public class DeadAndReviveTest {
         while (counter < 10000) {
             sufferer.onTurnBegin();
             if (counter % 100 == 0) {
-                sufferer.takeDamage(40);
+                sufferer.takeDamage(null, 40);
             }
             if (counter % 100 == 0) {
                 System.out.println(sufferer.getHP());

@@ -32,7 +32,7 @@ public class Game {
     private World world;
     private List<Pacman> pacmans = new ArrayList<>();
 
-    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls) {
+    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls, List<Weapon> weapons) {
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
         this.view = view;
@@ -65,10 +65,7 @@ public class Game {
             }
         });
         addMapRenderer(new MapRenderer(map, this.renderRatio));
-        List<Weapon> weapons = new ArrayList<>();
-        weapons.add(new BoxingGlove(new Coordinate(0, 0)));
-        weapons.add(new Sword(new Coordinate(0, 0)));
-        weapons.add(new Spear(new Coordinate(0, 0)));
+
         this.world = new World(this, map, this.pacmans, new ArrayList<>(), weapons);
     }
 
