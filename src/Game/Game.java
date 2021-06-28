@@ -7,19 +7,14 @@ import java.awt.event.KeyEvent;
 
 import controller.KeyboardController;
 import controller.RandomMoveController;
-import model.interfaces.Tickable;
 import model.Pacman;
 import model.World;
 import model.map.Map;
 import model.prop.Prop;
 import model.state.SpeedChange;
-import model.weapon.BoxingGlove;
-import model.weapon.Spear;
-import model.weapon.Sword;
 import model.weapon.Weapon;
 
 import utils.Action;
-import utils.Coordinate;
 import view.FooterPanel;
 import view.MapRenderer;
 import view.PacmanRenderer;
@@ -39,8 +34,9 @@ public class Game {
         this.view = view;
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona" + i, i, 300, 300, 1, map.getPacmanInitCoords().get(i));
+            Pacman pacman = new Pacman("Fiona" + i, i, 300, 0, 1, map.getPacmanInitCoords().get(i));
             if (i != 0) {
+                // slow down the computer for debugging
                 pacman.addState(new SpeedChange(pacman, 30, 30*60));
                 // pacman.addState(new SpeedChange(pacman, -4));
             }

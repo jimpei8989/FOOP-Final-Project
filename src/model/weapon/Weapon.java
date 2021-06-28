@@ -5,7 +5,6 @@ import model.interfaces.*;
 import model.utils.CoolDown;
 import utils.Active;
 import utils.Coordinate;
-import utils.Direction;
 
 /*
     A weapon has several states, as defined in WeaponState.
