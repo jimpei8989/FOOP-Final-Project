@@ -121,7 +121,8 @@ public class Map {
     }
 
     public Coordinate adjustCoordinate(Coordinate coord) {
-        return new Coordinate(coord.getX().intValue() % this.height, coord.getY().intValue() % this.width);
+        return new Coordinate((coord.getX().intValue() % this.height + this.height) % this.height,
+                (coord.getY().intValue() % this.width + this.width) % this.width);
     }
 
     private MapGrid getGrid(Coordinate coord) {

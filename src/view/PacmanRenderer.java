@@ -22,12 +22,14 @@ public class PacmanRenderer extends Renderer {
     }
 
     public void render(Graphics g) {
-        Coordinate realCoordinate = pacman.getRealCoordinate();
-        int x = (int) (realCoordinate.getX().doubleValue() * this.renderRatio);
-        int y = (int) (realCoordinate.getY().doubleValue() * this.renderRatio);
-        BufferedImage image = imgs.get(imgIdx);
+        if (this.pacman.needToRender()) {
+            Coordinate realCoordinate = pacman.getRealCoordinate();
+            int x = (int) (realCoordinate.getX().doubleValue() * this.renderRatio);
+            int y = (int) (realCoordinate.getY().doubleValue() * this.renderRatio);
+            BufferedImage image = imgs.get(imgIdx);
 
-        rotateAndDraw(g, image, pacman.getFacing().getDegree(), x, y);
+            rotateAndDraw(g, image, pacman.getFacing().getDegree(), x, y);
+        }
         imgIdx = (imgIdx + 1) % imgs.size();
     }
 

@@ -9,7 +9,6 @@ import view.WeaponRenderer;
 import org.junit.Test;
 
 import model.Pacman;
-import model.utils.CoolDown;
 import model.weapon.BoxingGlove;
 import model.weapon.Spear;
 import model.weapon.Sword;

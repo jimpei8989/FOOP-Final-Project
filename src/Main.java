@@ -4,12 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.awt.event.KeyEvent;
 
 import Game.Game;
 import model.map.Map;
+import model.prop.BigPointProp;
+import model.prop.Prop;
+import model.prop.SlowDownProp;
+import model.prop.SmallPointProp;
+import model.prop.SpeedUpProp;
+import model.weapon.BoxingGlove;
+import model.weapon.Spear;
+import model.weapon.Sword;
+import model.weapon.Weapon;
 import utils.Action;
 
 class Main {
@@ -36,9 +46,12 @@ class Main {
         for (int i = 1; i < playerNums; i++)
             keyControls.add(null);
 
+        List<Prop> props = new ArrayList<>(Arrays.asList(new SmallPointProp(), new BigPointProp(), new SlowDownProp(), new SpeedUpProp()));
+        List<Weapon> weapons = new ArrayList<>(Arrays.asList(new BoxingGlove(), new Sword(), new Spear()));
+
         int renderRatio = map.getMaxWidth() / map.getWidth();
         View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 4);
-        Game game = new Game(playerNums, renderRatio, view, map, keyControls);
+        Game game = new Game(playerNums, renderRatio, view, map, keyControls, props, weapons);
         game.start();
     }
 }

@@ -1,42 +1,33 @@
 package model.weapon;
 
-import model.Pacman;
 import utils.Coordinate;
 import utils.CoordinateUtils;
 import utils.Direction;
 
-public class Spear extends Weapon {
-    private double frontRange;
-    private double sideRange;
-    private int damage;
+public class Spear extends HarmingWeapon {
+    private double frontRange = 2;
+    private double sideRange = 0.5;
+
+    public Spear() {
+        super();
+    }
 
     public Spear(Coordinate coord) {
-        super(coord);
-        this.frontRange = getDefaultFrontRange();
-        this.sideRange = getDefaultSideRange();
-        this.damage = getDefaultDamage();
+        super(coord, getDefaultDamage());
     }
 
     public Spear(Weapon weapon, Coordinate coord) {
-        super(weapon, coord);
-        this.frontRange = getDefaultFrontRange();
-        this.sideRange = getDefaultSideRange();
-        this.damage = getDefaultDamage();
+        super(weapon, coord, getDefaultDamage());
     }
 
     @Override
     public Weapon copy(Coordinate coord) {
-        return new Sword(this, coord);
+        return new Spear(this, coord);
     }
 
     @Override
     public String getName() {
         return "spear";
-    }
-
-    @Override
-    public void onAttackSuccess(Pacman target) {
-        target.setHP(target.getHP() - this.getDamage());
     }
 
     @Override
@@ -54,20 +45,12 @@ public class Spear extends Weapon {
         return 5;
     }
 
-    public double getDefaultFrontRange() {
-        return 2;
-    }
-
     public double getFrontRange() {
         return this.frontRange;
     }
 
     public void setFrontRange(double frontRange) {
         this.frontRange = frontRange;
-    }
-
-    public double getDefaultSideRange() {
-        return 0.5;
     }
 
     public double getSideRange() {
@@ -78,16 +61,8 @@ public class Spear extends Weapon {
         this.sideRange = sideRange;
     }
 
-    public int getDefaultDamage() {
+    public static int getDefaultDamage() {
         return 30;
-    }
-
-    public int getDamage() {
-        return this.damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
     }
 
     @Override

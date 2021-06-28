@@ -21,11 +21,13 @@ public class WeaponRenderer extends Renderer {
     }
 
     public void render(Graphics g) {
-        Coordinate realCoordinate = this.weapon.getRealCoordinate();
-        int x = (int) (realCoordinate.getX().doubleValue() * this.renderRatio);
-        int y = (int) (realCoordinate.getY().doubleValue() * this.renderRatio);
+        if (this.weapon.needToRender()) {
+            Coordinate realCoordinate = this.weapon.getRealCoordinate();
+            int x = (int) (realCoordinate.getX().doubleValue() * this.renderRatio);
+            int y = (int) (realCoordinate.getY().doubleValue() * this.renderRatio);
 
-        rotateAndDraw(g, this.weaponImg, (int) this.weapon.getDegree(), x, y);
+            rotateAndDraw(g, this.weaponImg, (int) this.weapon.getDegree(), x, y);
+        }
     }
 
     private void rotateAndDraw(Graphics g, BufferedImage image, int degree, int x, int y) {
@@ -48,6 +50,6 @@ public class WeaponRenderer extends Renderer {
 
     @Override
     public boolean isActive() {
-        return this.weapon.needToRender();
+        return this.weapon.isActive();
     }
 }
