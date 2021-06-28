@@ -138,7 +138,6 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
                     this.cd.reset();
                 }
                 break;
-            case ready:
             default:
                 break;
         }

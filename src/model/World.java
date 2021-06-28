@@ -13,6 +13,7 @@ import model.prop.SmallPointProp;
 import model.weapon.BoxingGlove;
 import model.weapon.Sword;
 import model.weapon.Weapon;
+import model.weapon.WeaponState;
 import utils.Action;
 import utils.Coordinate;
 import view.PropRenderer;
@@ -62,6 +63,17 @@ public class World {
                     // attack
                     if (pacman.canAttack()) {
                         pacman.attack();
+                    }
+                }
+            } else if (pacman.isAttacking()) {
+                Weapon weapon = pacman.getWeapon();
+                if (weapon.getWeaponState() == WeaponState.realAttack) {
+                    for (Pacman other : this.pacmans) {
+                        if (pacman == other)
+                            continue;
+                        if (weapon.inRange(other.getRealCoordinate())) {
+                            weapon.onAttackSuccess(other);
+                        }
                     }
                 }
             }

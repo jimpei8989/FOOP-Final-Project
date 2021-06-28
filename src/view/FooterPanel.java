@@ -43,6 +43,7 @@ public class FooterPanel implements Renderable {
         g.drawString(String.format("move: %02d/%d", this.pacman.getMoveCd().getCurrent(), 
                 this.pacman.getMoveCd().getInterval()), this.y + 35, this.x + 44);
         g.drawString(String.format("%d", this.pacman.getScore()), this.y + 35, this.x + 64);
+        g.drawString(String.format("blood: %d", this.pacman.getHP()), this.y + 85, this.x + 64);
     }
 
     @Override
