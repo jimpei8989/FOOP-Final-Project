@@ -33,6 +33,7 @@ public class Pacman implements Locatable, Tickable, Active {
     private ArrayList<TakeDamageCallback> takeDamageCallbacks = new ArrayList<>();
     private ArrayList<DeadCallback> deadCallbacks = new ArrayList<>();
     private ArrayList<DecideCallback> decideCallbacks = new ArrayList<>();
+    private ArrayList<SwitchImageCallback> switchImageCallbacks = new ArrayList<>();
 
     public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
         this.name = name;
@@ -165,6 +166,18 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public void removeDecideCallback(DecideCallback callback) {
         this.decideCallbacks.remove(callback);
+    }
+
+    public final ArrayList<SwitchImageCallback> getSwitchImageCallbacks() {
+        return this.switchImageCallbacks;
+    }
+
+    public void addSwitchImageCallback(SwitchImageCallback callback) {
+        this.switchImageCallbacks.add(callback);
+    }
+
+    public void removeSwitchImageCallback(SwitchImageCallback callback) {
+        this.switchImageCallbacks.remove(callback);
     }
 
     public boolean canDecide() {

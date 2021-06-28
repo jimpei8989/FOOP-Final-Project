@@ -42,9 +42,9 @@ public class WeaponViewTest {
     public void testAttack() throws InterruptedException {
         View view = new View();
         // Weapon weapon = new Sword(new Coordinate(5, 6));
-        Weapon weapon = new BoxingGlove(new Coordinate(6, 5));
+        // Weapon weapon = new BoxingGlove(new Coordinate(6, 5));
         // Weapon weapon = new Spear(new Coordinate(6, 6));
-        // Weapon weapon = new Explosion(new Coordinate(7, 7));
+        Weapon weapon = new Explosion(new Coordinate(7, 7));
         view.addObjectRenderer(new WeaponRenderer(weapon, 20));
         Pacman attacker = utils.fakePacman(new Coordinate(5, 5));
         attacker.setFacing(Direction.LEFT);

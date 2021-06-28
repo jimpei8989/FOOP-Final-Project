@@ -3,8 +3,6 @@ package test;
 import org.junit.jupiter.api.Test;
 
 import model.Pacman;
-import model.state.Normal;
-import model.state.Dead;
 import utils.Coordinate;
 import view.View;
 import view.PacmanRenderer;
@@ -15,7 +13,6 @@ public class DeadAndReviveTest {
         View view = new View();
         Coordinate coordinate = new Coordinate(10, 20);
         Pacman sufferer = new Pacman("Dylan", 0, 300, 300, 2, coordinate);
-        // sufferer.addState(new Dead(sufferer));
         view.addPacmanRenderer(new PacmanRenderer(sufferer, 10));
         int counter = 0;
         while (counter < 10000) {

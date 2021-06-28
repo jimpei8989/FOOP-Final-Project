@@ -2,6 +2,7 @@ package model.state;
 
 import model.Pacman;
 import model.interfaces.DecideCallback;
+import model.interfaces.SwitchImageCallback;
 import utils.Action;
 
 public class Stunned extends State {
@@ -11,14 +12,22 @@ public class Stunned extends State {
         }
     };
 
+    private SwitchImageCallback dontChange = new SwitchImageCallback() {
+        public int onSwitchImage(int idx) {
+            return idx;
+        }
+    };
+
     public Stunned(Pacman target) {
-        super("Stunned", target, 150);
-        this.target.addDecideCallback(cannotDecide);
+        super("Stunned", target, 60);
+        this.target.addDecideCallback(this.cannotDecide);
+        this.target.addSwitchImageCallback(this.dontChange);
     }
 
     public Stunned(State state, Pacman target) {
         super(state, target);
-        this.target.addDecideCallback(cannotDecide);
+        this.target.addDecideCallback(this.cannotDecide);
+        this.target.addSwitchImageCallback(this.dontChange);
     }
 
     @Override
@@ -29,5 +38,6 @@ public class Stunned extends State {
     @Override
     public void onStateWillChange() {
         this.target.removeDecideCallback(this.cannotDecide);
+        this.target.removeSwitchImageCallback(this.dontChange);
     }
 }

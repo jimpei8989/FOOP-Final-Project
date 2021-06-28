@@ -16,6 +16,7 @@ import model.prop.Prop;
 import model.prop.SlowDownProp;
 import model.prop.SmallPointProp;
 import model.prop.SpeedUpProp;
+import model.prop.WineProp;
 import model.weapon.BoxingGlove;
 import model.weapon.Explosion;
 import model.weapon.Spear;
@@ -47,8 +48,8 @@ class Main {
         for (int i = 1; i < playerNums; i++)
             keyControls.add(null);
 
-        List<Prop> props = new ArrayList<>(
-                Arrays.asList(new SmallPointProp(), new BigPointProp(), new SlowDownProp(), new SpeedUpProp()));
+        List<Prop> props = new ArrayList<>(Arrays.asList(new SmallPointProp(), new BigPointProp(), new SlowDownProp(),
+                new SpeedUpProp(), new WineProp()));
         List<Weapon> weapons = new ArrayList<>(
                 Arrays.asList(new BoxingGlove(), new Sword(), new Spear(), new Explosion()));
 

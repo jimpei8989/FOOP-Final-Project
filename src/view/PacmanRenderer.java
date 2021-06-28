@@ -6,6 +6,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import model.Pacman;
+import model.interfaces.SwitchImageCallback;
 import utils.Coordinate;
 import static utils.ImageUtils.pacmanImgsFromFolder;
 
@@ -30,7 +31,12 @@ public class PacmanRenderer extends Renderer {
 
             rotateAndDraw(g, image, pacman.getFacing().getDegree(), x, y);
         }
-        imgIdx = (imgIdx + 1) % imgs.size();
+        if (this.pacman.getSwitchImageCallbacks().size() == 0)
+            imgIdx = (imgIdx + 1) % imgs.size();
+        else {
+            for (SwitchImageCallback switchImageCallback : this.pacman.getSwitchImageCallbacks())
+                imgIdx = switchImageCallback.onSwitchImage(imgIdx) % imgs.size();
+        }
     }
 
     private void rotateAndDraw(Graphics g, BufferedImage image, int degree, int x, int y) {
