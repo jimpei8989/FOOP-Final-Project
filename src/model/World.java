@@ -10,9 +10,6 @@ import model.interfaces.Pickable;
 import model.interfaces.Tickable;
 import model.map.Map;
 import model.prop.Prop;
-import model.prop.SmallPointProp;
-import model.weapon.BoxingGlove;
-import model.weapon.Sword;
 import model.weapon.Weapon;
 import model.weapon.WeaponState;
 import utils.Action;
@@ -46,11 +43,34 @@ public class World {
         for (Coordinate coordinate : this.map.getRoadCoords()) {
             if (!this.coordsWithItems.containsKey(coordinate)) {
                 if (random.nextInt(1000) < 1) {
+                    // TODO: make weighted random sampling
                     Prop prop = this.availableProps.get(this.random.nextInt(this.availableProps.size()))
                             .copy(coordinate);
                     this.objects.add(prop);
                     addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
                     this.coordsWithItems.put(coordinate, prop);
+                }
+            }
+        }
+    }
+
+    private void generateWeapons() {
+        if (random.nextInt(300) < 1) {
+            int cnt = this.map.getRoadCoords().size() - this.coordsWithItems.size();
+            if (cnt > 0) {
+                int choice = random.nextInt(cnt);
+                for (Coordinate coordinate : this.map.getRoadCoords()) {
+                    if (!this.coordsWithItems.containsKey(coordinate)) {
+                        if (choice == 0) {
+                            Weapon weapon = availableWeapons.get(random.nextInt(availableWeapons.size()))
+                                    .copy(coordinate);
+                            this.objects.add(weapon);
+                            addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
+                            this.coordsWithItems.put(coordinate, weapon);
+                            break;
+                        }
+                        choice -= 1;
+                    }
                 }
             }
         }
@@ -105,25 +125,7 @@ public class World {
         this.generateProps();
 
         // 4) add some weapon, appear once every 300 ticks on average
-        if (random.nextInt(300) < 1) {
-            int cnt = this.map.getRoadCoords().size() - this.coordsWithItems.size();
-            if (cnt > 0) {
-                int choice = random.nextInt(cnt);
-                for (Coordinate coordinate : this.map.getRoadCoords()) {
-                    if (!this.coordsWithItems.containsKey(coordinate)) {
-                        if (choice == 0) {
-                            Weapon weapon = availableWeapons.get(random.nextInt(availableWeapons.size()))
-                                    .copy(coordinate);
-                            this.objects.add(weapon);
-                            addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
-                            this.coordsWithItems.put(coordinate, weapon);
-                            break;
-                        }
-                        choice -= 1;
-                    }
-                }
-            }
-        }
+        this.generateWeapons();
 
         for (Tickable object : objects) {
             object.onTurnBegin();
