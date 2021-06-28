@@ -9,7 +9,8 @@ import model.interfaces.Locatable;
 import model.interfaces.Pickable;
 import model.interfaces.Tickable;
 import model.map.Map;
-import model.prop.SmallPointProp;
+import model.prop.Prop;
+import model.prop.PropUtils;
 import model.weapon.BoxingGlove;
 import model.weapon.Sword;
 import model.weapon.Weapon;
@@ -72,13 +73,21 @@ public class World {
         // 2) TODO: Finalize pacman's move
 
         // 3) TODO: add some more props
-        for (Coordinate coordinate : this.map.getRoadCoords()) {
-            if (!this.coordsWithItems.containsKey(coordinate)) {
-                if (random.nextInt(1000) < 1) {
-                    SmallPointProp prop = new SmallPointProp(coordinate);
-                    this.objects.add(prop);
-                    addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
-                    this.coordsWithItems.put(coordinate, prop);
+        if (random.nextInt(5) < 1) {
+            int cnt = this.map.getRoadCoords().size() - this.coordsWithItems.size();
+            if (cnt > 0) {
+                int choice = random.nextInt(this.map.getRoadCoords().size());
+                for (Coordinate coordinate : this.map.getRoadCoords()) {
+                    if (!this.coordsWithItems.containsKey(coordinate)) {
+                        if (choice == 0) {
+                            Prop prop = PropUtils.getRandomProp(random, coordinate);
+                            this.objects.add(prop);
+                            addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
+                            this.coordsWithItems.put(coordinate, prop);
+                            break;
+                        }
+                        choice--;
+                    }
                 }
             }
         }
