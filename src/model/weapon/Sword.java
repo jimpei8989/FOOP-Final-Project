@@ -85,7 +85,8 @@ public class Sword extends HarmingWeapon {
 
         double turning = this.animateCd.getPercent();
 
-        this.degree = 450 * turning + originDegree + 45; // It looks better on turning 450 degrees.
+        this.degree = -(450 * turning + originDegree + 45); // It looks better on turning 450
+                                                            // degrees.
         this.animateCoordinate = CoordinateUtils.fromPolar(this.range * progress, this.degree - 90);
 
         // System.out.printf("%f %f %f %s\n", progress, turning, this.degree,
