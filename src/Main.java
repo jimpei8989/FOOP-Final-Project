@@ -13,7 +13,9 @@ import Game.Game;
 import model.map.Map;
 import model.prop.BigPointProp;
 import model.prop.Prop;
+import model.prop.SlowDownProp;
 import model.prop.SmallPointProp;
+import model.prop.SpeedUpProp;
 import model.weapon.BoxingGlove;
 import model.weapon.Spear;
 import model.weapon.Sword;
@@ -44,7 +46,7 @@ class Main {
         for (int i = 1; i < playerNums; i++)
             keyControls.add(null);
 
-        List<Prop> props = new ArrayList<>(Arrays.asList(new SmallPointProp(), new BigPointProp()));
+        List<Prop> props = new ArrayList<>(Arrays.asList(new SmallPointProp(), new BigPointProp(), new SlowDownProp(), new SpeedUpProp()));
         List<Weapon> weapons = new ArrayList<>(Arrays.asList(new BoxingGlove(), new Sword(), new Spear()));
 
         int renderRatio = map.getMaxWidth() / map.getWidth();

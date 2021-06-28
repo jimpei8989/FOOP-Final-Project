@@ -6,9 +6,10 @@ import utils.Coordinate;
 public abstract class PointProp extends Prop {
     protected abstract int getPoint();
 
-    public PointProp(String name){
+    public PointProp(String name) {
         super(name);
     }
+
     public PointProp(String name, Coordinate coord) {
         super(name, coord);
     }

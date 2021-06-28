@@ -97,18 +97,26 @@ public class World {
                     // is a kind of direction
                     if (this.map.canPass(pacman.getCoordinate(), action.getDirection())) {
                         pacman.move(action.getDirection());
-                        Coordinate coordinate = pacman.getCoordinate();
-                        if (this.coordsWithItems.containsKey(coordinate)) {
-                            Pickable object = (Pickable) this.coordsWithItems.get(coordinate);
-                            object.onPickUp(pacman);
-                            this.coordsWithItems.remove(coordinate);
-                        }
                     }
                 } else if (action == Action.ATTACK) {
                     // attack
                     if (pacman.canAttack()) {
                         pacman.attack();
                     }
+                }
+            }
+
+            pacman.onTurnEnd();
+        }
+
+        // 2) TODO: Finalize pacman's move
+        for (Pacman pacman : this.pacmans) {
+            if (pacman.canDecide()) {
+                Coordinate coord = pacman.getCoordinate();
+                if (this.coordsWithItems.containsKey(coord)) {
+                    Pickable object = (Pickable) this.coordsWithItems.get(coord);
+                    object.onPickUp(pacman);
+                    this.coordsWithItems.remove(coord);
                 }
             } else if (pacman.isAttacking()) {
                 Weapon weapon = pacman.getWeapon();
@@ -122,11 +130,7 @@ public class World {
                     }
                 }
             }
-
-            pacman.onTurnEnd();
         }
-
-        // 2) TODO: Finalize pacman's move
 
         // 3) TODO: add some more props
         this.generateProps();

@@ -5,6 +5,10 @@ import model.state.SpeedChange;
 import utils.Coordinate;
 
 public class SpeedUpProp extends SpeedProp {
+    public SpeedUpProp() {
+        super("SpeedUp");
+    }
+
     public SpeedUpProp(Coordinate coord) {
         super("SpeedUp", coord);
     }

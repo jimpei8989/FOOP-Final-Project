@@ -5,6 +5,10 @@ import model.state.SpeedChange;
 import utils.Coordinate;
 
 public class SlowDownProp extends SpeedProp {
+    public SlowDownProp() {
+        super("SlowDown");
+    }
+
     public SlowDownProp(Coordinate coord) {
         super("SlowDown", coord);
     }

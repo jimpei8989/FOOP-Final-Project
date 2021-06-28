@@ -22,7 +22,7 @@ public class Spear extends HarmingWeapon {
 
     @Override
     public Weapon copy(Coordinate coord) {
-        return new Sword(this, coord);
+        return new Spear(this, coord);
     }
 
     @Override
