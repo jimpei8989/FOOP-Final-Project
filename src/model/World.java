@@ -9,6 +9,7 @@ import model.interfaces.Locatable;
 import model.interfaces.Pickable;
 import model.interfaces.Tickable;
 import model.map.Map;
+import model.prop.Prop;
 import model.prop.SmallPointProp;
 import model.weapon.BoxingGlove;
 import model.weapon.Sword;
@@ -25,17 +26,34 @@ public class World {
     private Map map;
     private List<Pacman> pacmans;
     private List<Tickable> objects;
-    private List<Weapon> weapons;
+    private List<Prop> availableProps;
+    private List<Weapon> availableWeapons;
     private java.util.Map<Coordinate, Locatable> coordsWithItems = new HashMap<>();
     private final Random random;
 
-    public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects, List<Weapon> weapons) {
+    public World(Game game, Map map, List<Pacman> pacmans, List<Tickable> objects, List<Prop> availableProps,
+            List<Weapon> availableWeapons) {
         this.game = game;
         this.map = map;
         this.pacmans = pacmans;
         this.objects = objects;
-        this.weapons = weapons;
+        this.availableProps = availableProps;
+        this.availableWeapons = availableWeapons;
         this.random = new Random();
+    }
+
+    private void generateProps() {
+        for (Coordinate coordinate : this.map.getRoadCoords()) {
+            if (!this.coordsWithItems.containsKey(coordinate)) {
+                if (random.nextInt(1000) < 1) {
+                    Prop prop = this.availableProps.get(this.random.nextInt(this.availableProps.size()))
+                            .copy(coordinate);
+                    this.objects.add(prop);
+                    addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
+                    this.coordsWithItems.put(coordinate, prop);
+                }
+            }
+        }
     }
 
     private void tick() {
@@ -84,16 +102,7 @@ public class World {
         // 2) TODO: Finalize pacman's move
 
         // 3) TODO: add some more props
-        for (Coordinate coordinate : this.map.getRoadCoords()) {
-            if (!this.coordsWithItems.containsKey(coordinate)) {
-                if (random.nextInt(1000) < 1) {
-                    SmallPointProp prop = new SmallPointProp(coordinate);
-                    this.objects.add(prop);
-                    addObjectRenderer(new PropRenderer(prop, this.game.getRenderRatio()));
-                    this.coordsWithItems.put(coordinate, prop);
-                }
-            }
-        }
+        this.generateProps();
 
         // 4) add some weapon, appear once every 300 ticks on average
         if (random.nextInt(300) < 1) {
@@ -103,7 +112,8 @@ public class World {
                 for (Coordinate coordinate : this.map.getRoadCoords()) {
                     if (!this.coordsWithItems.containsKey(coordinate)) {
                         if (choice == 0) {
-                            Weapon weapon = weapons.get(random.nextInt(weapons.size())).copy(coordinate);
+                            Weapon weapon = availableWeapons.get(random.nextInt(availableWeapons.size()))
+                                    .copy(coordinate);
                             this.objects.add(weapon);
                             addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
                             this.coordsWithItems.put(coordinate, weapon);

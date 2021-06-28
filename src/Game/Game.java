@@ -11,6 +11,7 @@ import model.interfaces.Tickable;
 import model.Pacman;
 import model.World;
 import model.map.Map;
+import model.prop.Prop;
 import model.state.SpeedChange;
 import model.weapon.BoxingGlove;
 import model.weapon.Spear;
@@ -32,7 +33,7 @@ public class Game {
     private World world;
     private List<Pacman> pacmans = new ArrayList<>();
 
-    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls, List<Weapon> weapons) {
+    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls, List<Prop> props, List<Weapon> weapons) {
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
         this.view = view;
@@ -66,7 +67,7 @@ public class Game {
         });
         addMapRenderer(new MapRenderer(map, this.renderRatio));
 
-        this.world = new World(this, map, this.pacmans, new ArrayList<>(), weapons);
+        this.world = new World(this, map, this.pacmans, new ArrayList<>(), props, weapons);
     }
 
     public int getRenderRatio() {
