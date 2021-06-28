@@ -54,6 +54,16 @@ public class ImageUtils {
         }
     }
 
+    public static BufferedImage trophyImgFromFile(int ranking) {
+        try {
+            String filePath = String.format("assets/trophies/%d.png", ranking);
+            return readImage(readFile(Path.of(filePath)));
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException(e);
+        }
+
+    }
+
     private static File readFile(Path filePath) {
         return filePath.toFile();
     }

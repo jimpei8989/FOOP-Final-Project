@@ -36,7 +36,7 @@ public class Game {
     private int numPlayers, renderRatio;
     private View view;
     private World world;
-    private List<Pacman> pacmans = new ArrayList<>();
+    private List<Pacman> pacmans;
     private int countdown = 30;
     private Timer timer;
 
@@ -45,6 +45,7 @@ public class Game {
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
         this.view = view;
+        this.pacmans = new ArrayList<>();
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
             Pacman pacman = new Pacman("Fiona" + i, i, 300, 300, 1, map.getPacmanInitCoords().get(i));
@@ -113,6 +114,8 @@ public class Game {
             view.render();
             delay(1);
         }
+        view.setSortedPacmans(this.pacmans);
+        view.renderResult();
     }
 
     private void delay(int ticks) {
