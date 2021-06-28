@@ -32,6 +32,7 @@ public class Game {
     private int numPlayers, renderRatio;
     private View view;
     private World world;
+
     private List<Pacman> pacmans = new ArrayList<>();
     private int countdown = 300;
     private Timer timer;
@@ -107,6 +108,8 @@ public class Game {
             view.render();
             delay(1);
         }
+        view.setSortedPacmans(this.pacmans);
+        view.renderResult();
     }
 
     private void delay(int ticks) {

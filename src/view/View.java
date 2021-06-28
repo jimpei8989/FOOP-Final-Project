@@ -2,9 +2,12 @@ package view;
 
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -12,14 +15,23 @@ import java.util.ListIterator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import javax.swing.text.AttributeSet.ColorAttribute;
 
+import model.Pacman;
 import utils.Active;
+import utils.ImageUtils;
+
+import static utils.ImageUtils.pacmanImgsFromFolder;
+import static utils.ImageUtils.trophyImgFromFile;
 
 public class View extends JFrame {
     private int width = 1440, height = 300, footerHeight = 30;
     private List<Renderable> pacmanRenderers = new LinkedList<>(), mapRenderers = new LinkedList<>(),
             objectRenderers = new LinkedList<>();
     private Canvas canvas = new Canvas();
+    private ResultCanvas resultCanvas = new ResultCanvas();
+    private Font font = new Font("Calibri", Font.PLAIN, 20);
+    private List<Pacman> pacmans;
 
     {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -59,6 +71,11 @@ public class View extends JFrame {
         return this.footerHeight;
     }
 
+    public void setSortedPacmans(List<Pacman> pacmans) {
+        this.pacmans = pacmans;
+        this.pacmans.sort(new PacmanComparator());
+    }
+
     public void addPacmanRenderer(Renderable pacmanRenderer) {
         this.pacmanRenderers.add(pacmanRenderer);
     }
@@ -78,6 +95,12 @@ public class View extends JFrame {
         this.canvas.repaint();
     }
 
+    public void renderResult() {
+        this.setContentPane(this.resultCanvas);
+        this.setVisible(true);
+        this.resultCanvas.repaint();
+    }
+
     private void render(Graphics g) {
         synchronized (objectRenderers) {
             List<List<Renderable>> renderersArray = new ArrayList<>(
@@ -95,6 +118,29 @@ public class View extends JFrame {
         }
     }
 
+    private void renderResult(Graphics g) {
+        g.setFont(font);
+        for (int i = 0; i < this.pacmans.size(); i++) {
+            Pacman pacman = this.pacmans.get(i);
+            renderPacmanRanking(g, i, pacman, 50 * (i + 1), 560);
+        }
+    }
+
+    private void renderPacmanRanking(Graphics g, int ranking, Pacman pacman, int x, int y) {
+        String folderPath = String.format("assets/pacmans/pacman_%d", pacman.getID());
+
+        if (ranking < 3) {
+            BufferedImage trophy = ImageUtils.trophyImgFromFile(ranking);
+            g.drawImage(trophy, y + 2, x + 2, 30, 30, null);
+
+        }
+        BufferedImage img = pacmanImgsFromFolder(folderPath).get(2);
+        g.drawImage(img, y + 40, x + 2, 30, 30, null);
+        g.setColor(Color.WHITE);
+        g.drawString(pacman.getName(), y + 80, x + 24);
+        g.drawString(String.format("%d", pacman.getScore()), y + 200, x + 24);
+    }
+
     private class Canvas extends JPanel {
         @Override
         protected void paintComponent(Graphics g /* paintbrush */) {
@@ -105,5 +151,23 @@ public class View extends JFrame {
 
             View.this.render(g);
         }
+    }
+
+    private class ResultCanvas extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, View.this.getWidth(), View.this.getHeight());
+
+            View.this.renderResult(g);
+        }
+    }
+}
+
+class PacmanComparator implements Comparator<Pacman> {
+    @Override
+    public int compare(Pacman p1, Pacman p2) {
+        return p2.getScore() - p1.getScore();
     }
 }
