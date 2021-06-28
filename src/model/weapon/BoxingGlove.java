@@ -6,18 +6,17 @@ import utils.Direction;
 
 public class BoxingGlove extends HarmingWeapon {
     private double range = 1.5, radian = Math.PI / 6;
-    private static int DEFAULT_DAMAGE = 30;
 
     public BoxingGlove() {
         super();
     }
 
     public BoxingGlove(Coordinate coord) {
-        super(coord, DEFAULT_DAMAGE);
+        super(coord, BoxingGlove.getDefaultDamage());
     }
 
     public BoxingGlove(Weapon weapon, Coordinate coord) {
-        super(weapon, coord, DEFAULT_DAMAGE);
+        super(weapon, coord, BoxingGlove.getDefaultDamage());
     }
 
 
@@ -44,6 +43,10 @@ public class BoxingGlove extends HarmingWeapon {
     @Override
     public int getDefaultPostAttackCoolDown() {
         return 5;
+    }
+
+    public static int getDefaultDamage() {
+        return 30;
     }
 
     public double getRange() {

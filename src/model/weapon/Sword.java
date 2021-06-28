@@ -1,24 +1,22 @@
 package model.weapon;
 
-import model.Pacman;
 import utils.Coordinate;
 import utils.CoordinateUtils;
 import utils.Direction;
 
-public class Sword extends Weapon {
-    private double range;
-    private int damage;
+public class Sword extends HarmingWeapon {
+    private double range = 1;
+
+    public Sword() {
+        super();
+    }
 
     public Sword(Coordinate coord) {
-        super(coord);
-        this.range = getDefaultRange();
-        this.damage = getDefaultDamage();
+        super(coord, getDefaultDamage());
     }
 
     public Sword(Weapon weapon, Coordinate coord) {
-        super(weapon, coord);
-        this.range = getDefaultRange();
-        this.damage = getDefaultDamage();
+        super(weapon, coord, getDefaultDamage());
     }
 
     @Override
@@ -29,11 +27,6 @@ public class Sword extends Weapon {
     @Override
     public String getName() {
         return "sword";
-    }
-
-    @Override
-    public void onAttackSuccess(Pacman target) {
-        target.takeDamage(this.getDamage());
     }
 
     @Override
@@ -51,10 +44,6 @@ public class Sword extends Weapon {
         return 5;
     }
 
-    public double getDefaultRange() {
-        return 1;
-    }
-
     public double getRange() {
         return this.range;
     }
@@ -63,16 +52,8 @@ public class Sword extends Weapon {
         this.range = range;
     }
 
-    public int getDefaultDamage() {
+    public static int getDefaultDamage() {
         return 30;
-    }
-
-    public int getDamage() {
-        return this.damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
     }
 
     @Override
