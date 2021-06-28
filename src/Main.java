@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 
 import Game.Game;
 import model.map.Map;
+import model.prop.BigPointProp;
 import model.prop.Prop;
 import model.prop.SmallPointProp;
 import model.weapon.BoxingGlove;
@@ -18,7 +19,6 @@ import model.weapon.Spear;
 import model.weapon.Sword;
 import model.weapon.Weapon;
 import utils.Action;
-import utils.Coordinate;
 
 class Main {
     public static void main(String[] args) {
@@ -44,8 +44,8 @@ class Main {
         for (int i = 1; i < playerNums; i++)
             keyControls.add(null);
 
-        List<Prop> props = new ArrayList<>(Arrays.asList(new SmallPointProp()));
-        List<Weapon> weapons = new ArrayList<>(Arrays.asList(new BoxingGlove())); // , new Sword(), new Spear()));
+        List<Prop> props = new ArrayList<>(Arrays.asList(new SmallPointProp(), new BigPointProp()));
+        List<Weapon> weapons = new ArrayList<>(Arrays.asList(new BoxingGlove(), new Sword(), new Spear()));
 
         int renderRatio = map.getMaxWidth() / map.getWidth();
         View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 4);
