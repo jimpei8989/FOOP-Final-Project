@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import model.Pacman;
 import model.weapon.BoxingGlove;
+import model.weapon.Explosion;
 import model.weapon.Spear;
 import model.weapon.Sword;
 import model.weapon.Weapon;
@@ -41,10 +42,9 @@ public class WeaponViewTest {
     public void testAttack() throws InterruptedException {
         View view = new View();
         // Weapon weapon = new Sword(new Coordinate(5, 6));
-        // view.addObjectRenderer(new WeaponRenderer(weapon, 20));
-        // Weapon weapon = new BoxingGlove(new Coordinate(6, 5));
-        // view.addObjectRenderer(new WeaponRenderer(weapon, 20));
-        Weapon weapon = new Spear(new Coordinate(6, 6));
+        Weapon weapon = new BoxingGlove(new Coordinate(6, 5));
+        // Weapon weapon = new Spear(new Coordinate(6, 6));
+        // Weapon weapon = new Explosion(new Coordinate(7, 7));
         view.addObjectRenderer(new WeaponRenderer(weapon, 20));
         Pacman attacker = utils.fakePacman(new Coordinate(5, 5));
         attacker.setFacing(Direction.LEFT);

@@ -32,6 +32,7 @@ public class Pacman implements Locatable, Tickable, Active {
     private ArrayList<AttackCallback> attackCallbacks = new ArrayList<>();
     private ArrayList<TakeDamageCallback> takeDamageCallbacks = new ArrayList<>();
     private ArrayList<DeadCallback> deadCallbacks = new ArrayList<>();
+    private ArrayList<DecideCallback> decideCallbacks = new ArrayList<>();
 
     public Pacman(String name, int id, int hp, int score, int tickPerGrid, Coordinate coordinate) {
         this.name = name;
@@ -154,6 +155,18 @@ public class Pacman implements Locatable, Tickable, Active {
         this.deadCallbacks.remove(callback);
     }
 
+    public final ArrayList<DecideCallback> getDecideCallbacks() {
+        return this.decideCallbacks;
+    }
+
+    public void addDecideCallback(DecideCallback callback) {
+        this.decideCallbacks.add(callback);
+    }
+
+    public void removeDecideCallback(DecideCallback callback) {
+        this.decideCallbacks.remove(callback);
+    }
+
     public boolean canDecide() {
         return !this.isMoving() && !this.isAttacking() && !this.isDead();
     }
@@ -185,7 +198,10 @@ public class Pacman implements Locatable, Tickable, Active {
 
     // Cotroller
     public Action decide() {
-        return this.controller.decide();
+        Action action = this.controller.decide();
+        for (DecideCallback callback : this.decideCallbacks)
+            action = callback.onDecide(action);
+        return action;
     }
 
     public State getStateByName(String name) {

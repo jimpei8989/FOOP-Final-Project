@@ -20,6 +20,15 @@ public abstract class State implements Tickable, Active {
         this.turn = turn;
     }
 
+    // copy constructor
+    State(State state, Pacman target) {
+        this.name = state.name;
+        this.target = target;
+        this.turn = state.turn;
+    }
+
+    public abstract State copy(Pacman target);
+
     @Override
     public String toString() {
         return this.name;

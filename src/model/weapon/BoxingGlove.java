@@ -5,7 +5,7 @@ import utils.CoordinateUtils;
 import utils.Direction;
 
 public class BoxingGlove extends HarmingWeapon {
-    private double range = 1.5, radian = Math.PI / 6;
+    private double range = 2.5, radian = Math.PI / 6;
 
     public BoxingGlove() {
         super();
@@ -18,7 +18,6 @@ public class BoxingGlove extends HarmingWeapon {
     public BoxingGlove(Weapon weapon, Coordinate coord) {
         super(weapon, coord, BoxingGlove.getDefaultDamage());
     }
-
 
     @Override
     public Weapon copy(Coordinate coord) {
@@ -67,7 +66,7 @@ public class BoxingGlove extends HarmingWeapon {
 
     @Override
     public boolean inRange(Coordinate coord) {
-        // A 60-degree sector with radius 1.5 units by default.
+        // A 60-degree sector with radius 2.5 units by default.
         Coordinate center = this.owner.getCoordinate();
         Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
@@ -93,6 +92,6 @@ public class BoxingGlove extends HarmingWeapon {
 
         this.degree = originDegree;
         this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getRange() * progress);
-        this.zoom = progress;
+        this.zoom = progress * this.getRange();
     }
 }

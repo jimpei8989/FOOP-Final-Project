@@ -5,7 +5,7 @@ import utils.CoordinateUtils;
 import utils.Direction;
 
 public class Spear extends HarmingWeapon {
-    private double frontRange = 2;
+    private double frontRange = 4;
     private double sideRange = 0.5;
 
     public Spear() {
@@ -67,7 +67,7 @@ public class Spear extends HarmingWeapon {
 
     @Override
     public boolean inRange(Coordinate coord) {
-        // The rectangle with 2 units long and 1 unit wide by default.
+        // The rectangle with 4 units long and 1 unit wide by default.
         Coordinate center = this.owner.getCoordinate();
         Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);

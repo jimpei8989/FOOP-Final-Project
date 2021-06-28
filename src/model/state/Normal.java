@@ -11,6 +11,15 @@ public class Normal extends State {
         this.coolDown = target.getMoveCd();
     }
 
+    public Normal(State state, Pacman target) {
+        super(state, target);
+    }
+
+    @Override
+    public State copy(Pacman target) {
+        return new Normal(this, target);
+    }
+
     public CoolDown getCoolDown() {
         return this.coolDown;
     }

@@ -21,6 +21,22 @@ public class SpeedChange extends State {
         this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.target.getMoveCd().getPercent())));
     }
 
+    public SpeedChange(State state, Pacman target) {
+        super(state, target);
+        this.speedChange = ((SpeedChange) state).getSpeedChange();
+        this.coolDown = new CoolDown(target.getDefaultMoveCoolDown() + speedChange);
+        this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.target.getMoveCd().getPercent())));
+    }
+
+    @Override
+    public State copy(Pacman target) {
+        return new SpeedChange(this, target);
+    }
+
+    public int getSpeedChange() {
+        return this.speedChange;
+    }
+
     @Override
     public void onTurnBegin() {
         super.onTurnBegin();

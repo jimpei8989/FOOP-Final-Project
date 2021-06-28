@@ -5,7 +5,16 @@ import model.Pacman;
 public class Dead extends State {
 
     public Dead(Pacman target) {
-        super("Dead", target, 100);
+        super("Dead", target, 300);
+    }
+
+    public Dead(State state, Pacman target) {
+        super(state, target);
+    }
+
+    @Override
+    public State copy(Pacman target) {
+        return new Dead(this, target);
     }
 
     @Override
