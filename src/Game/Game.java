@@ -20,6 +20,7 @@ import model.state.SpeedChange;
 import model.weapon.Weapon;
 
 import utils.Action;
+import utils.RandomCollection;
 import view.FooterPanel;
 import view.TimePanel;
 import view.MapRenderer;
@@ -37,7 +38,8 @@ public class Game {
     private int countdown = 300;
     private Timer timer;
 
-    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls, List<Prop> props, List<Weapon> weapons) {
+    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls,
+            RandomCollection<Prop> props, RandomCollection<Weapon> weapons) {
         this.running = true;
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
@@ -47,7 +49,7 @@ public class Game {
             Pacman pacman = new Pacman("Fiona" + i, i, 300, 0, 1, map.getPacmanInitCoords().get(i));
             if (i != 0) {
                 // slow down the computer for debugging
-                pacman.addState(new SpeedChange(pacman, 30, 30*60));
+                pacman.addState(new SpeedChange(pacman, 30, 30 * 60));
                 // pacman.addState(new SpeedChange(pacman, -4));
             }
             if (keyControls.get(i) != null) {
