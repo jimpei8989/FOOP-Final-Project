@@ -12,18 +12,14 @@ import java.awt.event.ActionEvent;
 
 import controller.KeyboardController;
 import controller.RandomMoveController;
-import model.interfaces.Tickable;
 import model.Pacman;
 import model.World;
 import model.map.Map;
+import model.prop.Prop;
 import model.state.SpeedChange;
-import model.weapon.BoxingGlove;
-import model.weapon.Spear;
-import model.weapon.Sword;
 import model.weapon.Weapon;
 
 import utils.Action;
-import utils.Coordinate;
 import view.FooterPanel;
 import view.TimePanel;
 import view.MapRenderer;
@@ -37,20 +33,21 @@ public class Game {
     private View view;
     private World world;
     private List<Pacman> pacmans = new ArrayList<>();
-    private int countdown = 30;
+    private int countdown = 300;
     private Timer timer;
 
-    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls) {
+    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls, List<Prop> props, List<Weapon> weapons) {
         this.running = true;
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
         this.view = view;
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona" + i, i, 300, 300, 1, map.getPacmanInitCoords().get(i));
-            if (i == 0) {
-                // pacman.addState(new SpeedChange(pacman, 4));
-                pacman.addState(new SpeedChange(pacman, -4));
+            Pacman pacman = new Pacman("Fiona" + i, i, 300, 0, 1, map.getPacmanInitCoords().get(i));
+            if (i != 0) {
+                // slow down the computer for debugging
+                pacman.addState(new SpeedChange(pacman, 30, 30*60));
+                // pacman.addState(new SpeedChange(pacman, -4));
             }
             if (keyControls.get(i) != null) {
                 KeyboardController controller = new KeyboardController(keyControls.get(i));
@@ -62,6 +59,7 @@ public class Game {
             }
             this.pacmans.add(pacman);
             this.addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
+            // leave one space for the timer
             this.addMapRenderer(new FooterPanel(pacman, map.getHeight() * renderRatio,
                     (map.getWidth() * renderRatio * (i + 1)) / (this.numPlayers + 1),
                     map.getWidth() * renderRatio / (this.numPlayers + 1), view.getFooterHeight()));
@@ -74,11 +72,7 @@ public class Game {
             }
         });
         this.addMapRenderer(new MapRenderer(map, this.renderRatio));
-        List<Weapon> weapons = new ArrayList<>();
-        weapons.add(new BoxingGlove(new Coordinate(0, 0)));
-        weapons.add(new Sword(new Coordinate(0, 0)));
-        weapons.add(new Spear(new Coordinate(0, 0)));
-        this.world = new World(this, map, this.pacmans, new ArrayList<>(), weapons);
+        this.world = new World(this, map, this.pacmans, new ArrayList<>(), props, weapons);
 
         this.timer = new Timer(1000, new ActionListener() {
             @Override

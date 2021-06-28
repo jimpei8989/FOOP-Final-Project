@@ -22,7 +22,7 @@ public class BoxingGloveTest {
 
         Pacman sufferer = utils.fakePacman(new Coordinate(1, 1));
         weapon.onAttackSuccess(sufferer);
-        assert sufferer.getHP() == 1000 - weapon.getDefaultDamage();
+        assert sufferer.getHP() == 1000 - weapon.getDamage();
     }
 
     @Test
