@@ -184,7 +184,7 @@ public class Pacman implements Locatable, Tickable, Active {
         return 60;
     }
 
-    public int getDefaultStepSize(){
+    public int getDefaultStepSize() {
         return 5;
     }
 
@@ -258,10 +258,18 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public Coordinate getRealCoordinate() {
         if (!this.isMoving()) {
-            return this.getCoordinate();
+            return this.coordinate;
         } else {
-            return this.getCoordinate()
-                    .add(CoordinateUtils.scale(this.facing.getCoord(), this.moveCd.getPercent()));
+            if (this.coordinate.add(this.facing.getCoord()).equals(this.nextCoord)) {
+                return this.coordinate.add(
+                        CoordinateUtils.scale(this.facing.getCoord(), this.moveCd.getPercent()));
+            } else {
+                if (this.moveCd.getPercent() < 0.5) {
+                    return this.coordinate;
+                } else {
+                    return this.nextCoord;
+                }
+            }
         }
     }
 
