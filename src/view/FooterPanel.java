@@ -2,16 +2,22 @@ package view;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.Pacman;
+import model.state.State;
+
 import static utils.ImageUtils.pacmanImgsFromFolder;
 import static utils.ImageUtils.weaponImgFromFile;
+import static utils.ImageUtils.statesImgFromFile;
 
 public class FooterPanel implements Renderable {
     private int x, y, width, height;
     private Pacman pacman;
     private final BufferedImage img;
     private Font font = new Font("Calibri", Font.PLAIN, 20);
+    private HashMap<String, BufferedImage> stateImageMap = new HashMap<>();
 
     public FooterPanel(Pacman pacman, int x, int y, int width, int height) {
         this.pacman = pacman;
@@ -38,6 +44,20 @@ public class FooterPanel implements Renderable {
         if (this.pacman.getWeapon() != null) {
             BufferedImage weaponImg = weaponImgFromFile(this.pacman.getWeapon().getName());
             g.drawImage(weaponImg, this.y + 105, this.x + 10, 15, 15, null);
+        }
+
+        ArrayList<State> states = new ArrayList<>(this.pacman.getStates().values());
+        for (int i = 0, RenderableIndex = 0; i < states.size(); i++) {
+            State state = states.get(i);
+            try {
+                if (!this.stateImageMap.containsKey(state.getName()))
+                    this.stateImageMap.put(state.getName(), statesImgFromFile(state.getName()));
+                g.drawImage(this.stateImageMap.get(state.getName()), this.y + 125 + RenderableIndex * 15, this.x + 10,
+                        15, 15, null);
+                RenderableIndex++;
+            } catch (IllegalArgumentException e) {
+
+            }
         }
 
         g.drawString(String.format("move: %d", this.pacman.getMoveCd().getStepSize()), this.y + 35, this.x + 44);

@@ -214,10 +214,8 @@ public class Pacman implements Locatable, Tickable, Active {
         return action;
     }
 
-    public State getStateByName(String name) {
-        if (states.containsKey(name))
-            return states.get(name);
-        return null;
+    public final Map<String, State> getStates() {
+        return this.states;
     }
 
     // State related
@@ -231,6 +229,13 @@ public class Pacman implements Locatable, Tickable, Active {
         }
     }
 
+    public void removeState(String stateName) {
+        if (states.containsKey(stateName)) {
+            states.get(stateName).onStateWillChange();
+            this.states.remove(stateName);
+        }
+    }
+
     public void removeNonActiveStates() {
         Map<String, State> newStates = new HashMap<>(states);
         for (State state : newStates.values()) {
@@ -241,7 +246,8 @@ public class Pacman implements Locatable, Tickable, Active {
         }
     }
 
-    public void onPropGet(Prop prop) {}
+    public void onPropGet(Prop prop) {
+    }
 
     public void onWeaponGet(Weapon weapon) {
         this.weapon = weapon;
@@ -293,7 +299,8 @@ public class Pacman implements Locatable, Tickable, Active {
         }
     }
 
-    public void onRoundBegin() {}
+    public void onRoundBegin() {
+    }
 
     public void onRoundEnd() {
 

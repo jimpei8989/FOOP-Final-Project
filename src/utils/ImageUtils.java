@@ -62,6 +62,15 @@ public class ImageUtils {
         }
     }
 
+    public static BufferedImage statesImgFromFile(String stateName) {
+        try {
+            String filePath = String.format("assets/states/%s.png", stateName);
+            return readImage(readFile(Path.of(filePath)));
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     public static BufferedImage trophyImgFromFile(int ranking) {
         try {
             String filePath = String.format("assets/trophies/%d.png", ranking);

@@ -23,6 +23,11 @@ public class SpeedChange extends State {
     }
 
     @Override
+    public String getName() {
+        return this.stepSize > this.target.getDefaultStepSize() ? "SpeedUp" : "SlowDown";
+    }
+
+    @Override
     public State copy(Pacman target) {
         return new SpeedChange(this, target);
     }
@@ -34,7 +39,15 @@ public class SpeedChange extends State {
     @Override
     public void onStateWillChange() {
         super.onStateWillChange();
-        this.target.getMoveCd().setStepSize(5);
+        this.target.getMoveCd().setStepSize(this.target.getDefaultStepSize());
     }
 
+    @Override
+    public void onAdd() {
+        this.target.removeState(this.stepSize > this.target.getDefaultStepSize() ? "SlowDown" : "SpeedUp");
+        // If SlowDown or SpeedUp is removed, the stepSize will be set to default since `onStateWillChange` will be called. Thus, we have to reset it to `this.stepSize`.
+        target.getMoveCd().setStepSize(this.stepSize);
+    }
+
+    
 }
