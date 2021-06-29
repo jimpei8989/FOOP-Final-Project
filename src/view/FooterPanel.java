@@ -17,7 +17,7 @@ public class FooterPanel implements Renderable {
     private Pacman pacman;
     private final BufferedImage img;
     private Font font = new Font("Calibri", Font.PLAIN, 20);
-    private HashMap<String, BufferedImage> stateImgageMap = new HashMap<>();
+    private HashMap<String, BufferedImage> stateImageMap = new HashMap<>();
 
     public FooterPanel(Pacman pacman, int x, int y, int width, int height) {
         this.pacman = pacman;
@@ -50,9 +50,9 @@ public class FooterPanel implements Renderable {
         for (int i = 0, RenderableIndex = 0; i < states.size(); i++) {
             State state = states.get(i);
             try {
-                if (!this.stateImgageMap.containsKey(state.getName()))
-                    this.stateImgageMap.put(state.getName(), statesImgFromFile(state.getName()));
-                g.drawImage(this.stateImgageMap.get(state.getName()), this.y + 125 + RenderableIndex * 15, this.x + 10,
+                if (!this.stateImageMap.containsKey(state.getName()))
+                    this.stateImageMap.put(state.getName(), statesImgFromFile(state.getName()));
+                g.drawImage(this.stateImageMap.get(state.getName()), this.y + 125 + RenderableIndex * 15, this.x + 10,
                         15, 15, null);
                 RenderableIndex++;
             } catch (IllegalArgumentException e) {
