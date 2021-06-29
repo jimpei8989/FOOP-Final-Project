@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import model.interfaces.Tickable;
 import utils.Coordinate;
 import utils.Direction;
 
-public class Map {
+public class Map implements Tickable {
     private final int height;
     private final int width, maxWidth = 1440;
     private final MapGrid[][] mapContent;
@@ -109,8 +109,14 @@ public class Map {
                 throw new RuntimeException("Invalid map - wrong configuration");
             }
 
-            this.mapContent[ax][ay] = new Highway(highway[0], highway[1]);
-            this.mapContent[bx][by] = new Highway(highway[1], highway[0]);
+            Highway a = new Highway(highway[0], highway[1]);
+            Highway b = new Highway(highway[1], highway[0]);
+
+            a.setPairing(b);
+            b.setPairing(a);
+
+            this.mapContent[ax][ay] = a;
+            this.mapContent[bx][by] = b;
         }
     }
 
@@ -162,5 +168,29 @@ public class Map {
 
         // TODO: Should we also consider the Pacman?
         return this.getGrid(this.nextCoordinate(coord, direction)).canPass(coord, direction);
+    }
+
+    public void onMoveEnd(Coordinate coord) {
+        this.getGrid(coord).onMoveEnd();
+    }
+
+    public void onTurnBegin() {}
+
+    public void onTurnEnd() {}
+
+    public void onRoundBegin() {
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                this.mapContent[i][j].onRoundBegin();
+            }
+        }
+    }
+
+    public void onRoundEnd() {
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                this.mapContent[i][j].onRoundEnd();
+            }
+        }
     }
 }
