@@ -16,8 +16,4 @@ public abstract class SpeedProp extends Prop {
         super(prop, coord);
     }
 
-    @Override
-    public void onPickUp(Pacman p) {
-        super.onPickUp(p);
-    }
 }

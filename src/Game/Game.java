@@ -49,7 +49,7 @@ public class Game {
             Pacman pacman = new Pacman("Fiona" + i, i, 300, 0, 1, map.getPacmanInitCoords().get(i));
             if (i != 0) {
                 // slow down the computer for debugging
-                pacman.addState(new SpeedChange(pacman, 30, 3));
+                pacman.addState(new SpeedChange(pacman, 30 * 60, 3));
                 // pacman.addState(new SpeedChange(pacman, -4));
             }
             if (keyControls.get(i) != null) {

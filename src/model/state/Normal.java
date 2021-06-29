@@ -17,10 +17,6 @@ public class Normal extends State {
         return new Normal(this, target);
     }
 
-    public int getStepSize() {
-        return target.getDefaultMoveCoolDown();
-    }
-
     // Normal should not reduce turn
     @Override
     public void onTurnEnd() {
