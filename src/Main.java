@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.awt.event.KeyEvent;
@@ -50,7 +49,8 @@ class Main {
             keyControls.add(null);
 
         RandomCollection<Prop> props = new RandomCollection<Prop>().add(40, new SmallPointProp())
-                .add(20, new BigPointProp()).add(15, new SpeedUpProp()).add(15, new SlowDownProp()).add(10, new WineProp());
+                .add(20, new BigPointProp()).add(15, new SpeedUpProp()).add(15, new SlowDownProp())
+                .add(10, new WineProp());
         RandomCollection<Weapon> weapons = new RandomCollection<Weapon>().add(20, new BoxingGlove())
                 .add(40, new Sword()).add(40, new Spear()).add(5, new Explosion());
 

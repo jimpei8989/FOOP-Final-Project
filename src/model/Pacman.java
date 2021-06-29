@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class Pacman implements Locatable, Tickable, Active {
     private final String name;
-    private int ID, HP, fullHP, score, tickPerGrid;
+    private int ID, HP, fullHP, score;
     private Coordinate coordinate;
     private Map<String, State> states = new HashMap<>();
     private Weapon weapon;
@@ -41,7 +41,6 @@ public class Pacman implements Locatable, Tickable, Active {
         this.HP = hp;
         this.fullHP = hp;
         this.score = score;
-        this.tickPerGrid = tickPerGrid;
         this.coordinate = coordinate;
         this.facing = Direction.RIGHT;
         this.moveCd = new CoolDown(this.getDefaultMoveCoolDown());
@@ -90,14 +89,6 @@ public class Pacman implements Locatable, Tickable, Active {
 
     public int getScore() {
         return this.score;
-    }
-
-    public void setTickPerGrid(int tickPerGrid) {
-        this.tickPerGrid = tickPerGrid;
-    }
-
-    public int getTickPerGrid() {
-        return this.tickPerGrid;
     }
 
     public Direction getFacing() {
