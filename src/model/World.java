@@ -108,7 +108,7 @@ public class World {
             pacman.onTurnEnd();
         }
 
-        // 2) TODO: Finalize pacman's move
+        // 2) Finalize pacman's move
         for (Pacman pacman : this.pacmans) {
             if (pacman.canDecide()) {
                 Coordinate coord = pacman.getCoordinate();
@@ -131,10 +131,10 @@ public class World {
             }
         }
 
-        // 3) TODO: add some more props
+        // 3) Add some props, appear once every 5 ticks on average
         this.generateProps();
 
-        // 4) add some weapon, appear once every 300 ticks on average
+        // 4) Add some weapon, appear once every 300 ticks on average
         this.generateWeapons();
 
         for (Tickable object : objects) {

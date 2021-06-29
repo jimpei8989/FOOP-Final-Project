@@ -15,11 +15,9 @@ import java.util.ListIterator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.text.AttributeSet.ColorAttribute;
 
 import model.Pacman;
 import utils.Active;
-import utils.ImageUtils;
 
 import static utils.ImageUtils.pacmanImgsFromFolder;
 import static utils.ImageUtils.trophyImgFromFile;
@@ -130,7 +128,7 @@ public class View extends JFrame {
         String folderPath = String.format("assets/pacmans/pacman_%d", pacman.getID());
 
         if (ranking < 3) {
-            BufferedImage trophy = ImageUtils.trophyImgFromFile(ranking);
+            BufferedImage trophy = trophyImgFromFile(ranking);
             g.drawImage(trophy, y + 2, x + 2, 30, 30, null);
 
         }
