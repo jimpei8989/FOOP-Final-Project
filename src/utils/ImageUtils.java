@@ -35,6 +35,15 @@ public class ImageUtils {
         }
     }
 
+    public static BufferedImage highwayImgFromFile() {
+        try {
+            String filePath = "assets/highway/0.png";
+            return readImage(readFile(Path.of(filePath)));
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     public static BufferedImage weaponImgFromFile(String weaponName) {
         try {
             String filePath = String.format("assets/weapons/%s.png", weaponName);

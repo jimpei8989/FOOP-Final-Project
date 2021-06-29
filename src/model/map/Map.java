@@ -84,12 +84,30 @@ public class Map {
             }
         }
 
+        for (int i = 0; i < height; i++) {
+            if (this.mapContent[i][0] instanceof Road != this.mapContent[i][width
+                    - 1] instanceof Road) {
+                throw new RuntimeException("Invalid map - wrong configuration");
+            }
+        }
+        for (int j = 0; j < width; j++) {
+            if ((this.mapContent[0][j] instanceof Road) != (this.mapContent[height
+                    - 1][j] instanceof Road)) {
+                throw new RuntimeException("Invalid map - wrong configuration");
+            }
+        }
+
+
         for (Coordinate[] highway : highways) {
             int ax = highway[0].getX().intValue();
             int ay = highway[0].getY().intValue();
 
             int bx = highway[1].getX().intValue();
             int by = highway[1].getY().intValue();
+
+            if (this.mapContent[ax][ay] != null || this.mapContent[bx][by] != null) {
+                throw new RuntimeException("Invalid map - wrong configuration");
+            }
 
             this.mapContent[ax][ay] = new Highway(highway[0], highway[1]);
             this.mapContent[bx][by] = new Highway(highway[1], highway[0]);
