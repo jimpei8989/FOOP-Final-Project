@@ -5,9 +5,10 @@ import model.interfaces.Tickable;
 import utils.Active;
 
 public abstract class State implements Tickable, Active {
-    public String name;
+    private String name;
     protected Pacman target;
     private int turn = 1;
+    private int fullTurn;
 
     public State(String name, Pacman target) {
         this.name = name;
@@ -18,16 +19,26 @@ public abstract class State implements Tickable, Active {
         this.name = name;
         this.target = target;
         this.turn = turn;
+        this.fullTurn = turn;
     }
 
     // copy constructor
-    State(State state, Pacman target) {
+    public State(State state, Pacman target) {
         this.name = state.name;
         this.target = target;
         this.turn = state.turn;
+        this.fullTurn = state.turn;
     }
 
     public abstract State copy(Pacman target);
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void restoreFullTurn() {
+        this.turn = this.fullTurn;
+    }
 
     @Override
     public String toString() {
@@ -49,6 +60,10 @@ public abstract class State implements Tickable, Active {
 
     @Override
     public void onRoundEnd() {
+    }
+
+    public void onAdd() {
+
     }
 
     public void onStateWillChange() {

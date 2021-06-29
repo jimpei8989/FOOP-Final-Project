@@ -18,7 +18,6 @@ public class Revive extends State {
         this.needToRender = true;
         this.coolDown = new CoolDown(10);
         this.coolDown.reset();
-        this.target.addTakeDamageCallback(this.notBeDamaged);
     }
 
     public Revive(State state, Pacman target) {
@@ -26,6 +25,10 @@ public class Revive extends State {
         this.needToRender = true;
         this.coolDown = new CoolDown(10);
         this.coolDown.reset();
+    }
+
+    @Override
+    public void onAdd() {
         this.target.addTakeDamageCallback(this.notBeDamaged);
     }
 

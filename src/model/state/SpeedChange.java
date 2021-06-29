@@ -1,31 +1,25 @@
 package model.state;
 
 import model.Pacman;
-import model.utils.CoolDown;
 
 public class SpeedChange extends State {
-    CoolDown coolDown;
-    int speedChange;
+    protected int stepSize;
 
-    public SpeedChange(Pacman target, int speedChange) {
+    public SpeedChange(Pacman target, int stepSize) {
         super("SpeedChange", target, 2 * 60);
-        this.speedChange = speedChange;
-        this.coolDown = new CoolDown(target.getDefaultMoveCoolDown() + speedChange);
-        this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.target.getMoveCd().getPercent())));
+        this.stepSize = stepSize;
+        target.getMoveCd().setStepSize(this.stepSize);
     }
 
-    public SpeedChange(Pacman target, int speedChange, int turn) {
+    public SpeedChange(Pacman target, int turn, int stepSize) {
         super("SpeedChange", target, turn);
-        this.speedChange = speedChange;
-        this.coolDown = new CoolDown(target.getDefaultMoveCoolDown() + speedChange);
-        this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.target.getMoveCd().getPercent())));
+        this.stepSize = stepSize;
+        target.getMoveCd().setStepSize(this.stepSize);
     }
 
     public SpeedChange(State state, Pacman target) {
         super(state, target);
-        this.speedChange = ((SpeedChange) state).getSpeedChange();
-        this.coolDown = new CoolDown(target.getDefaultMoveCoolDown() + speedChange);
-        this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.target.getMoveCd().getPercent())));
+        target.getMoveCd().setStepSize(((SpeedChange) state).getStepSize());
     }
 
     @Override
@@ -33,23 +27,14 @@ public class SpeedChange extends State {
         return new SpeedChange(this, target);
     }
 
-    public int getSpeedChange() {
-        return this.speedChange;
-    }
-
-    @Override
-    public void onTurnBegin() {
-        super.onTurnBegin();
-        if (this.target.getMoveCd() != this.coolDown) {
-            this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.target.getMoveCd().getPercent())));
-            this.target.setMoveCd(this.coolDown);
-        }
+    public int getStepSize() {
+        return this.stepSize;
     }
 
     @Override
     public void onStateWillChange() {
         super.onStateWillChange();
-        this.target.setMoveCd(((Normal) this.target.getStateByName("Normal")).getCoolDown());
+        this.target.getMoveCd().setStepSize(5);
     }
 
 }
