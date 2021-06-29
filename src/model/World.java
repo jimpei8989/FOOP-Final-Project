@@ -71,7 +71,8 @@ public class World {
                         if (choice == 0) {
                             Weapon weapon = availableWeapons.next().copy(coordinate);
                             this.objects.add(weapon);
-                            addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
+                            addObjectRenderer(
+                                    new WeaponRenderer(weapon, this.game.getRenderRatio()));
                             this.coordsWithItems.put(coordinate, weapon);
                             break;
                         }
@@ -89,13 +90,13 @@ public class World {
 
             if (pacman.canDecide()) {
                 Action action = pacman.decide();
-
                 if (action == Action.NO_OP) {
                     // do nothing
                 } else if (action.getDirection() != null) {
                     // is a kind of direction
                     if (this.map.canPass(pacman.getCoordinate(), action.getDirection())) {
-                        pacman.move(action.getDirection());
+                        pacman.move(action.getDirection(), this.map
+                                .nextCoordinate(pacman.getCoordinate(), action.getDirection()));
                     }
                 } else if (action == Action.ATTACK) {
                     // attack
@@ -104,7 +105,6 @@ public class World {
                     }
                 }
             }
-
             pacman.onTurnEnd();
         }
 
