@@ -95,8 +95,10 @@ public class World {
                 } else if (action.getDirection() != null) {
                     // is a kind of direction
                     if (this.map.canPass(pacman.getCoordinate(), action.getDirection())) {
+                        Coordinate from = pacman.getCoordinate();
                         pacman.move(action.getDirection(), this.map
-                                .nextCoordinate(pacman.getCoordinate(), action.getDirection()));
+                                .nextCoordinate(from, action.getDirection()));
+                        this.map.onMoveEnd(from);
                     }
                 } else if (action == Action.ATTACK) {
                     // attack
@@ -144,6 +146,7 @@ public class World {
     }
 
     public void update() {
+        this.map.onRoundBegin();
         for (Pacman pacman : pacmans)
             pacman.onRoundBegin();
         for (Tickable object : objects)
@@ -151,6 +154,7 @@ public class World {
 
         this.tick();
 
+        this.map.onRoundEnd();
         for (Pacman pacman : pacmans)
             pacman.onRoundEnd();
         for (Tickable object : objects)
