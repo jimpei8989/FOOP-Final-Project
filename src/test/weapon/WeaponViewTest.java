@@ -14,6 +14,7 @@ import model.weapon.Explosion;
 import model.weapon.Spear;
 import model.weapon.Sword;
 import model.weapon.Weapon;
+import test.TestUtils;
 
 public class WeaponViewTest {
     private TestUtils utils = new TestUtils();

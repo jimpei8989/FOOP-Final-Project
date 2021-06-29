@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import model.Pacman;
 import model.weapon.Spear;
+import test.TestUtils;
 
 public class SpearTest {
     private TestUtils utils = new TestUtils();
