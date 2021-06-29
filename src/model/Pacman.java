@@ -43,7 +43,7 @@ public class Pacman implements Locatable, Tickable, Active {
         this.score = score;
         this.coordinate = coordinate;
         this.facing = Direction.RIGHT;
-        this.moveCd = new CoolDown(this.getDefaultMoveCoolDown());
+        this.moveCd = new CoolDown(this.getDefaultStepSize(), this.getDefaultMoveCoolDown());
         Normal normalState = new Normal(this);
         this.addState(normalState);
     }
@@ -183,6 +183,10 @@ public class Pacman implements Locatable, Tickable, Active {
         return 60;
     }
 
+    public int getDefaultStepSize(){
+        return 5;
+    }
+
     public void move(Direction direction) {
         this.facing = direction;
         this.moveCd.reset();
@@ -217,10 +221,10 @@ public class Pacman implements Locatable, Tickable, Active {
     // State related
     public void addState(State state) {
         // restore the state's turn if already existed
-        if (states.containsKey(state.name))
-            states.get(state.name).restoreFullTurn();
+        if (states.containsKey(state.getName()))
+            states.get(state.getName()).restoreFullTurn();
         else {
-            this.states.put(state.name, state);
+            this.states.put(state.getName(), state);
             state.onAdd();
         }
     }
@@ -230,7 +234,7 @@ public class Pacman implements Locatable, Tickable, Active {
         for (State state : newStates.values()) {
             if (!state.isActive()) {
                 state.onStateWillChange();
-                states.remove(state.name);
+                states.remove(state.getName());
             }
         }
     }

@@ -5,7 +5,7 @@ import model.interfaces.Tickable;
 import utils.Active;
 
 public abstract class State implements Tickable, Active {
-    public String name;
+    private String name;
     protected Pacman target;
     private int turn = 1;
     private int fullTurn;
@@ -23,7 +23,7 @@ public abstract class State implements Tickable, Active {
     }
 
     // copy constructor
-    State(State state, Pacman target) {
+    public State(State state, Pacman target) {
         this.name = state.name;
         this.target = target;
         this.turn = state.turn;
@@ -31,6 +31,10 @@ public abstract class State implements Tickable, Active {
     }
 
     public abstract State copy(Pacman target);
+
+    public String getName() {
+        return this.name;
+    }
 
     public void restoreFullTurn() {
         this.turn = this.fullTurn;

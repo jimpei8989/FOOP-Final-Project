@@ -9,6 +9,11 @@ public class CoolDown {
         this.interval = interval;
     }
 
+    public CoolDown(int stepSize, int interval) {
+        this.stepSize = stepSize;
+        this.interval = interval;
+    }
+
     public void setStepSize(int stepSize) {
         this.stepSize = stepSize;
     }
@@ -23,6 +28,10 @@ public class CoolDown {
 
     public boolean available() {
         return this.current <= 0;
+    }
+
+    public int getStepSize() {
+        return this.stepSize;
     }
 
     public void reset() {
@@ -45,6 +54,7 @@ public class CoolDown {
         return (this.interval - this.current) / (double) this.interval;
     }
 
+    @Override
     public String toString() {
         return String.format("%d / %d", current, interval);
     }
