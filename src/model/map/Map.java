@@ -106,7 +106,8 @@ public class Map implements Tickable {
             int by = highway[1].getY().intValue();
 
             if (this.mapContent[ax][ay] != null || this.mapContent[bx][by] != null) {
-                throw new RuntimeException("Invalid map - wrong configuration");
+                throw new RuntimeException(String.format(
+                        "Invalid map - wrong configuration (%d, %d) (%d, %d)", ax, ay, bx, by));
             }
 
             Highway a = new Highway(highway[0], highway[1]);
