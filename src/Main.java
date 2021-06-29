@@ -16,7 +16,9 @@ import model.prop.Prop;
 import model.prop.SlowDownProp;
 import model.prop.SmallPointProp;
 import model.prop.SpeedUpProp;
+import model.prop.WineProp;
 import model.weapon.BoxingGlove;
+import model.weapon.Explosion;
 import model.weapon.Spear;
 import model.weapon.Sword;
 import model.weapon.Weapon;
@@ -48,9 +50,9 @@ class Main {
             keyControls.add(null);
 
         RandomCollection<Prop> props = new RandomCollection<Prop>().add(40, new SmallPointProp())
-                .add(20, new BigPointProp()).add(15, new SpeedUpProp()).add(15, new SlowDownProp());
+                .add(20, new BigPointProp()).add(15, new SpeedUpProp()).add(15, new SlowDownProp()).add(10, new WineProp());
         RandomCollection<Weapon> weapons = new RandomCollection<Weapon>().add(20, new BoxingGlove())
-                .add(40, new Sword()).add(40, new Spear());
+                .add(40, new Sword()).add(40, new Spear()).add(5, new Explosion());
 
         int renderRatio = map.getMaxWidth() / map.getWidth();
         View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 4);

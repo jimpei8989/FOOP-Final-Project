@@ -1,32 +1,35 @@
 package model.weapon;
 
+import model.Pacman;
+import model.state.State;
+import model.state.Stunned;
 import utils.Coordinate;
 import utils.CoordinateUtils;
-import utils.Direction;
 
-public class Sword extends HarmingWeapon {
-    private double range = 1;
+public class Explosion extends StateChangingWeapon {
+    private double range = 3;
+    private static Pacman fakeMan = new Pacman("Fake Pacman", 0, 1000, 0, 10, new Coordinate(0, 0));
 
-    public Sword() {
+    public Explosion() {
         super();
     }
 
-    public Sword(Coordinate coord) {
-        super(coord, getDefaultDamage());
+    public Explosion(Coordinate coord) {
+        super(coord, getDefaultState());
     }
 
-    public Sword(Weapon weapon, Coordinate coord) {
-        super(weapon, coord, getDefaultDamage());
+    public Explosion(Weapon weapon, Coordinate coord) {
+        super(weapon, coord, getDefaultState());
     }
 
     @Override
     public Weapon copy(Coordinate coord) {
-        return new Sword(this, coord);
+        return new Explosion(this, coord);
     }
 
     @Override
     public String getName() {
-        return "sword";
+        return "explosion";
     }
 
     @Override
@@ -52,13 +55,13 @@ public class Sword extends HarmingWeapon {
         this.range = range;
     }
 
-    public static int getDefaultDamage() {
-        return 30;
+    public static State getDefaultState() {
+        return new Stunned(fakeMan);
     }
 
     @Override
     public boolean inRange(Coordinate coord) {
-        // The circle with radius 1 units by default.
+        // The circle with radius 3 units by default.
         Coordinate center = this.owner.getCoordinate();
         // Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
@@ -67,26 +70,26 @@ public class Sword extends HarmingWeapon {
 
     @Override
     public void calculateAnimate() {
-        Direction facing = this.owner.getFacing();
-        double originDegree = facing == Direction.RIGHT ? 0
-                : facing == Direction.DOWN ? 90 : facing == Direction.LEFT ? 180 : 270;
 
         double progress = 0;
 
+        double opacity = 0; // maybe add opacity at animation?
+
         if (this.getWeaponState() == WeaponState.preAttack) {
-            progress = Math.min(this.preAttackCd.getPercent() * 3, 1);
+            progress = this.preAttackCd.getPercent();
+            // opacity = 0.5;
         } else if (this.getWeaponState() == WeaponState.realAttack) {
             progress = 1;
+            // opacity = 0.5;
         } else if (this.getWeaponState() == WeaponState.postAttack) {
-            progress = Math.min((1 - this.postAttackCd.getPercent()) * 3, 1);
+            progress = 1 - this.postAttackCd.getPercent();
+            // progress = 1;
+            // opacity = (1 - this.postAttackCd.getPercent()) * 0.5;
         }
 
-        this.zoom = progress;
+        this.zoom = progress * this.range;
 
-        double turning = this.animateCd.getPercent();
-
-        this.degree = 135 - 540 * turning + originDegree; // It looks even better on turning 540
-                                                          // degrees.
-        this.animateCoordinate = CoordinateUtils.fromPolar(this.range * progress, this.degree - 90);
+        this.degree = 0;
+        this.animateCoordinate = new Coordinate(0, 0);
     }
 }
