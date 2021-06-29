@@ -58,6 +58,10 @@ public abstract class State implements Tickable, Active {
     public void onRoundEnd() {
     }
 
+    public void onAdd() {
+
+    }
+
     public void onStateWillChange() {
     }
 

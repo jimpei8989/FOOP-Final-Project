@@ -20,12 +20,15 @@ public class Stunned extends State {
 
     public Stunned(Pacman target) {
         super("Stunned", target, 60);
-        this.target.addDecideCallback(this.cannotDecide);
-        this.target.addSwitchImageCallback(this.dontChange);
+
     }
 
     public Stunned(State state, Pacman target) {
         super(state, target);
+    }
+
+    @Override
+    public void onAdd() {
         this.target.addDecideCallback(this.cannotDecide);
         this.target.addSwitchImageCallback(this.dontChange);
     }

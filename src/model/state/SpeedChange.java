@@ -1,7 +1,6 @@
 package model.state;
 
 import model.Pacman;
-import model.utils.CoolDown;
 
 public class SpeedChange extends State {
     protected int stepSize;

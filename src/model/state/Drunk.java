@@ -40,12 +40,14 @@ public class Drunk extends State {
 
     public Drunk(Pacman target) {
         super("Drunk", target, 150);
-        this.target.addDecideCallback(this.upsiteDown);
-        this.target.addSwitchImageCallback(this.randomChange);
     }
 
     public Drunk(State state, Pacman target) {
         super(state, target);
+    }
+
+    @Override
+    public void onAdd() {
         this.target.addDecideCallback(this.upsiteDown);
         this.target.addSwitchImageCallback(this.randomChange);
     }

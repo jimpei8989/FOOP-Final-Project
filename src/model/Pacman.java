@@ -200,7 +200,7 @@ public class Pacman implements Locatable, Tickable, Active {
         return this.weapon != null && this.weapon.isAttacking();
     }
 
-    // Cotroller
+    // Controller
     public Action decide() {
         Action action = this.controller.decide();
         for (DecideCallback callback : this.decideCallbacks)
@@ -218,9 +218,11 @@ public class Pacman implements Locatable, Tickable, Active {
     public void addState(State state) {
         // restore the state's turn if already existed
         if (states.containsKey(state.name))
-            state.restoreFullTurn();
-        else
+            states.get(state.name).restoreFullTurn();
+        else {
             this.states.put(state.name, state);
+            state.onAdd();
+        }
     }
 
     public void removeNonActiveStates() {
