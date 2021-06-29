@@ -25,6 +25,7 @@ public class Pacman implements Locatable, Tickable, Active {
     private Map<String, State> states = new HashMap<>();
     private Weapon weapon;
     private Direction facing;
+    private Coordinate nextCoord;
 
     private Controller controller;
     private CoolDown moveCd;
@@ -183,8 +184,9 @@ public class Pacman implements Locatable, Tickable, Active {
         return 12;
     }
 
-    public void move(Direction direction) {
+    public void move(Direction direction, Coordinate nextCoord) {
         this.facing = direction;
+        this.nextCoord = nextCoord;
         this.moveCd.reset();
     }
 
@@ -245,8 +247,7 @@ public class Pacman implements Locatable, Tickable, Active {
         }
     }
 
-    public void onPropGet(Prop prop) {
-    }
+    public void onPropGet(Prop prop) {}
 
     public void onWeaponGet(Weapon weapon) {
         this.weapon = weapon;
@@ -265,7 +266,8 @@ public class Pacman implements Locatable, Tickable, Active {
         if (!this.isMoving()) {
             return this.getCoordinate();
         } else {
-            return this.getCoordinate().add(CoordinateUtils.scale(this.facing.getCoord(), this.moveCd.getPercent()));
+            return this.getCoordinate()
+                    .add(CoordinateUtils.scale(this.facing.getCoord(), this.moveCd.getPercent()));
         }
     }
 
@@ -284,13 +286,12 @@ public class Pacman implements Locatable, Tickable, Active {
         if (!this.moveCd.available()) {
             this.moveCd.update();
             if (this.moveCd.available()) {
-                this.coordinate = this.coordinate.add(this.facing.getCoord());
+                this.coordinate = this.nextCoord;
             }
         }
     }
 
-    public void onRoundBegin() {
-    }
+    public void onRoundBegin() {}
 
     public void onRoundEnd() {
 
