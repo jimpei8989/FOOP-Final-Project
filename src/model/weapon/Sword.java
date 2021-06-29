@@ -62,7 +62,7 @@ public class Sword extends HarmingWeapon {
         Coordinate center = this.owner.getCoordinate();
         // Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
-        return CoordinateUtils.length(delta) <= this.getRange();
+        return CoordinateUtils.length(delta) <= this.range;
     }
 
     @Override

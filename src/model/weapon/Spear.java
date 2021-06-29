@@ -72,8 +72,8 @@ public class Spear extends HarmingWeapon {
         Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
         double frontDist = CoordinateUtils.dotProduct(facing, delta);
-        return frontDist <= this.getFrontRange() && frontDist >= 0 && Math
-                .sqrt(Math.pow(CoordinateUtils.length(delta), 2) - Math.pow(frontDist, 2)) <= this.getSideRange();
+        return frontDist <= this.frontRange && frontDist >= 0
+                && Math.sqrt(Math.pow(CoordinateUtils.length(delta), 2) - Math.pow(frontDist, 2)) <= this.sideRange;
     }
 
     @Override
@@ -105,6 +105,6 @@ public class Spear extends HarmingWeapon {
         }
 
         this.degree = originDegree;
-        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getFrontRange() * stretching);
+        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.frontRange * stretching);
     }
 }

@@ -70,7 +70,7 @@ public class BoxingGlove extends HarmingWeapon {
         Coordinate center = this.owner.getCoordinate();
         Coordinate facing = this.owner.getFacing().getCoord();
         Coordinate delta = CoordinateUtils.minus(coord, center);
-        return CoordinateUtils.length(delta) <= this.getRange()
+        return CoordinateUtils.length(delta) <= this.range
                 && CoordinateUtils.dotProduct(facing, CoordinateUtils.norm(delta)) >= Math.cos(this.getRadian());
     }
 
@@ -91,7 +91,7 @@ public class BoxingGlove extends HarmingWeapon {
         }
 
         this.degree = originDegree;
-        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.getRange() * progress);
-        this.zoom = progress * this.getRange();
+        this.animateCoordinate = CoordinateUtils.scale(facing.getCoord(), this.range * progress);
+        this.zoom = progress * this.range;
     }
 }
