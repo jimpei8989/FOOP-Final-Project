@@ -3,7 +3,7 @@ package model.utils;
 public class CoolDown {
     private final int interval;
     private int current = 0;
-    private int stepSize = 5;
+    private int stepSize = 1;
 
     public CoolDown(int interval) {
         this.interval = interval;
