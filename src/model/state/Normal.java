@@ -27,7 +27,7 @@ public class Normal extends State {
     @Override
     public void onTurnBegin() {
         super.onTurnBegin();
-        this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.target.getMoveCd().getPercent())));
+        this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.coolDown.getPercent())));
     }
 
     @Override

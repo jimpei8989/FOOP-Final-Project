@@ -25,6 +25,6 @@ public class SlowDownProp extends SpeedProp {
     @Override
     public void onPickUp(Pacman p) {
         super.onPickUp(p);
-        p.addState(new SpeedChange(p, 4));
+        p.addState(new SpeedChange(p, 4, 4));
     }
 }

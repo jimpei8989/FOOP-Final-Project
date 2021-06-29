@@ -180,7 +180,7 @@ public class Pacman implements Locatable, Tickable, Active {
     }
 
     public int getDefaultMoveCoolDown() {
-        return 12;
+        return 60;
     }
 
     public void move(Direction direction) {
@@ -216,23 +216,11 @@ public class Pacman implements Locatable, Tickable, Active {
 
     // State related
     public void addState(State state) {
-        // remove the state with the same name
-        this.removeState(state.name);
-        this.states.put(state.name, state);
-    }
-
-    public void removeState(String name) {
-        if (states.containsKey(name)) {
-            states.get(name).onStateWillChange();
-            states.remove(name);
-        }
-    }
-
-    public void removeState(State state) {
-        if (states.containsKey(state.name)) {
-            states.get(state.name).onStateWillChange();
-            states.remove(state.name);
-        }
+        // restore the state's turn if already existed
+        if (states.containsKey(state.name))
+            state.restoreFullTurn();
+        else
+            this.states.put(state.name, state);
     }
 
     public void removeNonActiveStates() {
