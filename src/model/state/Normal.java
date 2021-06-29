@@ -24,14 +24,8 @@ public class Normal extends State {
         return this.coolDown;
     }
 
-    @Override
-    public void onTurnBegin() {
-        super.onTurnBegin();
-        this.coolDown.reset((int) (this.coolDown.getInterval() * (1 - this.coolDown.getPercent())));
-    }
-
+    // Normal should not reduce turn
     @Override
     public void onTurnEnd() {
     }
-
 }
