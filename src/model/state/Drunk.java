@@ -39,7 +39,7 @@ public class Drunk extends State {
     };
 
     public Drunk(Pacman target) {
-        super("Stunned", target, 150);
+        super("Drunk", target, 150);
         this.target.addDecideCallback(this.upsiteDown);
         this.target.addSwitchImageCallback(this.randomChange);
     }
@@ -52,7 +52,7 @@ public class Drunk extends State {
 
     @Override
     public State copy(Pacman target) {
-        return new Stunned(this, target);
+        return new Drunk(this, target);
     }
 
     @Override
