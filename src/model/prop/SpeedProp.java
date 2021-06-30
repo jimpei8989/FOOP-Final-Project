@@ -1,6 +1,5 @@
 package model.prop;
 
-import model.Pacman;
 import utils.Coordinate;
 
 public abstract class SpeedProp extends Prop {

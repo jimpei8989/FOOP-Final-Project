@@ -1,7 +1,6 @@
 package model.state;
 
 import model.Pacman;
-import model.utils.CoolDown;
 
 public class Normal extends State {
     public Normal(Pacman target) {
@@ -19,6 +18,5 @@ public class Normal extends State {
 
     // Normal should not reduce turn
     @Override
-    public void onTurnEnd() {
-    }
+    public void onTurnEnd() {}
 }
