@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import model.Pacman;
 import model.weapon.BoxingGlove;
+import test.TestUtils;
 
 public class BoxingGloveTest {
     private TestUtils utils = new TestUtils();

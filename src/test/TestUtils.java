@@ -1,4 +1,4 @@
-package test.weapon;
+package test;
 
 import model.Pacman;
 import utils.Coordinate;
