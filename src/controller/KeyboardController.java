@@ -4,6 +4,9 @@ import utils.Action;
 import java.awt.event.KeyEvent;
 import java.util.Map;
 
+import model.Pacman;
+import model.World;
+
 public class KeyboardController extends Controller {
     private int latestEvent = -1;
     private final Map<Integer, Action> keyMapping;
@@ -17,6 +20,11 @@ public class KeyboardController extends Controller {
         if (this.keyMapping.containsKey(eventCode)) {
             this.latestEvent = eventCode;
         }
+    }
+
+    @Override
+    public Controller copy(Pacman target, World world) {
+        return new KeyboardController(this.keyMapping);
     }
 
     @Override
