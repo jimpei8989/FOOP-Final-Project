@@ -81,6 +81,9 @@ public class Pacman implements Locatable, Tickable, Active {
     public void takeDamage(Pacman attacker, int damage) {
         for (TakeDamageCallback callback : this.takeDamageCallbacks)
             damage = callback.onTakeDamage(damage);
+        int point = this.HP - damage > 0 ? damage / 4 : damage;
+        attacker.setScore(attacker.getScore() + point);
+        this.setScore(Math.max(this.getScore() - point, 0));
         this.setHP(this.HP - damage);
     }
 
@@ -311,7 +314,7 @@ public class Pacman implements Locatable, Tickable, Active {
         return true;
     }
 
-    public void addController(Controller controller) {
+    public void setController(Controller controller) {
         this.controller = controller;
     }
 
