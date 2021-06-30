@@ -30,14 +30,18 @@ import utils.Action;
 import utils.RandomCollection;
 
 class Main {
-    // "~" means the manual player. Each manual player has a different keymapping. "~0" means the
+    // "-" means the manual player. Each manual player has a different keymapping.
+    // "-0" means the
     // keymapping of the zeroth manual player
     private static final java.util.Map<String, Controller> controllerMapping = ofEntries(
             entry("random", new RandomMoveController()), entry("simple", new SimpleController()),
-            entry("~0", new KeyboardController(ofEntries(entry(KeyEvent.VK_UP, Action.UP),
+            entry("-0", new KeyboardController(ofEntries(entry(KeyEvent.VK_UP, Action.UP),
                     entry(KeyEvent.VK_DOWN, Action.DOWN), entry(KeyEvent.VK_LEFT, Action.LEFT),
                     entry(KeyEvent.VK_RIGHT, Action.RIGHT),
-                    entry(KeyEvent.VK_SPACE, Action.ATTACK)))));
+                    entry(KeyEvent.VK_SPACE, Action.ATTACK)))),
+            entry("-1", new KeyboardController(ofEntries(entry(KeyEvent.VK_W, Action.UP),
+                    entry(KeyEvent.VK_S, Action.DOWN), entry(KeyEvent.VK_A, Action.LEFT),
+                    entry(KeyEvent.VK_D, Action.RIGHT), entry(KeyEvent.VK_SHIFT, Action.ATTACK)))));
     private static final RandomCollection<Prop> props =
             new RandomCollection<Prop>().add(40, new SmallPointProp()).add(20, new BigPointProp())
                     .add(15, new SpeedUpProp()).add(15, new SlowDownProp()).add(10, new WineProp());
@@ -61,10 +65,18 @@ class Main {
             throw new IllegalArgumentException(e);
         }
 
+
         List<Controller> controllers = new ArrayList<>();
         for (int i = 0, manualPlayerIndex = 0; i < playerNums; i++) {
-            if (args[i].equals("~")) {
-                controllers.add(controllerMapping.get(args[i] + manualPlayerIndex));
+            if (args[i].equals("-")) {
+                if (controllerMapping.containsKey(args[i] + manualPlayerIndex))
+                    controllers.add(controllerMapping.get(args[i] + manualPlayerIndex));
+                else {
+                    System.err.printf(
+                            "KeyBoard controller for the player %d is not configured. Using simple controller instead.",
+                            manualPlayerIndex);
+                    controllers.add(controllerMapping.get("simple"));
+                }
                 manualPlayerIndex++;
             } else
                 controllers.add(controllerMapping.get(args[i]));
