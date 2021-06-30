@@ -40,10 +40,16 @@ public class World {
         this.random = new Random();
     }
 
+    public java.util.Map<Coordinate, Locatable> getCoordsWithItems() {
+        return this.coordsWithItems;
+    }
+
     private void generateProps() {
         if (random.nextInt(5) < 1) {
-            int cnt = this.map.getRoadCoords().size() - this.coordsWithItems.size();
-            if (cnt > 0) {
+            double emptyRate = (this.map.getRoadCoords().size() - this.coordsWithItems.size())
+                    / (double) this.map.getRoadCoords().size();
+
+            if (emptyRate > 0.4) {
                 int choice = random.nextInt(this.map.getRoadCoords().size());
                 for (Coordinate coordinate : this.map.getRoadCoords()) {
                     if (!this.coordsWithItems.containsKey(coordinate)) {
@@ -71,8 +77,7 @@ public class World {
                         if (choice == 0) {
                             Weapon weapon = availableWeapons.next().copy(coordinate);
                             this.objects.add(weapon);
-                            addObjectRenderer(
-                                    new WeaponRenderer(weapon, this.game.getRenderRatio()));
+                            addObjectRenderer(new WeaponRenderer(weapon, this.game.getRenderRatio()));
                             this.coordsWithItems.put(coordinate, weapon);
                             break;
                         }
@@ -96,8 +101,7 @@ public class World {
                     // is a kind of direction
                     if (this.map.canPass(pacman.getCoordinate(), action.getDirection())) {
                         Coordinate from = pacman.getCoordinate();
-                        pacman.move(action.getDirection(), this.map
-                                .nextCoordinate(from, action.getDirection()));
+                        pacman.move(action.getDirection(), this.map.nextCoordinate(from, action.getDirection()));
                         this.map.onMoveEnd(from);
                     }
                 } else if (action == Action.ATTACK) {

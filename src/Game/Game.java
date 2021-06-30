@@ -10,8 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import controller.Controller;
 import controller.KeyboardController;
-import controller.RandomMoveController;
 import model.Pacman;
 import model.World;
 import model.map.Map;
@@ -19,7 +19,6 @@ import model.prop.Prop;
 import model.state.SpeedChange;
 import model.weapon.Weapon;
 
-import utils.Action;
 import utils.RandomCollection;
 import view.FooterPanel;
 import view.TimePanel;
@@ -38,8 +37,8 @@ public class Game {
     private int countdown = 300;
     private Timer timer;
 
-    public Game(int numPlayers, int renderRatio, View view, Map map, List<java.util.Map<Integer, Action>> keyControls,
-            RandomCollection<Prop> props, RandomCollection<Weapon> weapons) {
+    public Game(int numPlayers, int renderRatio, View view, Map map,
+            List<Controller> controllers, RandomCollection<Prop> props, RandomCollection<Weapon> weapons) {
         this.running = true;
         this.numPlayers = numPlayers;
         this.renderRatio = renderRatio;
@@ -52,20 +51,22 @@ public class Game {
                 pacman.addState(new SpeedChange(pacman, 30 * 60, 3));
                 // pacman.addState(new SpeedChange(pacman, -4));
             }
-            if (keyControls.get(i) != null) {
-                KeyboardController controller = new KeyboardController(keyControls.get(i));
-                keyboardControllers.add(controller);
-                pacman.addController(controller);
-            } else {
-                RandomMoveController controller = new RandomMoveController();
-                pacman.addController(controller);
-            }
             this.pacmans.add(pacman);
             this.addPacmanRenderer(new PacmanRenderer(pacman, this.renderRatio));
             // leave one space for the timer
             this.addMapRenderer(new FooterPanel(pacman, map.getHeight() * renderRatio,
                     (map.getWidth() * renderRatio * (i + 1)) / (this.numPlayers + 1),
                     map.getWidth() * renderRatio / (this.numPlayers + 1), view.getFooterHeight()));
+        }
+        this.addMapRenderer(new MapRenderer(map, this.renderRatio));
+        this.world = new World(this, map, this.pacmans, new ArrayList<>(), props, weapons);
+
+        // Add controllers
+        for (int i = 0; i < this.pacmans.size(); i++) {
+            Controller controller = controllers.get(i).copy(this.pacmans.get(i), this.world);
+            this.pacmans.get(i).setController(controller);
+            if (controllers.get(i) instanceof KeyboardController)
+                keyboardControllers.add((KeyboardController) controller );
         }
         this.view.addKeyListener(new KeyAdapter() {
             @Override
@@ -74,8 +75,6 @@ public class Game {
                     keyboardController.addKeyboardEvent(keyEvent);
             }
         });
-        this.addMapRenderer(new MapRenderer(map, this.renderRatio));
-        this.world = new World(this, map, this.pacmans, new ArrayList<>(), props, weapons);
 
         this.timer = new Timer(1000, new ActionListener() {
             @Override
