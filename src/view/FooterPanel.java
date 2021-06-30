@@ -31,15 +31,22 @@ public class FooterPanel implements Renderable {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(this.y, this.x, this.width, this.height);
+        ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.setColor(Color.WHITE);
         g.drawRect(this.y, this.x, this.width, this.height);
         g.drawImage(this.img, this.y + 2, this.x + 2, 30, 30, null);
+        ((Graphics2D) g).setStroke(new BasicStroke(1));
 
         g.setColor(Color.WHITE);
         g.setFont(this.font);
         g.drawString(this.pacman.getName(), this.y + 35, this.x + 24);
+
+        g.setColor(Color.RED);
+        g.fillRect(this.y + 2, this.x + this.height - 5, this.width - 3, 5);
+        g.setColor(Color.GREEN);
+        g.fillRect(this.y + 2, this.x + this.height - 5,
+                (int) ((this.width - 3) * this.pacman.getHP() / (double) this.pacman.getFullHP()),
+                5);
 
         if (this.pacman.getWeapon() != null) {
             BufferedImage weaponImg = weaponImgFromFile(this.pacman.getWeapon().getName());
@@ -52,17 +59,16 @@ public class FooterPanel implements Renderable {
             try {
                 if (!this.stateImageMap.containsKey(state.getName()))
                     this.stateImageMap.put(state.getName(), statesImgFromFile(state.getName()));
-                g.drawImage(this.stateImageMap.get(state.getName()), this.y + 125 + RenderableIndex * 15, this.x + 10,
-                        15, 15, null);
+                g.drawImage(this.stateImageMap.get(state.getName()),
+                        this.y + 125 + RenderableIndex * 15, this.x + 10, 15, 15, null);
                 RenderableIndex++;
             } catch (IllegalArgumentException e) {
 
             }
         }
 
-        g.drawString(String.format("move: %d", this.pacman.getMoveCd().getStepSize()), this.y + 35, this.x + 44);
-        g.drawString(String.format("%d", this.pacman.getScore()), this.y + 35, this.x + 64);
-        g.drawString(String.format("blood: %d", this.pacman.getHP()), this.y + 85, this.x + 64);
+        g.setColor(Color.WHITE);
+        g.drawString(String.format("Score: %d", this.pacman.getScore()), this.y + 35, this.x + 44);
     }
 
     @Override

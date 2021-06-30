@@ -37,7 +37,7 @@ public class Game {
     private int countdown = 300;
     private Timer timer;
 
-    public Game(int numPlayers, int renderRatio, View view, Map map,
+    public Game(List<String> playerNames, int numPlayers, int renderRatio, View view, Map map,
             List<Controller> controllers, RandomCollection<Prop> props, RandomCollection<Weapon> weapons) {
         this.running = true;
         this.numPlayers = numPlayers;
@@ -45,7 +45,7 @@ public class Game {
         this.view = view;
         List<KeyboardController> keyboardControllers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
-            Pacman pacman = new Pacman("Fiona" + i, i, 300, 0, 1, map.getPacmanInitCoords().get(i));
+            Pacman pacman = new Pacman(playerNames.get(i), i, 300, 0, 1, map.getPacmanInitCoords().get(i));
             if (i != 0) {
                 // slow down the computer for debugging
                 pacman.addState(new SpeedChange(pacman, 30 * 60, 3));
