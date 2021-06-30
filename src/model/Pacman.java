@@ -66,6 +66,10 @@ public class Pacman implements Locatable, Tickable, Active {
         }
     }
 
+    public int getFullHP() {
+        return this.fullHP;
+    }
+
     public void setFullHP() {
         this.HP = fullHP;
     }
@@ -249,8 +253,7 @@ public class Pacman implements Locatable, Tickable, Active {
         }
     }
 
-    public void onPropGet(Prop prop) {
-    }
+    public void onPropGet(Prop prop) {}
 
     public void onWeaponGet(Weapon weapon) {
         this.weapon = weapon;
@@ -302,8 +305,7 @@ public class Pacman implements Locatable, Tickable, Active {
         }
     }
 
-    public void onRoundBegin() {
-    }
+    public void onRoundBegin() {}
 
     public void onRoundEnd() {
 

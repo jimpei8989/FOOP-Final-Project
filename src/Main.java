@@ -34,7 +34,7 @@ class Main {
     // "-0" means the
     // keymapping of the zeroth manual player
     private static final java.util.Map<String, Controller> controllerMapping = ofEntries(
-            entry("random", new RandomMoveController()), entry("simple", new SimpleController()),
+            entry("monkey", new RandomMoveController()), entry("simple", new SimpleController()),
             entry("-0", new KeyboardController(ofEntries(entry(KeyEvent.VK_UP, Action.UP),
                     entry(KeyEvent.VK_DOWN, Action.DOWN), entry(KeyEvent.VK_LEFT, Action.LEFT),
                     entry(KeyEvent.VK_RIGHT, Action.RIGHT),
@@ -65,7 +65,7 @@ class Main {
             throw new IllegalArgumentException(e);
         }
 
-
+        List<String> playerNames = new ArrayList<>();
         List<Controller> controllers = new ArrayList<>();
         for (int i = 0, manualPlayerIndex = 0; i < playerNums; i++) {
             if (args[i].equals("-")) {
@@ -78,14 +78,18 @@ class Main {
                     controllers.add(controllerMapping.get("simple"));
                 }
                 manualPlayerIndex++;
-            } else
+                playerNames.add("Manual");
+            } else {
                 controllers.add(controllerMapping.get(args[i]));
+                playerNames.add(args[i]);
+            }
         }
 
         int renderRatio = map.getMaxWidth() / map.getWidth();
         View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio,
                 renderRatio * 4);
-        Game game = new Game(playerNums, renderRatio, view, map, controllers, props, weapons);
+        Game game = new Game(playerNames, playerNums, renderRatio, view, map, controllers, props,
+                weapons);
         game.start();
     }
 }
