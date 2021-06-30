@@ -4,11 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.awt.event.KeyEvent;
+import static java.util.Map.ofEntries;
+import static java.util.Map.entry;
 
 import Game.Game;
+import controller.Controller;
+import controller.KeyboardController;
+import controller.RandomMoveController;
+import controller.SimpleController;
 import model.map.Map;
 import model.prop.BigPointProp;
 import model.prop.Prop;
@@ -25,7 +30,27 @@ import utils.Action;
 import utils.RandomCollection;
 
 class Main {
+    // "~" means the manual player. Each manual player has a different keymapping. "~0" means the
+    // keymapping of the zeroth manual player
+    private static final java.util.Map<String, Controller> controllerMapping = ofEntries(
+            entry("random", new RandomMoveController()), entry("simple", new SimpleController()),
+            entry("~0", new KeyboardController(ofEntries(entry(KeyEvent.VK_UP, Action.UP),
+                    entry(KeyEvent.VK_DOWN, Action.DOWN), entry(KeyEvent.VK_LEFT, Action.LEFT),
+                    entry(KeyEvent.VK_RIGHT, Action.RIGHT),
+                    entry(KeyEvent.VK_SPACE, Action.ATTACK)))));
+    private static final RandomCollection<Prop> props =
+            new RandomCollection<Prop>().add(40, new SmallPointProp()).add(20, new BigPointProp())
+                    .add(15, new SpeedUpProp()).add(15, new SlowDownProp()).add(10, new WineProp());
+    private static final RandomCollection<Weapon> weapons =
+            new RandomCollection<Weapon>().add(20, new BoxingGlove()).add(40, new Sword())
+                    .add(40, new Spear()).add(5, new Explosion());
+
     public static void main(String[] args) {
+        final int playerNums = args.length;
+        if (playerNums <= 0) {
+            System.err.println("The game needs at least one player to start.");
+            System.exit(1);
+        }
         System.out.printf("Hello FiOnaOpPai!\n");
 
         Map map;
@@ -36,27 +61,19 @@ class Main {
             throw new IllegalArgumentException(e);
         }
 
-        int playerNums = 4;
-        List<java.util.Map<Integer, Action>> keyControls = new ArrayList<>();
-        java.util.Map<Integer, Action> keyMapping1 = new HashMap<>();
-        keyMapping1.put(KeyEvent.VK_UP, Action.UP);
-        keyMapping1.put(KeyEvent.VK_DOWN, Action.DOWN);
-        keyMapping1.put(KeyEvent.VK_LEFT, Action.LEFT);
-        keyMapping1.put(KeyEvent.VK_RIGHT, Action.RIGHT);
-        keyMapping1.put(KeyEvent.VK_SPACE, Action.ATTACK);
-        keyControls.add(keyMapping1);
-        for (int i = 1; i < playerNums; i++)
-            keyControls.add(null);
-
-        RandomCollection<Prop> props = new RandomCollection<Prop>().add(40, new SmallPointProp())
-                .add(20, new BigPointProp()).add(15, new SpeedUpProp()).add(15, new SlowDownProp())
-                .add(10, new WineProp());
-        RandomCollection<Weapon> weapons = new RandomCollection<Weapon>().add(20, new BoxingGlove())
-                .add(40, new Sword()).add(40, new Spear()).add(5, new Explosion());
+        List<Controller> controllers = new ArrayList<>();
+        for (int i = 0, manualPlayerIndex = 0; i < playerNums; i++) {
+            if (args[i].equals("~")) {
+                controllers.add(controllerMapping.get(args[i] + manualPlayerIndex));
+                manualPlayerIndex++;
+            } else
+                controllers.add(controllerMapping.get(args[i]));
+        }
 
         int renderRatio = map.getMaxWidth() / map.getWidth();
-        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio, renderRatio * 4);
-        Game game = new Game(playerNums, renderRatio, view, map, keyControls, props, weapons);
+        View view = new View(map.getWidth() * renderRatio, map.getHeight() * renderRatio,
+                renderRatio * 4);
+        Game game = new Game(playerNums, renderRatio, view, map, controllers, props, weapons);
         game.start();
     }
 }

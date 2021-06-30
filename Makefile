@@ -5,4 +5,4 @@ clean:
 	rm -rf class/
 
 run:
-	java -cp class/ Main
+	java -cp class/ Main ~ simple simple simple
