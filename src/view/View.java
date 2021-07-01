@@ -24,8 +24,8 @@ import static utils.ImageUtils.trophyImgFromFile;
 
 public class View extends JFrame {
     private int width = 1440, height = 300, footerHeight = 30;
-    private List<Renderable> pacmanRenderers = new LinkedList<>(), mapRenderers = new LinkedList<>(),
-            objectRenderers = new LinkedList<>();
+    private List<Renderable> pacmanRenderers = new LinkedList<>(),
+            mapRenderers = new LinkedList<>(), objectRenderers = new LinkedList<>();
     private Canvas canvas = new Canvas();
     private ResultCanvas resultCanvas = new ResultCanvas();
     private Font font = new Font("Calibri", Font.PLAIN, 20);
@@ -39,9 +39,7 @@ public class View extends JFrame {
         this.setVisible(true);
     }
 
-    public View() {
-
-    }
+    public View() {}
 
     public View(int width, int height, int footerHeight) {
         this.width = width;
@@ -52,18 +50,6 @@ public class View extends JFrame {
         this.setVisible(true);
     }
 
-    public View(int width, int height, int footerHeight, List<Renderable> pacmanRenderers,
-            List<Renderable> mapRenderers, List<Renderable> objectRenderers) {
-        this.width = width;
-        this.height = height;
-        this.footerHeight = footerHeight;
-        this.pacmanRenderers = pacmanRenderers;
-        this.mapRenderers = mapRenderers;
-        this.objectRenderers = objectRenderers;
-        this.setSize(this.width + 14, this.height + 37 + footerHeight); // magic, don't change it
-        this.setContentPane(this.canvas);
-        this.setVisible(true);
-    }
 
     public int getFooterHeight() {
         return this.footerHeight;
@@ -162,6 +148,7 @@ public class View extends JFrame {
         }
     }
 }
+
 
 class PacmanComparator implements Comparator<Pacman> {
     @Override

@@ -7,10 +7,10 @@ import utils.Active;
 import utils.Coordinate;
 
 /*
-    A weapon has several states, as defined in WeaponState.
-*/
+ * A weapon has several states, as defined in WeaponState.
+ */
 
-public abstract class Weapon implements Active, Tickable, Locatable, Pickable, Droppable {
+public abstract class Weapon implements Active, Tickable, Locatable, Pickable {
     private Coordinate coord = new Coordinate(0, 0);
     private WeaponState state = WeaponState.onGround;
 
@@ -97,12 +97,10 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
 
     // Tickable
     @Override
-    public void onRoundBegin() {
-    }
+    public void onRoundBegin() {}
 
     @Override
-    public void onRoundEnd() {
-    }
+    public void onRoundEnd() {}
 
     @Override
     public void onTurnBegin() {
@@ -186,8 +184,6 @@ public abstract class Weapon implements Active, Tickable, Locatable, Pickable, D
         this.owner.onWeaponGet(this);
     }
 
-    // Droppable
-    @Override
     public void onDrop(Pacman p) {
         this.state = WeaponState.dropped;
     }
