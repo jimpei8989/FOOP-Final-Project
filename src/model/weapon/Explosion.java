@@ -73,18 +73,13 @@ public class Explosion extends StateChangingWeapon {
 
         double progress = 0;
 
-        double opacity = 0; // maybe add opacity at animation?
 
         if (this.getWeaponState() == WeaponState.preAttack) {
             progress = this.preAttackCd.getPercent();
-            // opacity = 0.5;
         } else if (this.getWeaponState() == WeaponState.realAttack) {
             progress = 1;
-            // opacity = 0.5;
         } else if (this.getWeaponState() == WeaponState.postAttack) {
             progress = 1 - this.postAttackCd.getPercent();
-            // progress = 1;
-            // opacity = (1 - this.postAttackCd.getPercent()) * 0.5;
         }
 
         this.zoom = progress * this.range;

@@ -159,7 +159,6 @@ public class Map implements Tickable {
         // Returns the next coordinate the pacman should go next if he's stepping on
         // *coord* and moving toward *direction*
 
-        // TODO: Should we also consider the Pacman?
         return adjustCoordinate(this.getGrid(coord).transferTo(direction));
     }
 
@@ -167,7 +166,6 @@ public class Map implements Tickable {
         // Returns whether the move is valid if the pacman is stepping on *coord* and
         // moving toward *direction*
 
-        // TODO: Should we also consider the Pacman?
         return this.getGrid(this.nextCoordinate(coord, direction)).canPass(coord, direction);
     }
 
